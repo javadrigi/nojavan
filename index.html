@@ -1,0 +1,1911 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>سفر به آسمان</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lalezar&family=Vazirmatn:wght@400;600;800&display=swap">
+<style>
+/* Concept: "mission control" deck for 15-16 year olds. Dark observatory palette, glass panels, big hooks, one live widget per idea. */
+:root{
+  --bg:#050816;--panel:rgba(14,22,62,.66);--panel2:rgba(255,255,255,.055);--line:rgba(160,180,255,.2);
+  --tx:#eef2ff;--mu:#aab5e8;--cy:#4fd8ff;--am:#ffc857;--mg:#ff6b9a;--vi:#9b8cff;--gr:#5cf2b0;--rd:#ff6a5c;--dk:#121033;
+  --disp:'Lalezar','Vazirmatn',system-ui,sans-serif;
+  --body:'Vazirmatn',Tahoma,'Segoe UI',system-ui,sans-serif;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{font-size:clamp(15px,.9vw + 8px,21px);height:100%}
+body{margin:0;height:100%;background:var(--bg);color:var(--tx);font-family:var(--body);line-height:1.75;overflow:hidden}
+button,input,select{font-family:inherit;color:inherit;font-size:inherit}
+:focus-visible{outline:3px solid var(--am);outline-offset:2px}
+[hidden]{display:none!important}
+.nebula{position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:radial-gradient(60% 50% at 88% 8%,rgba(155,140,255,.28),transparent 70%),
+  radial-gradient(55% 45% at 8% 92%,rgba(79,216,255,.14),transparent 70%),
+  radial-gradient(50% 40% at 55% 60%,rgba(255,107,154,.08),transparent 70%),
+  linear-gradient(180deg,#050816 0%,#0a1034 58%,#120d33 100%)}
+#sky,#confetti{position:fixed;inset:0;width:100%;height:100%;pointer-events:none}
+#sky{z-index:1}#confetti{z-index:90}
+#app{position:fixed;inset:0;z-index:2}
+
+/* top bar */
+.top{position:fixed;z-index:30;inset-inline:0;top:0;display:flex;align-items:center;gap:10px;padding:8px 12px;
+  background:linear-gradient(180deg,rgba(5,8,22,.92),rgba(5,8,22,0))}
+.tools{display:flex;gap:6px;flex:none}
+.chipbtn{background:var(--panel);border:1px solid var(--line);border-radius:999px;padding:.15em .85em;font-size:.78rem;cursor:pointer;white-space:nowrap;backdrop-filter:blur(6px);line-height:1.9}
+.chipbtn:hover,.chipbtn.on{border-color:var(--am);color:var(--am)}
+.secs{display:flex;gap:5px;overflow-x:auto;scrollbar-width:none;flex:1;min-width:0;padding:2px}
+.secs::-webkit-scrollbar{display:none}
+.sc{flex:none;display:flex;align-items:center;gap:6px;background:transparent;border:1px solid transparent;border-radius:999px;padding:.05em .7em .05em .55em;font-size:.74rem;color:var(--mu);cursor:pointer;line-height:1.9}
+.sc i{font-style:normal;width:1.55em;height:1.55em;border-radius:50%;display:grid;place-items:center;background:rgba(255,255,255,.09);font-size:.72rem;font-weight:800}
+.sc:hover{color:var(--tx)}
+.sc.now{border-color:var(--am);color:var(--am);background:rgba(255,200,87,.08)}
+.sc.now i{background:var(--am);color:var(--dk)}
+.sc.done i{background:rgba(92,242,176,.25);color:var(--gr)}
+
+/* slides */
+.slide{position:absolute;inset:0;display:flex;padding:56px 16px 82px;overflow-y:auto;overflow-x:hidden;
+  opacity:0;visibility:hidden;transform:scale(.985);transition:opacity .45s ease,transform .45s ease,visibility 0s .45s}
+.slide.on{opacity:1;visibility:visible;transform:none;transition:opacity .45s ease,transform .45s ease}
+.wrap{margin:auto;width:100%;max-width:1180px;display:flex;flex-direction:column;align-items:center;gap:14px;text-align:center}
+.on .rise{animation:rise .7s cubic-bezier(.2,.8,.2,1) both;animation-delay:calc(var(--i,0)*.1s)}
+@keyframes rise{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+.eyebrow{font-size:.82rem;letter-spacing:.06em;color:var(--cy);font-weight:600}
+.eyebrow b{color:var(--am);font-weight:800}
+h1,h2,h3{font-family:var(--disp);font-weight:400;margin:0;line-height:1.3;text-wrap:balance}
+h1{font-size:clamp(2.8rem,8.5vw,5.8rem);background:linear-gradient(180deg,#fff 20%,var(--am));-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 0 22px rgba(255,200,87,.3))}
+h2{font-size:clamp(1.7rem,4.2vw,2.8rem)}
+h3{font-size:1.5rem;color:var(--am)}
+h4{margin:0;font-size:1rem;font-weight:800;color:var(--cy)}
+p{margin:0}
+.sub{font-size:clamp(1.05rem,2.4vw,1.5rem);color:var(--mu);text-wrap:balance}
+.hint{color:var(--mu);font-size:.88rem}
+.lab{color:var(--mu);font-size:.9rem}
+
+/* buttons */
+.btn{border:0;cursor:pointer;border-radius:999px;padding:.5em 1.4em;font-size:1rem;font-weight:800;background:linear-gradient(135deg,#ffe28a,var(--am) 55%,#ffa94d);color:var(--dk);box-shadow:0 8px 26px rgba(255,200,87,.25);transition:transform .15s,box-shadow .15s}
+.btn:hover{transform:translateY(-2px)}
+.btn:disabled{opacity:.45;cursor:not-allowed;transform:none}
+.btn.ghost{background:transparent;color:var(--tx);border:1.5px solid var(--line);box-shadow:none}
+.btn.ghost:hover{border-color:var(--am);color:var(--am)}
+.btn.sm{font-size:.85rem;padding:.3em 1em}
+.row{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;align-items:center}
+.tabs{display:flex;gap:7px;flex-wrap:wrap;justify-content:center}
+.tab{border:1.5px solid var(--line);background:var(--panel);border-radius:999px;padding:.2em 1.1em;cursor:pointer;font-weight:600;font-size:.92rem}
+.tab:hover{border-color:var(--cy)}
+.tab.act{border-color:var(--am);color:var(--am);background:rgba(255,200,87,.08)}
+
+/* panels */
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:16px 18px;backdrop-filter:blur(8px);min-width:0;text-align:start}
+.panel h3{margin-bottom:6px}
+.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;width:100%;align-items:start}
+.grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;width:100%;align-items:start}
+.grid21{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:14px;width:100%;align-items:start}
+.badge{display:inline-block;font-size:.76rem;font-weight:800;padding:.05em .9em;border-radius:999px;background:rgba(79,216,255,.16);color:var(--cy)}
+.badge.am{background:rgba(255,200,87,.16);color:var(--am)}
+.badge.gr{background:rgba(92,242,176,.16);color:var(--gr)}
+.badge.mg{background:rgba(255,107,154,.16);color:var(--mg)}
+.fact{background:var(--panel2);border:1px solid var(--line);border-radius:16px;padding:12px 16px;font-size:.98rem;text-align:start}
+.fact b{color:var(--am)}
+.fact.swap{animation:rise .4s both}
+.callout{background:rgba(79,216,255,.1);border:1px solid rgba(79,216,255,.38);border-radius:16px;padding:10px 16px;font-size:.95rem;text-align:start}
+.callout.warn{background:rgba(255,106,92,.12);border-color:rgba(255,106,92,.5)}
+.callout.ok{background:rgba(92,242,176,.1);border-color:rgba(92,242,176,.4)}
+.tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px;width:100%}
+.tile{background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:7px 11px;display:flex;flex-direction:column;min-width:0;text-align:start}
+.tile span{font-size:.74rem;color:var(--mu)}
+.tile b{font-size:.92rem;font-weight:600;overflow-wrap:anywhere}
+.list{margin:0;padding-inline-start:1.2em;display:flex;flex-direction:column;gap:6px;font-size:.96rem;text-align:start}
+.big{font-family:var(--disp);font-size:clamp(1.8rem,5vw,3.4rem);color:var(--am);line-height:1.2}
+.pmsg{min-height:1.6em;font-weight:600;font-size:1.02rem}
+.pmsg.ok{color:var(--gr)}.pmsg.no{color:var(--rd)}
+
+/* hook */
+.hookbox{display:flex;flex-direction:column;align-items:center;gap:14px;max-width:880px}
+.q{font-size:clamp(1.7rem,4.8vw,3.2rem);line-height:1.5}
+.ans{background:rgba(255,200,87,.1);border:1px solid rgba(255,200,87,.5);border-radius:18px;padding:12px 20px;font-size:1.05rem;text-align:start;animation:rise .5s both}
+.ans b{color:var(--am)}
+
+/* ranges */
+input[type=range]{accent-color:#ffc857;height:30px;width:100%;cursor:pointer}
+.ctl{display:flex;flex-direction:column;gap:2px;text-align:start;width:100%}
+.ctl label{font-size:.88rem;color:var(--mu);display:flex;justify-content:space-between;gap:10px}
+.ctl label b{color:var(--tx);font-variant-numeric:tabular-nums}
+select{min-width:10.5rem;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:.2em .7em;cursor:pointer}
+select option{background:#0b1030;color:#fff}
+canvas.cv,svg.cv{width:100%;height:auto;display:block;border-radius:16px;background:rgba(3,6,20,.55);border:1px solid var(--line);touch-action:none}
+.sph{display:inline-block;border-radius:50%;flex:none;position:relative}
+.shake{animation:shk .35s}
+@keyframes shk{20%{transform:translateX(-7px)}40%{transform:translateX(7px)}60%{transform:translateX(-5px)}80%{transform:translateX(5px)}}
+.sel{outline:3px solid var(--am);outline-offset:2px}
+
+/* nav + drawer + timer */
+.nav{position:fixed;z-index:30;inset-inline:0;bottom:0;display:flex;align-items:center;justify-content:center;gap:12px;padding:8px 14px calc(10px + env(safe-area-inset-bottom,0px));background:linear-gradient(0deg,rgba(5,8,22,.92),rgba(5,8,22,0))}
+.nbtn{width:42px;height:42px;border-radius:50%;border:1.5px solid var(--line);background:var(--panel);cursor:pointer;font-size:1.2rem;display:grid;place-items:center}
+.nbtn:hover{border-color:var(--am);color:var(--am)}.nbtn:disabled{opacity:.3;cursor:default}
+.dots{display:flex;gap:5px;align-items:center;flex-wrap:wrap;justify-content:center;max-width:70vw}
+.dot{width:8px;height:8px;border-radius:50%;background:rgba(170,182,255,.3);border:0;padding:0;cursor:pointer;transition:all .25s}
+.dot.opt{background:rgba(255,200,87,.3)}
+.dot.on{background:var(--am);width:22px;border-radius:5px}
+.timer{position:fixed;z-index:40;inset-inline-start:12px;bottom:62px;background:rgba(8,12,38,.92);border:1px solid var(--line);border-radius:16px;padding:10px 14px;min-width:230px;text-align:start;backdrop-filter:blur(8px);font-size:.85rem}
+.timer .t1{font-family:var(--disp);font-size:1.8rem;line-height:1.1;font-variant-numeric:tabular-nums}
+.timer .bar{height:6px;border-radius:4px;background:rgba(255,255,255,.12);overflow:hidden;margin:6px 0}
+.timer .bar b{display:block;height:100%;background:var(--gr);width:0;transition:width .4s,background .4s}
+.timer .st{font-weight:700}
+.timer .st.late{color:var(--rd)}.timer .st.early{color:var(--gr)}.timer .st.ok{color:var(--mu)}
+.drawer{position:fixed;z-index:50;left:0;top:0;bottom:0;width:min(430px,100%);background:rgba(8,12,40,.97);backdrop-filter:blur(14px);border-inline-end:1px solid var(--line);
+  transform:translateX(-102%);transition:transform .35s cubic-bezier(.2,.8,.2,1);overflow-y:auto;padding:16px 18px 24px;text-align:start}
+.drawer.open{transform:none}
+.drawer h3{margin:16px 0 6px;font-size:1.25rem}
+.drawer .list{font-size:.92rem}
+
+@media (max-width:900px){
+  .grid2,.grid21,.grid3{grid-template-columns:1fr}
+  .tools .chipbtn.opt-m{display:none}
+}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
+
+/* m01 */
+.orrery{position:relative;width:clamp(200px,min(52vw,34vh),340px);aspect-ratio:1}
+.sunc{position:absolute;left:41%;top:41%;width:18%;aspect-ratio:1;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff6c9,var(--am) 45%,#ff8a3d);box-shadow:0 0 40px 14px rgba(255,170,70,.55),0 0 110px 40px rgba(255,140,60,.25);animation:pulse 4s ease-in-out infinite}
+@keyframes pulse{50%{box-shadow:0 0 56px 20px rgba(255,170,70,.65),0 0 130px 50px rgba(255,140,60,.3)}}
+.ring{position:absolute;width:var(--d);aspect-ratio:1;left:calc((100% - var(--d))/2);top:calc((100% - var(--d))/2);border:1px dashed rgba(170,182,255,.28);border-radius:50%;animation:spin var(--t) linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.pl{position:absolute;top:0;left:50%;width:var(--s);height:var(--s);margin:calc(var(--s)/-2) 0 0 calc(var(--s)/-2);border-radius:50%;background:radial-gradient(circle at 35% 30%,rgba(255,255,255,.75),var(--c) 45%,rgba(0,0,0,.65))}
+.moonring{position:absolute;left:50%;top:50%;width:300%;aspect-ratio:1;margin:-150% 0 0 -150%;border:1px dashed rgba(255,255,255,.25);border-radius:50%;animation:spin 3s linear infinite}
+.moon{position:absolute;top:0;left:50%;width:34%;aspect-ratio:1;margin:-17% 0 0 -17%;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff,#c3c7d8 55%,#6a6f86)}
+.dotc{display:inline-block;width:.7em;height:.7em;border-radius:50%;margin-inline-end:.45em;vertical-align:baseline}
+.slide .q{font-size:clamp(1.2rem,2.5vw,1.8rem);line-height:1.55}
+.hookbox .btn{font-size:.85rem;padding:.3em 1.1em}
+.slide .hookbox{gap:10px}
+.sunoff{position:relative;height:110px;border-radius:14px;background:rgba(3,6,20,.55);border:1px solid var(--line);overflow:hidden;margin-bottom:8px}
+.so-sun{position:absolute;inset-inline-end:14px;top:50%;width:62px;height:62px;margin-top:-31px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff6c9,var(--am) 45%,#ff8a3d);box-shadow:0 0 30px 10px rgba(255,170,70,.5);transition:all .6s}
+.so-sun.off{background:#1a1a30;box-shadow:none}
+.so-earth{position:absolute;inset-inline-start:22px;top:50%;width:22px;height:22px;margin-top:-11px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#bff,#2f7dff 50%,#0d2f78);transition:all 1.4s}
+.so-earth.gone{filter:brightness(.15);transform:translate(-90px,-70px);opacity:.3}
+.so-wave{position:absolute;inset-inline-end:46px;top:50%;height:4px;width:0;margin-top:-2px;background:linear-gradient(270deg,#ffe28a,transparent);border-radius:3px;box-shadow:0 0 10px #ffc857}
+.zc{fill:rgba(255,255,255,.015);stroke:rgba(160,180,255,.22);stroke-width:1;transition:all .4s}
+.zc.in{stroke:rgba(79,216,255,.55);fill:rgba(79,216,255,.05)}
+.zc.now{stroke:var(--am);stroke-width:2.5;fill:rgba(255,200,87,.1);filter:drop-shadow(0 0 6px var(--am))}
+.zy{fill:var(--mu);font-size:11px;font-family:var(--body)}
+.addr{margin:0;padding:0;list-style:none;display:flex;flex-wrap:wrap;gap:6px}
+.addr li{background:var(--panel2);border:1px solid var(--line);border-radius:999px;padding:.05em .8em;font-size:.82rem;color:var(--mu);opacity:.45;transition:all .3s}
+.addr li.on{opacity:1;color:var(--tx);border-color:rgba(255,200,87,.5)}
+.addr li+li::before{content:"";}
+
+/* m2 */
+.ot{fill:#aab5e8;font-size:10.5px;font-family:var(--body)}
+.rt{fill:#fff;font-size:12.5px;font-family:var(--body)}
+
+/* m34 */
+.sly{cursor:pointer;stroke:rgba(255,255,255,.18);stroke-width:1;transition:filter .2s}
+.sly:hover{filter:brightness(1.25)}
+.sly.act{stroke:#fff;stroke-width:2.5;filter:drop-shadow(0 0 8px #fff)}
+.sf{position:relative;height:92px;border-radius:14px;background:rgba(3,6,20,.55);border:1px solid var(--line);overflow:hidden;margin-bottom:8px}
+.sf-sun{position:absolute;inset-inline-end:-30px;top:50%;width:90px;height:90px;margin-top:-45px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff6c9,var(--am) 45%,#ff8a3d);box-shadow:0 0 30px 8px rgba(255,170,70,.5)}
+.sf-sun.fl{animation:flr 1.2s ease-out}
+@keyframes flr{20%{box-shadow:0 0 90px 50px #fff,0 0 160px 80px #ffb347;filter:brightness(1.8)}}
+.sf-e{position:absolute;inset-inline-start:20px;top:50%;width:22px;height:22px;margin-top:-11px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#bff,#2f7dff 50%,#0d2f78)}
+.sf-p{position:absolute;inset-block:0;inset-inline-end:60px;width:0;background:linear-gradient(270deg,rgba(255,255,255,.0),rgba(255,230,150,.45));opacity:0}
+.sf-p.p1{opacity:1;width:calc(100% - 90px);transition:width 1.2s linear}
+.sf-p.p2{background:linear-gradient(270deg,rgba(255,106,92,0),rgba(255,106,92,.4))}
+.sf-p.p3{background:linear-gradient(270deg,rgba(155,140,255,0),rgba(92,242,176,.5))}
+sup{font-size:.7em}
+
+/* m56 */
+.sph.sun{box-shadow:0 0 40px 10px rgba(255,170,70,.5)}
+.sph::after,.sph::before{content:"";position:absolute;pointer-events:none}
+.sph.crater::after{inset:0;border-radius:50%;background:radial-gradient(circle at 28% 38%,rgba(0,0,0,.2) 0 7%,transparent 8%),radial-gradient(circle at 62% 28%,rgba(0,0,0,.16) 0 5%,transparent 6%),radial-gradient(circle at 56% 66%,rgba(0,0,0,.2) 0 9%,transparent 10%),radial-gradient(circle at 25% 72%,rgba(0,0,0,.14) 0 5%,transparent 6%)}
+.sph.cloud::after{inset:0;border-radius:50%;background:repeating-linear-gradient(160deg,rgba(255,255,255,.22) 0 8%,transparent 8% 18%)}
+.sph.earth::after{inset:0;border-radius:50%;background:radial-gradient(ellipse 30% 22% at 38% 40%,#4ccf7a 60%,transparent 62%),radial-gradient(ellipse 22% 28% at 68% 62%,#4ccf7a 60%,transparent 62%),radial-gradient(ellipse 18% 8% at 30% 18%,#fff 60%,transparent 64%)}
+.sph.bands::after,.sph.saturn::after{inset:0;border-radius:50%;background:repeating-linear-gradient(0deg,rgba(90,50,20,.22) 0 7%,transparent 7% 16%)}
+.sph.saturn::before,.sph.ring::before{left:-42%;right:-42%;top:38%;height:24%;border:3px solid rgba(255,230,180,.75);border-radius:50%;transform:rotate(-16deg);z-index:2}
+.sph.ring::before{left:35%;right:35%;top:-30%;height:160%;border-color:rgba(190,240,255,.6);transform:rotate(10deg)}
+.pick{display:flex;flex-wrap:wrap;justify-content:center;align-items:flex-end;gap:6px 12px;width:100%}
+.pk{display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:5px;background:none;border:0;cursor:pointer;padding:5px;min-width:52px;border-radius:14px}
+.pk .nm{font-size:.8rem;font-weight:600;color:var(--mu)}
+.pk:hover .sph,.pk.act .sph{transform:scale(1.18);box-shadow:0 0 0 3px rgba(255,200,87,.3),0 0 22px rgba(255,200,87,.5)}
+.pk.act .nm{color:var(--am)}
+.bars{display:flex;flex-direction:column;gap:6px;margin:10px 0}
+.br{display:grid;grid-template-columns:110px 1fr 70px;gap:8px;align-items:center;font-size:.88rem}
+.bn{display:flex;align-items:center;gap:6px}
+.bt{height:16px;border-radius:6px;background:rgba(255,255,255,.08);overflow:hidden;display:block}
+.bt i{display:block;height:100%;border-radius:6px;transition:width .5s}
+.bv{font-variant-numeric:tabular-nums;font-weight:700;text-align:end}
+.gtime{height:8px;border-radius:5px;background:rgba(255,255,255,.1);overflow:hidden;margin:8px 0}
+.gtime b{display:block;height:100%;width:0;background:var(--gr);transition:width .12s linear}
+.tab.good{border-color:var(--gr);background:rgba(92,242,176,.2);color:var(--gr)}
+.tab.bad{border-color:var(--rd);background:rgba(255,106,92,.2);color:var(--rd)}
+.tab:disabled{cursor:default;opacity:.85}
+.gb{display:grid;grid-template-columns:150px 1fr 56px;gap:8px;align-items:center;margin:6px 0;font-size:.86rem}
+.gbt{height:16px;border-radius:6px;background:rgba(255,255,255,.08);overflow:hidden;display:block}
+.gbt i{display:block;height:100%;border-radius:6px;transition:width .6s}
+@media (max-width:560px){.br{grid-template-columns:90px 1fr 56px}.gb{grid-template-columns:100px 1fr 46px}}
+/* stars */
+.ptg{display:grid;grid-template-columns:repeat(auto-fill,minmax(78px,1fr));gap:8px}
+.elb{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0;padding:8px 4px;border-radius:14px;border:1.5px solid color-mix(in srgb,var(--c) 55%,transparent);background:color-mix(in srgb,var(--c) 14%,transparent);cursor:pointer;line-height:1.35}
+.elb b{font-family:var(--disp);font-weight:400;font-size:1.5rem;color:var(--c)}
+.elb span{font-size:.75rem;color:var(--mu)}
+.elb.dim{opacity:.25}.elb.act{box-shadow:0 0 0 2px var(--c),0 0 20px color-mix(in srgb,var(--c) 60%,transparent)}
+.elbig{width:72px;height:72px;border-radius:18px;display:grid;place-items:center;font-family:var(--disp);font-size:2.4rem;color:var(--c);border:2px solid var(--c);background:color-mix(in srgb,var(--c) 15%,transparent)}
+.sbs{flex:none;border-radius:50%;transition:all .4s}
+.cls{font-size:.8rem;letter-spacing:.1em;color:var(--cy);font-weight:800}
+.swatch{display:flex;gap:7px;flex-wrap:wrap;justify-content:center}
+.sw{width:40px;height:40px;border-radius:50%;border:2px solid var(--line);background:var(--panel);font-family:var(--disp);font-size:1.2rem;cursor:pointer;color:var(--c)}
+.sw.act{border-color:var(--c);box-shadow:0 0 16px var(--c)}
+.cst{cursor:pointer;outline:none}
+.cs{transition:all .3s;filter:drop-shadow(0 0 6px #ffe9a8)}
+.cst:hover .cs,.cst:focus-visible .cs{r:10}
+.cst.lit .cs{fill:var(--gr);filter:drop-shadow(0 0 10px var(--gr))}
+.cn{fill:#fff;font-size:15px;font-weight:700;pointer-events:none;font-family:var(--body)}
+.cl{stroke:var(--gr);stroke-width:2.2;stroke-linecap:round;stroke-dasharray:500;animation:draw .6s forwards}
+@keyframes draw{from{stroke-dashoffset:500}to{stroke-dashoffset:0}}
+
+.donut{flex:none;width:130px;height:130px;border-radius:50%;background:conic-gradient(#4fd8ff 0 5%,#9b8cff 5% 32%,#ff6b9a 32% 100%);-webkit-mask:radial-gradient(circle,transparent 42%,#000 43%);mask:radial-gradient(circle,transparent 42%,#000 43%)}
+.dt{display:inline-block;width:12px;height:12px;border-radius:50%;margin-inline-end:6px}
+.inl{display:inline-flex;align-items:center;gap:8px;font-size:.88rem}
+#sk{max-height:56vh;width:auto;max-width:100%;margin:0 auto;display:block}#fc{max-height:30vh;width:auto;max-width:100%;margin:0 auto;display:block}
+
+.steps{margin:0;padding-inline-start:1.3rem;line-height:1.9;font-size:.95rem;text-align:start}
+.btn.ok{background:rgba(92,242,176,.2);border-color:var(--gr);color:var(--gr)}
+.btn.no{background:rgba(255,106,92,.2);border-color:var(--rd);color:var(--rd)}
+.callout.no{border-color:var(--rd);background:rgba(255,106,92,.1)}
+.flip{position:relative;min-height:130px;padding:14px;border-radius:18px;border:1.5px solid color-mix(in srgb,var(--c) 60%,transparent);background:color-mix(in srgb,var(--c) 10%,var(--panel));cursor:pointer;color:var(--tx);font:inherit;text-align:center}
+.flip .fr{display:flex;flex-direction:column;gap:6px;align-items:center;justify-content:center;height:100%}
+.flip .fr b{font-size:1.1rem;color:var(--c)}.flip .fr i{font-size:.75rem;color:var(--mu);font-style:normal}
+.flip .bk{display:none;font-size:.9rem;line-height:1.8}
+.flip.on .fr{display:none}.flip.on .bk{display:block}
+
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:10px 0}
+.opts.two{grid-template-columns:1fr 1fr}
+.opt{display:flex;align-items:center;gap:10px;padding:12px 14px;border-radius:14px;border:2px solid color-mix(in srgb,var(--c) 60%,transparent);background:color-mix(in srgb,var(--c) 12%,var(--panel));color:var(--tx);font:inherit;font-size:1rem;cursor:pointer;text-align:start}
+.opt b{width:28px;height:28px;border-radius:50%;display:grid;place-items:center;background:var(--c);color:#031;flex:none}
+.opt:hover:not(:disabled){transform:translateY(-2px)}
+.opt.good{background:rgba(92,242,176,.3);border-color:var(--gr)}
+.opt.bad{background:rgba(255,106,92,.3);border-color:var(--rd)}
+.opt:disabled{cursor:default}
+.draw{font-family:var(--disp);font-size:4.2rem;color:var(--am);text-align:center;text-shadow:0 0 24px rgba(255,200,87,.6);line-height:1.2}
+.grid-n{display:flex;flex-wrap:wrap;gap:6px}
+.nb{min-width:36px;padding:4px 6px;text-align:center;border-radius:10px;border:1.5px solid var(--gr);background:rgba(92,242,176,.12);font-size:.85rem}
+.nb.dead{border-color:var(--rd);background:rgba(255,106,92,.15);opacity:.5;text-decoration:line-through}
+.nb.pass{background:rgba(92,242,176,.3)}
+.nb.now{box-shadow:0 0 0 2px var(--am)}
+.tmr{font-family:var(--disp);font-size:1.8rem;color:var(--cy);min-width:2.4ch;text-align:center}.tmr.low{color:var(--rd)}
+.champ{font-family:var(--disp);font-size:2.2rem;color:var(--am);text-align:center;padding:18px}
+.tmb{display:flex;justify-content:space-between;width:100%;margin:5px 0;padding:10px 14px;border-radius:12px;border:2px solid var(--c);background:color-mix(in srgb,var(--c) 10%,var(--panel));color:var(--tx);font:inherit;cursor:pointer}
+.tmb.on{background:color-mix(in srgb,var(--c) 40%,var(--panel))}
+.pod{padding:10px 14px;margin:6px 0;border-radius:12px;border:2px solid var(--c);font-size:1.1rem}
+@media (max-width:560px){.opts{grid-template-columns:1fr}}
+
+</style>
+<div class="nebula"></div>
+<canvas id="sky"></canvas>
+<canvas id="confetti"></canvas>
+<div id="app" dir="rtl" lang="fa">
+  <header class="top">
+    <div class="tools">
+      <button class="chipbtn" id="openDrawer" type="button" title="کلید N">برگه مدرس</button>
+      <button class="chipbtn" id="timerBtn" type="button" title="کلید T">تایمر</button>
+      <button class="chipbtn" id="fs" type="button" title="کلید F">تمام‌صفحه</button>
+      <button class="chipbtn" id="modeBtn" type="button" title="کلید M: در حالت خلاصه، اسلایدهای ستاره‌دار (اختیاری) رد می‌شوند">حالت: کامل</button>
+    </div>
+    <nav class="secs" id="secs" aria-label="بخش‌های کارگاه"></nav>
+  </header>
+
+  <aside class="drawer" id="drawer" aria-label="برگه مدرس"></aside>
+  <div class="timer" id="timer" hidden>
+    <div class="t1" id="tTot"></div>
+    <div id="tSec"></div>
+    <div class="bar"><b id="tBar"></b></div>
+    <div class="st" id="tSt"></div>
+    <div class="row" style="justify-content:flex-start;margin-top:6px"><button class="chipbtn" id="tRun" type="button">توقف</button><button class="chipbtn" id="tReset" type="button">صفر کردن</button></div>
+  </div>
+
+  <section class="slide" id="sT" data-sec="T" data-title="شروع"><div class="wrap" id="rT"></div></section>
+  <section class="slide" id="s0a" data-sec="0" data-title="آسمان گمشده"><div class="wrap" id="r0a"></div></section>
+  <section class="slide" id="s1a" data-sec="1" data-title="نور و زمان"><div class="wrap" id="r1a"></div></section>
+  <section class="slide" id="s1b" data-sec="1" data-title="آدرس کیهانی"><div class="wrap" id="r1b"></div></section>
+  <section class="slide" id="s2a" data-sec="2" data-title="فصل‌ها"><div class="wrap" id="r2a"></div></section>
+  <section class="slide" id="s2b" data-sec="2" data-opt="1" data-title="★ ردپای ستاره‌ها و سپر زمین"><div class="wrap" id="r2b"></div></section>
+  <section class="slide" id="s3a" data-sec="3" data-title="فازهای ماه"><div class="wrap" id="r3a"></div></section>
+  <section class="slide" id="s3b" data-sec="3" data-title="گرفتگی و قفل کشندی"><div class="wrap" id="r3b"></div></section>
+  <section class="slide" id="s3c" data-sec="3" data-title="توپ نیوتن و پرش روی ماه"><div class="wrap" id="r3c"></div></section>
+  <section class="slide" id="s4a" data-sec="4" data-title="لایه‌های خورشید"><div class="wrap" id="r4a"></div></section>
+  <section class="slide" id="s4b" data-sec="4" data-title="طوفان خورشیدی و شفق"><div class="wrap" id="r4b"></div></section>
+  <section class="slide" id="s5a" data-sec="5" data-title="کاوشگر سیارات"><div class="wrap" id="r5a"></div></section>
+  <section class="slide" id="s5b" data-sec="5" data-title="مقایسه‌گر و پلوتو"><div class="wrap" id="r5b"></div></section>
+  <section class="slide" id="s5c" data-sec="5" data-title="کدام سیاره‌ام؟ و زهره"><div class="wrap" id="r5c"></div></section>
+  <section class="slide" id="s5d" data-sec="5.1" data-opt="1" data-title="★ مرزهای منظومه"><div class="wrap" id="r5d"></div></section>
+  <section class="slide" id="s6a" data-sec="6" data-title="جدول تناوبی کیهانی"><div class="wrap" id="r6a"></div></section>
+  <section class="slide" id="s6b" data-sec="6" data-title="رنگ و سرنوشت ستاره"><div class="wrap" id="r6b"></div></section>
+  <section class="slide" id="s6c" data-sec="6" data-title="پازل صورت فلکی"><div class="wrap" id="r6c"></div></section>
+  <section class="slide" id="s7a" data-sec="7" data-title="ماده تاریک"><div class="wrap" id="r7a"></div></section>
+  <section class="slide" id="s7b" data-sec="7" data-title="برخورد با آندرومدا"><div class="wrap" id="r7b"></div></section>
+  <section class="slide" id="s7c" data-sec="7" data-title="چشمان جیمز وب"><div class="wrap" id="r7c"></div></section>
+  <section class="slide" id="s7d" data-sec="7.1" data-opt="1" data-title="★ سیارات فراخورشیدی"><div class="wrap" id="r7d"></div></section>
+  <section class="slide" id="s8a" data-sec="8" data-title="آسمان امشب"><div class="wrap" id="r8a"></div></section>
+  <section class="slide" id="s8b" data-sec="8" data-title="تلسکوپ و تاریکی"><div class="wrap" id="r8b"></div></section>
+  <section class="slide" id="s9a" data-sec="9" data-title="راستی‌آزمایی"><div class="wrap" id="r9a"></div></section>
+  <section class="slide" id="s9b" data-sec="9" data-title="معماها و آینده"><div class="wrap" id="r9b"></div></section>
+  <section class="slide" id="s10" data-sec="10" data-title="مسابقه"><div class="wrap" id="r10"></div></section>
+
+  <nav class="nav" aria-label="پیمایش اسلایدها">
+    <button class="nbtn" id="prev" type="button" aria-label="قبلی">&rarr;</button>
+    <div class="dots" id="dots"></div>
+    <button class="nbtn" id="next" type="button" aria-label="بعدی">&larr;</button>
+  </nav>
+</div>
+
+<script>
+/* ===== core: helpers, starfield, confetti, sections, deck, timer, notes ===== */
+(function(){
+var W=window;
+W.$=function(s,r){return (r||document).querySelector(s)};
+W.$$=function(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s))};
+var PD='۰۱۲۳۴۵۶۷۸۹';
+W.fa=function(s){return String(s).replace(/\d/g,function(d){return PD[d]})};
+W.nf=function(n,d){
+  d=d==null?0:d;var neg=n<0;
+  var s=Math.abs(n).toLocaleString('en-US',{maximumFractionDigits:d,minimumFractionDigits:0});
+  s=fa(s.replace(/,/g,'٬').replace(/\./g,'٫'));
+  return neg?'⁦−'+s+'⁩':s;
+};
+W.clamp=function(v,a,b){return Math.max(a,Math.min(b,v))};
+W.lerp=function(a,b,t){return a+(b-a)*t};
+W.shuffle=function(a){a=a.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1)),t=a[i];a[i]=a[j];a[j]=t}return a};
+W.msg=function(el,t,c){if(!el)return;el.className='pmsg '+(c||'');el.innerHTML=t};
+W.shake=function(el){el.classList.remove('shake');void el.offsetWidth;el.classList.add('shake')};
+W.reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+W.rad=function(d){return d*Math.PI/180};
+W.deg=function(r){return r*180/Math.PI};
+
+/* animation loop helper */
+W.makeLoop=function(fn){
+  var raf=0,run=false,last=0;
+  function step(t){if(!run)return;var dt=Math.min(.05,(t-last)/1000||0);last=t;fn(dt,t/1000);raf=requestAnimationFrame(step)}
+  return {start:function(){if(run)return;run=true;last=performance.now();raf=requestAnimationFrame(step)},stop:function(){run=false;cancelAnimationFrame(raf)},get running(){return run}};
+};
+var REG={};
+W.onSlide=function(id,o){REG[id]=o};
+
+/* sections */
+var SEC=W.SEC=[
+{id:'0',t:'شوک اول',full:'شوک اول: آسمانی که گم کرده‌ایم',min:3,notes:['قلاب: آخرین بار کِی راه شیری را با چشم دیدی؟','مقایسه‌ی آسمان شهر و کویر؛ اول از بچه‌ها حدس بگیر.','آلودگی نوری فقط درباره‌ی ستاره نیست: پرندگان، لاک‌پشت‌ها، خواب انسان.']},
+{id:'1',t:'آدرس کیهانی',full:'آدرس کیهانی و سفر در زمان',min:5,notes:['قلاب: اگر خورشید خاموش شود تا چند دقیقه نمی‌فهمیم؟','سال نوری واحد فاصله است، نه زمان.','تلسکوپ یعنی ماشین زمان؛ آخر بخش، تفاوت اخترشناسی و اخترگویی را کوتاه بگو.']},
+{id:'2',t:'زمین متحرک',full:'زمین متحرک: سفینه‌ای در فضا',min:5,notes:['قلاب: چرا وقتی ایران تابستان است، نیمکره‌ی جنوبی زمستان دارد؟','کجی محور ۲۳٫۵ درجه عامل فصل‌هاست، نه فاصله از خورشید.','اگر وقت کم بود، «ردپای ستاره‌ها و سپر زمین» را رد کن.']},
+{id:'3',t:'ماه',full:'ماه: همسایه‌ی وفادار و رازهایش',min:6,notes:['قلاب: چرا ماه به سمت ما نمی‌افتد؟','فازها = زاویه‌ی دید روشنایی خورشید، نه سایه‌ی زمین.','هر ماه گرفتگی نداریم چون مدار ماه ۵ درجه کج است.','وزن و پرش روی ماه را با یک نفر از کلاس نمایش بده.']},
+{id:'4',t:'خورشید',full:'خورشید: راکتور غول‌پیکر همجوشی',min:5,notes:['قلاب: تفاوت بمب هیدروژنی با خورشید چیست؟','خورشید «نمی‌سوزد»؛ همجوشی هسته‌ای می‌کند.','هشدار ایمنی نگاه به خورشید را حتماً بگو.']},
+{id:'5',t:'منظومه شمسی',full:'منظومه شمسی: دنیاهای شگفت‌انگیز',min:8,notes:['قلاب: کدام سیاره باران اسید دارد؟ کدام کوه ۲٫۵ برابر اورست؟','زهره: داغ‌تر از عطارد، با اثر گلخانه‌ای.','پلوتو: سه شرط IAU را با کلاس بررسی کن.','بازی سرعتی «کدام سیاره‌ام؟» را با دو داوطلب اجرا کن.']},
+{id:'6',t:'ستاره‌ها',full:'تولد و مرگ ستاره‌ها: ما از غبار ستاره‌ایم',min:7,notes:['قلاب: آهن خون و طلای انگشتر کجا ساخته شده‌اند؟','رنگ ستاره: آبی داغ‌تر از قرمز است.','سرنوشت ستاره را جرمش تعیین می‌کند.','پازل صورت فلکی: دب اکبر و ستاره‌ی قطبی.']},
+{id:'7',t:'کهکشان‌ها و وب',full:'کهکشان‌ها، ماده‌ی تاریک و چشمان جیمز وب',min:6,notes:['قلاب: اگر هرچه می‌شناسیم فقط ۵٪ جهان باشد؟','نمودار چرخش کهکشان = شاهد ماده‌ی تاریک.','برخورد با آندرومدا: ستاره‌ها تقریباً به هم نمی‌خورند.','وب در فروسرخ از میان غبار می‌بیند.']},
+{id:'8',t:'رصد عملی',full:'رصد عملی: امشب چطور به آسمان نگاه کنیم؟',min:6,notes:['قلاب: بدون هزینه، همین امشب با گوشی رصدگر شو.','نقشه‌ی آسمانِ زنده برای زمان و شهر انتخابی است.','قدرت تلسکوپ را دهانه تعیین می‌کند، نه بزرگنمایی.']},
+{id:'9',t:'جمع‌بندی',full:'تفکر علمی و نگاه به آینده',min:4,notes:['قلاب: بزرگ‌ترین سؤال بی‌پاسخ علم چیست؟','با بازی «راستی‌آزمایی»، شایعه‌های فضایی را آزمون کن.','مسیرهای ادامه: انجمن نجوم، کتاب، رشته‌ی تحصیلی.']},
+{id:'10',t:'مسابقه',full:'چالش و کوئیز پایانی',min:5,notes:['تعداد دانش‌آموزان را وارد کن، جام حذفی یا مسابقه‌ی تیمی را شروع کن.','برای هر سؤال ۲۰ ثانیه وقت بگذار.']}
+];
+var secIdx={};SEC.forEach(function(s,i){secIdx[s.id]=i});
+W.head=function(sec,title,hint){
+  var s=SEC[secIdx[String(sec).split('.')[0]]];
+  return '<div class="eyebrow rise">بخش <b>'+fa(s.id)+'</b> · '+s.t+'</div><h2 class="rise" style="--i:1">'+title+'</h2>'+(hint?'<p class="hint rise" style="--i:2">'+hint+'</p>':'');
+};
+W.hook=function(sec,q,ans){
+  var s=SEC[secIdx[String(sec).split('.')[0]]];
+  return '<div class="hookbox"><div class="eyebrow rise">بخش <b>'+fa(s.id)+'</b> · '+s.full+' · '+fa(s.min)+' دقیقه</div><h2 class="q rise" style="--i:1">'+q+'</h2>'+
+   '<button class="btn rise" style="--i:2" type="button" data-reveal>اول حدس بزنید، بعد پاسخ را ببینید</button><div class="ans" hidden>'+ans+'</div></div>';
+};
+document.addEventListener('click',function(e){
+  var b=e.target.closest&&e.target.closest('[data-reveal]');if(!b)return;
+  var a=b.parentNode.querySelector('.ans');if(a){a.hidden=!a.hidden;b.textContent=a.hidden?'اول حدس بزنید، بعد پاسخ را ببینید':'پنهان کردن پاسخ'}
+});
+
+/* starfield */
+var cv=$('#sky'),cx=cv.getContext('2d'),SW=0,SH=0,stars=[],shoots=[],mx=0,my=0,tx=0,ty=0;
+function sizeSky(){
+  var dpr=Math.min(devicePixelRatio||1,2);SW=innerWidth;SH=innerHeight;cv.width=SW*dpr;cv.height=SH*dpr;cx.setTransform(dpr,0,0,dpr,0,0);
+  var n=Math.min(380,Math.round(SW*SH/5200));stars=[];
+  for(var i=0;i<n;i++)stars.push({x:Math.random()*SW,y:Math.random()*SH,r:Math.random()*1.25+.25,z:Math.random()*.9+.1,p:Math.random()*6.28,s:.5+Math.random()*1.6,h:Math.random()});
+}
+function drawSky(t){
+  cx.clearRect(0,0,SW,SH);mx+=(tx-mx)*.04;my+=(ty-my)*.04;
+  for(var i=0;i<stars.length;i++){var s=stars[i],a=.3+.7*Math.abs(Math.sin(t/1000*s.s+s.p));
+    cx.fillStyle=s.h>.85?'rgba(255,214,150,'+a+')':s.h<.15?'rgba(160,200,255,'+a+')':'rgba(255,255,255,'+a+')';
+    cx.beginPath();cx.arc(s.x+mx*s.z*24,s.y+my*s.z*24,s.r,0,6.283);cx.fill()}
+  if(!reduce&&Math.random()<.0035&&shoots.length<2)shoots.push({x:Math.random()*SW*.9+SW*.1,y:Math.random()*SH*.4,vx:-(5+Math.random()*4),vy:2.5+Math.random()*2,l:0});
+  for(var k=shoots.length-1;k>=0;k--){var m=shoots[k];m.x+=m.vx;m.y+=m.vy;m.l++;
+    var g=cx.createLinearGradient(m.x,m.y,m.x-m.vx*9,m.y-m.vy*9);g.addColorStop(0,'rgba(255,255,255,.95)');g.addColorStop(1,'rgba(255,255,255,0)');
+    cx.strokeStyle=g;cx.lineWidth=2;cx.beginPath();cx.moveTo(m.x,m.y);cx.lineTo(m.x-m.vx*9,m.y-m.vy*9);cx.stroke();
+    if(m.l>70||m.x<-50||m.y>SH+50)shoots.splice(k,1)}
+  if(!reduce)requestAnimationFrame(drawSky);
+}
+sizeSky();addEventListener('resize',function(){sizeSky();if(reduce)drawSky(0)});
+addEventListener('pointermove',function(e){tx=(e.clientX/SW-.5)*2;ty=(e.clientY/SH-.5)*2},{passive:true});
+requestAnimationFrame(drawSky);
+
+/* confetti */
+var cf=$('#confetti'),cc=cf.getContext('2d'),parts=[],cfRun=false;
+W.confetti=function(){
+  if(reduce)return;cf.width=innerWidth;cf.height=innerHeight;parts=[];
+  var cols=['#ffc857','#4fd8ff','#ff6b9a','#9b8cff','#5cf2b0','#ffffff'];
+  for(var i=0;i<190;i++)parts.push({x:Math.random()*cf.width,y:-20-Math.random()*cf.height*.5,vx:(Math.random()-.5)*3,vy:2+Math.random()*4,r:4+Math.random()*6,a:Math.random()*6,va:(Math.random()-.5)*.3,c:cols[i%6]});
+  if(!cfRun){cfRun=true;requestAnimationFrame(stepCf)}
+};
+function stepCf(){
+  cc.clearRect(0,0,cf.width,cf.height);var alive=0;
+  parts.forEach(function(p){p.x+=p.vx;p.y+=p.vy;p.a+=p.va;if(p.y<cf.height+20){alive++;cc.save();cc.translate(p.x,p.y);cc.rotate(p.a);cc.fillStyle=p.c;cc.fillRect(-p.r/2,-p.r/4,p.r,p.r/2);cc.restore()}});
+  if(alive)requestAnimationFrame(stepCf);else{cfRun=false;cc.clearRect(0,0,cf.width,cf.height)}
+}
+
+/* deck */
+var slides=$$('.slide'),cur=-1,quick=false,dotsEl=$('#dots'),secsEl=$('#secs');
+function secOf(i){return String(slides[i].getAttribute('data-sec')).split('.')[0]}
+function vis(i){return !(quick&&slides[i].hasAttribute('data-opt'))}
+SEC.forEach(function(s){
+  var b=document.createElement('button');b.type='button';b.className='sc';b.setAttribute('data-id',s.id);
+  b.innerHTML='<i>'+fa(s.id)+'</i><span>'+s.t+'</span>';b.title=s.full+' ('+fa(s.min)+' دقیقه)';
+  b.onclick=function(){for(var i=0;i<slides.length;i++){if(secOf(i)===s.id&&vis(i)){go(i);break}}};
+  secsEl.appendChild(b);
+});
+slides.forEach(function(sl,i){
+  var d=document.createElement('button');d.type='button';d.className='dot'+(sl.hasAttribute('data-opt')?' opt':'');
+  d.setAttribute('aria-label','اسلاید '+fa(i+1));d.title=sl.getAttribute('data-title')||('اسلاید '+fa(i+1));d.onclick=function(){go(i)};dotsEl.appendChild(d);
+});
+function go(i){
+  i=clamp(i,0,slides.length-1);
+  if(cur>=0&&REG[slides[cur].id]&&REG[slides[cur].id].off&&cur!==i)try{REG[slides[cur].id].off()}catch(e){}
+  slides.forEach(function(s,k){s.classList.toggle('on',k===i);if(k===i)s.removeAttribute('inert');else s.setAttribute('inert','')});
+  $$('.dot').forEach(function(d,k){d.classList.toggle('on',k===i);d.hidden=!vis(k)});
+  $('#prev').disabled=i===0;$('#next').disabled=i===slides.length-1;
+  var prev=cur;cur=i;
+  var sid=secOf(i),si=secIdx[sid];
+  $$('.sc').forEach(function(b){var k=secIdx[b.getAttribute('data-id')];b.classList.toggle('now',sid===b.getAttribute('data-id'));b.classList.toggle('done',si!==undefined&&k<si)});
+  var nowB=$('.sc.now');if(nowB&&nowB.scrollIntoView)try{nowB.scrollIntoView({inline:'center',block:'nearest'})}catch(e){}
+  if(slides[i].scrollTo)slides[i].scrollTop=0;
+  if(REG[slides[i].id]&&REG[slides[i].id].on)try{REG[slides[i].id].on()}catch(e){console.error(e)}
+  renderDrawer();
+  if(prev===0||(prev<0&&i>0))timerAutoStart();
+  tick(true);
+}
+function nav(d){var k=cur+d;while(k>=0&&k<slides.length&&!vis(k))k+=d;if(k>=0&&k<slides.length)go(k)}
+W.deckGo=go;W.deckNav=nav;
+$('#prev').onclick=function(){nav(-1)};$('#next').onclick=function(){nav(1)};
+document.addEventListener('click',function(e){var b=e.target.closest&&e.target.closest('[data-next]');if(b)nav(1)});
+function setQuick(q){
+  quick=q;document.body.classList.toggle('quick',q);var b=$('#modeBtn');b.textContent='حالت: '+(q?'خلاصه':'کامل');b.classList.toggle('on',q);
+  $$('.dot').forEach(function(d,k){d.hidden=!vis(k)});if(!vis(cur))nav(1);
+}
+$('#modeBtn').onclick=function(){setQuick(!quick)};
+$('#fs').onclick=function(){try{if(document.fullscreenElement)document.exitFullscreen();else{var p=document.documentElement.requestFullscreen();if(p&&p.catch)p.catch(function(){})}}catch(e){}};
+
+/* drawer */
+function renderDrawer(){
+  var sid=cur>=0?secOf(cur):'T',s=SEC[secIdx[sid]];
+  var h='<button class="chipbtn" id="closeDrawer" type="button" style="float:inline-end">بستن</button>';
+  if(s){h+='<h3>'+'بخش '+fa(s.id)+': '+s.full+'</h3><div class="lab">زمان پیشنهادی: '+fa(s.min)+' دقیقه</div><h3>یادداشت مدرس</h3><ul class="list">'+s.notes.map(function(n){return '<li>'+n+'</li>'}).join('')+'</ul>'}
+  else h+='<h3>آغاز کارگاه</h3><p class="lab">با کلیک روی «شروع سفر» تایمر مدرس خودکار شروع می‌شود (با کلید T نمایش بده).</p>';
+  h+='<h3>برنامه‌ی زمانی ۶۰ دقیقه</h3><ul class="list">'+SEC.map(function(x){return '<li>'+(x.id===sid?'<b>':'')+fa(x.id)+'. '+x.t+' ('+fa(x.min)+' دقیقه)'+(x.id===sid?'</b>':'')+'</li>'}).join('')+'</ul>';
+  h+='<h3>میان‌برها</h3><ul class="list"><li>فاصله یا فلش چپ: بعدی؛ فلش راست: قبلی</li><li>F: تمام‌صفحه</li><li>T: تایمر مدرس</li><li>N: این برگه</li><li>M: حالت کامل/خلاصه (ستاره‌دارها حذف می‌شوند)</li></ul>';
+  h+='<h3>وسایل پیشنهادی</h3><ul class="list"><li>لپ‌تاپ و ویدئوپروژکتور</li><li>چراغ‌قوه و دو توپ با اندازه‌ی متفاوت (زمین و ماه)</li><li>دوربین دوچشمی یا تلسکوپ در صورت دسترسی</li><li>کاغذ و مداد رنگی برای صورت فلکی</li></ul>';
+  $('#drawer').innerHTML=h;$('#closeDrawer').onclick=function(){$('#drawer').classList.remove('open')};
+}
+function toggleDrawer(){$('#drawer').classList.toggle('open')}
+$('#openDrawer').onclick=toggleDrawer;
+
+/* timer */
+var T={run:false,total:0,sec:{},last:0,started:false};
+function fmt(s){s=Math.max(0,Math.round(s));return fa(String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0'))}
+function timerAutoStart(){if(!T.started){T.started=true;T.run=true;T.last=Date.now()}}
+function tick(force){
+  var now=Date.now(),dt=T.run?(now-T.last)/1000:0;T.last=now;
+  if(T.run&&cur>=0){var sid=secOf(cur);if(secIdx[sid]!==undefined){T.total+=dt;T.sec[sid]=(T.sec[sid]||0)+dt}}
+  var tm=$('#timer');if(tm.hidden&&!force)return;
+  var sid2=cur>=0?secOf(cur):'T',s=SEC[secIdx[sid2]];
+  $('#tTot').textContent=fmt(T.total)+' / '+fa('60:00');
+  var bud=0,start=0;SEC.forEach(function(x){if(secIdx[x.id]<(s?secIdx[s.id]:0))start+=x.min*60});
+  if(s){bud=s.min*60;var el=T.sec[s.id]||0;$('#tSec').textContent='بخش '+fa(s.id)+': '+fmt(el)+' از '+fmt(bud);
+    var r=el/bud;var b=$('#tBar');b.style.width=Math.min(100,r*100)+'%';b.style.background=r>1?'var(--rd)':r>.85?'var(--am)':'var(--gr)';
+    var st=$('#tSt'),endB=start+bud,diff=T.total-endB,diff2=T.total-start;
+    if(T.total>endB){st.className='st late';st.textContent=fa(Math.ceil(diff/60))+' دقیقه عقب‌تر از برنامه'}
+    else if(el<30&&T.total<start-60){st.className='st early';st.textContent=fa(Math.floor(-diff2/60))+' دقیقه جلوتر از برنامه'}
+    else{st.className='st ok';st.textContent='طبق برنامه'}}
+  else{$('#tSec').textContent='آماده‌ی شروع';$('#tBar').style.width='0';$('#tSt').textContent=''}
+  $('#tRun').textContent=T.run?'توقف':'ادامه';
+}
+setInterval(function(){tick(false)},500);
+$('#tRun').onclick=function(){T.run=!T.run;T.started=true;T.last=Date.now();tick(true)};
+$('#tReset').onclick=function(){T.total=0;T.sec={};T.last=Date.now();tick(true)};
+function toggleTimer(){var t=$('#timer');t.hidden=!t.hidden;$('#timerBtn').classList.toggle('on',!t.hidden);tick(true)}
+$('#timerBtn').onclick=toggleTimer;
+
+document.addEventListener('keydown',function(e){
+  var t=e.target,tag=t&&t.tagName;if(e.ctrlKey||e.metaKey||e.altKey)return;
+  if(tag==='INPUT'||tag==='SELECT'||tag==='TEXTAREA')return;
+  var k=e.key;
+  if(k==='f'||k==='F'){$('#fs').click();return}
+  if(k==='t'||k==='T'){toggleTimer();return}
+  if(k==='n'||k==='N'){toggleDrawer();return}
+  if(k==='m'||k==='M'){setQuick(!quick);return}
+  if(k==='Escape'){$('#drawer').classList.remove('open');return}
+  if(cur>=0&&slides[cur].id==='s10')return;
+  if((k===' '||k==='Enter')&&t&&t.closest&&t.closest('button,a'))return;
+  if(k===' '||k==='ArrowLeft'||k==='PageDown'||k==='ArrowDown'){e.preventDefault();nav(1)}
+  else if(k==='ArrowRight'||k==='PageUp'||k==='ArrowUp'){e.preventDefault();nav(-1)}
+});
+W.deckStart=function(){setQuick(false);go(0)};
+})();
+
+/* ===== sections T, 0, 1 ===== */
+(function(){
+/* ---------- title ---------- */
+var r=$('#rT');
+r.innerHTML='<div class="orrery rise" aria-hidden="true">'+
+ '<div class="ring" style="--d:34%;--t:7s"><div class="pl" style="--s:7px;--c:#b5aea4"></div></div>'+
+ '<div class="ring" style="--d:50%;--t:12s"><div class="pl" style="--s:11px;--c:#e8b35c"></div></div>'+
+ '<div class="ring" style="--d:68%;--t:18s"><div class="pl" style="--s:13px;--c:#3b86ff"><div class="moonring"><div class="moon"></div></div></div></div>'+
+ '<div class="ring" style="--d:84%;--t:26s"><div class="pl" style="--s:10px;--c:#e0603a"></div></div>'+
+ '<div class="ring" style="--d:100%;--t:40s"><div class="pl" style="--s:22px;--c:#d9a56b"></div></div><div class="sunc"></div></div>'+
+ '<div class="eyebrow rise" style="--i:1">کارگاه نجوم · پایه‌ی نهم · ۶۰ دقیقه</div>'+
+ '<h1 class="rise" style="--i:2">سفر به آسمان</h1><p class="sub rise" style="--i:3">از زمین تا دورترین کهکشان‌ها</p>'+
+ '<div class="row rise" style="--i:4"><span class="badge">۱۱ ایستگاه</span><span class="badge am">۲۰ ویجت تعاملی</span><span class="badge gr">مسابقه‌ی حذفی پایانی</span></div>'+
+ '<button class="btn rise" style="--i:5" type="button" data-next>شروع سفر</button>'+
+ '<p class="hint rise" style="--i:6">فاصله یا فلش چپ: بعدی · F: تمام‌صفحه · T: تایمر مدرس · N: برگه‌ی مدرس · M: حالت خلاصه</p>';
+
+/* ---------- 0: light pollution ---------- */
+var a=$('#r0a');
+a.innerHTML=hook('0','آخرین بار کِی کهکشان راه شیری را با چشم خودت دیدی؟',
+ '<b>بیش از ۸۰٪</b> مردم جهان زیر آسمانی زندگی می‌کنند که نور مصنوعی آن را روشن کرده، و حدود <b>یک‌سوم</b> انسان‌ها دیگر راه شیری را نمی‌بینند. اسلایدر زیر را بکش و ببین چه چیزی را گم کرده‌ایم.')+
+ '<div class="grid21 rise" style="--i:3"><div class="panel"><canvas class="cv" id="lp" width="960" height="500" role="img" aria-label="آسمان شب با شدت نور شهر قابل تنظیم"></canvas>'+
+ '<div class="ctl" style="margin-top:10px"><label for="lpx"><span>روشنایی نور شهر</span><b id="lpv"></b></label><input id="lpx" type="range" min="0" max="100" value="100"></div>'+
+ '<div class="tabs" style="margin-top:8px" id="lpp"></div></div>'+
+ '<div style="display:flex;flex-direction:column;gap:10px"><div class="panel"><div class="lab">ستاره‌های قابل دیدن با چشم (حدود)</div><div class="big" id="lpn"></div><div class="lab" id="lpm"></div></div>'+
+ '<div class="fact"><b>چرا مهم است؟</b> نور بیش از حد، پرندگان مهاجر و نوزاد لاک‌پشت‌ها را گمراه می‌کند، خواب انسان را به‌هم می‌ریزد و انرژی هدر می‌دهد.</div>'+
+ '<div class="fact"><b>راه‌حل:</b> نور رو به پایین، رنگ گرم، کلید زمان‌دار، و خاموش کردن چراغ‌های غیرضروری.</div></div></div>';
+(function(){
+  var cvs=$('#lp'),c=cvs.getContext('2d'),W0=cvs.width,H0=cvs.height,N=5000,stars=[],i;
+  for(i=1;i<=N;i++){var m=(Math.log10(2*i)-.7)/.5;stars.push({x:Math.random()*W0,y:Math.random()*H0*.82,m:m,t:Math.random()})}
+  var mw=document.createElement('canvas');mw.width=W0;mw.height=H0;var mc=mw.getContext('2d');
+  (function(){
+    function blob(x,y,r,col,a){var g=mc.createRadialGradient(x,y,0,x,y,r);g.addColorStop(0,'rgba('+col+','+a+')');g.addColorStop(1,'rgba('+col+',0)');mc.fillStyle=g;mc.beginPath();mc.arc(x,y,r,0,6.283);mc.fill()}
+    for(var k=0;k<46;k++){var t=k/45,x=lerp(-40,W0+40,t),y=lerp(H0*.78,H0*.05,t)+Math.sin(t*7)*18;
+      blob(x,y,70+Math.random()*50,'180,190,255',.12);blob(x+10,y+4,40+Math.random()*30,'255,235,200',.14)}
+    for(k=0;k<5200;k++){var t2=Math.random(),x2=lerp(-40,W0+40,t2),y2=lerp(H0*.78,H0*.05,t2)+Math.sin(t2*7)*18+(Math.random()+Math.random()+Math.random()-1.5)*70;
+      mc.fillStyle='rgba(235,240,255,'+(Math.random()*.5+.15)+')';mc.fillRect(x2,y2,1.3,1.3)}
+    mc.globalCompositeOperation='destination-out';
+    for(k=0;k<9;k++){var t3=Math.random(),x3=lerp(60,W0-60,t3),y3=lerp(H0*.75,H0*.1,t3);
+      var g=mc.createRadialGradient(x3,y3,0,x3,y3,34+Math.random()*30);g.addColorStop(0,'rgba(0,0,0,.55)');g.addColorStop(1,'rgba(0,0,0,0)');mc.fillStyle=g;mc.beginPath();mc.arc(x3,y3,70,0,6.283);mc.fill()}
+  })();
+  var blds=[];(function(){var x=0;while(x<W0){var w=26+Math.random()*52,h=24+Math.random()*100*Math.pow(Math.random(),.6)+(x>W0*.3&&x<W0*.7?40:0);
+    var wins=[];for(var wy=H0-h+8;wy<H0-8;wy+=11)for(var wx=x+6;wx<x+w-8;wx+=10)if(Math.random()<.55)wins.push([wx,wy]);
+    blds.push({x:x,w:w,h:h,wins:wins});x+=w+Math.random()*4}})();
+  function draw(x){
+    var f=x/100,mlim=6.6-3.8*f,H=Math.floor(.5*Math.pow(10,.5*mlim+.7));
+    var top=[lerp(2,38,f),lerp(3,36,f),lerp(12,70,f)],bot=[lerp(6,70,f),lerp(8,52,f),lerp(24,74,f)];
+    var g=c.createLinearGradient(0,0,0,H0);g.addColorStop(0,'rgb('+top.map(Math.round)+')');g.addColorStop(1,'rgb('+bot.map(Math.round)+')');c.fillStyle=g;c.fillRect(0,0,W0,H0);
+    var ma=clamp((mlim-5)/1.6,0,1)*.9;if(ma>0){c.globalAlpha=ma;c.drawImage(mw,0,0);c.globalAlpha=1}
+    for(var k=0;k<stars.length&&k<H;k++){var s=stars[k],rr=.45+(6.6-s.m)*.27,al=clamp(.35+(mlim-s.m)*.28,.35,1);
+      c.fillStyle='rgba('+(s.t>.8?'255,225,190':s.t<.2?'190,215,255':'255,255,255')+','+al+')';c.beginPath();c.arc(s.x,s.y,rr,0,6.283);c.fill()}
+    var gl=c.createRadialGradient(W0/2,H0,0,W0/2,H0,H0*.95);gl.addColorStop(0,'rgba(255,170,90,'+(.8*f)+')');gl.addColorStop(.5,'rgba(255,140,80,'+(.3*f)+')');gl.addColorStop(1,'rgba(255,140,80,0)');c.fillStyle=gl;c.fillRect(0,0,W0,H0);
+    c.fillStyle='#04050e';c.beginPath();c.moveTo(0,H0);c.lineTo(0,H0-30);
+    for(var xx=0;xx<=W0;xx+=40)c.lineTo(xx,H0-26-Math.sin(xx*.011)*16-Math.sin(xx*.031)*7);c.lineTo(W0,H0);c.closePath();c.fill();
+    c.globalAlpha=.25+.75*f;
+    blds.forEach(function(b){c.fillStyle='#070914';c.fillRect(b.x,H0-b.h,b.w,b.h);c.fillStyle='rgba(255,210,120,'+(.35+.55*f)+')';b.wins.forEach(function(w){c.fillRect(w[0],w[1],4,6)})});
+    c.globalAlpha=1;
+    var cls=1+Math.round(8*f),lab=f>.85?'مرکز کلان‌شهر':f>.6?'شهر':f>.4?'حومه‌ی شهر':f>.15?'روستا':'آسمان تاریک (کویر)';
+    $('#lpn').textContent=nf(H);$('#lpm').innerHTML=lab+' · رده‌ی بورتل حدود <b>'+nf(cls)+'</b> از ۹ · کم‌نورترین ستاره‌ی دیده‌شده: قدر '+nf(mlim,1)+(ma>.25?' · <b style="color:var(--gr)">راه شیری دیده می‌شود</b>':'');
+    $('#lpv').textContent=nf(x)+'٪';
+  }
+  var rg=$('#lpx');rg.oninput=function(){draw(+rg.value)};
+  [['کلان‌شهر',100],['شهر',70],['حومه',45],['روستا',20],['کویر',0]].forEach(function(p){
+    var b=document.createElement('button');b.type='button';b.className='tab';b.textContent=p[0];b.onclick=function(){rg.value=p[1];draw(p[1])};$('#lpp').appendChild(b)});
+  draw(100);
+  onSlide('s0a',{on:function(){/* animate to dark sky once for effect */
+    if(window.__lpDone)return;window.__lpDone=true;if(reduce)return;var v=100,t0=performance.now();
+    setTimeout(function(){(function st(t){var p=clamp((t-t0-1500)/2600,0,1);v=lerp(100,5,p<1?1-Math.pow(1-p,3):1);if(rg===document.activeElement){return}rg.value=v;draw(v);if(p<1)requestAnimationFrame(st)})(performance.now())},50)}});
+})();
+
+/* ---------- 1a: light time machine ---------- */
+var b=$('#r1a');
+b.innerHTML=hook('1','اگر همین الان خورشید ناگهان خاموش شود، تا چند دقیقه متوجه نمی‌شویم؟',
+ 'تا <b>۸ دقیقه و ۲۰ ثانیه</b>. نور خورشید همین‌قدر در راه است. و گرانشش هم با همین سرعت پیام می‌دهد؛ پس زمین هم دقیقاً همان لحظه مدارش را رها می‌کند. نگاه کردن به آسمان یعنی دیدن گذشته.')+
+ '<div class="grid2 rise" style="--i:3"><div class="panel"><h3>ماشین زمانِ نور</h3><div class="row" id="ltb" style="justify-content:flex-start"></div>'+
+ '<div class="fact" id="ltf" style="margin-top:10px"></div></div>'+
+ '<div class="panel"><h3>آزمایش فکری: خورشید خاموش می‌شود</h3><div class="sunoff" id="so"><div class="so-sun" id="soS"></div><div class="so-wave" id="soW"></div><div class="so-earth" id="soE"></div></div>'+
+ '<div class="row"><div class="big" id="soC" style="font-size:2rem">۰۰:۰۰</div><button class="btn sm" id="soB" type="button">خورشید را خاموش کن</button></div><div class="pmsg" id="soM"></div>'+
+ '<div class="callout">سال نوری <b>واحد فاصله</b> است نه زمان: مسافتی که نور در یک سال می‌پیماید (حدود ۹٫۵ هزار میلیارد کیلومتر). سرعت نور: ۳۰۰٬۰۰۰ کیلومتر بر ثانیه.</div></div></div>';
+(function(){
+  var YR=3.156e7,C=299792.458;
+  var OB=[
+   {n:'ماه',s:1.28,ic:'#d7d9e6',why:'ارتباط رادیویی با فضانوردان آپولو تأخیر ۲٫۶ ثانیه‌ای رفت‌وبرگشت داشت.'},
+   {n:'خورشید',s:499,ic:'#ffc857',why:'خورشید را همیشه ۸ دقیقه‌ی پیش می‌بینیم.'},
+   {n:'مشتری',s:2595,ic:'#d9a56b',why:'نور حدود ۴۳ دقیقه تا مشتری راه دارد (فاصله‌ی میانگین).'},
+   {n:'نپتون',s:15000,ic:'#4a7cff',why:'سیگنال‌های کاوشگر وویجر ۲ در ۱۹۸۹ حدود ۴ ساعت طول کشید.'},
+   {n:'پروکسیما قنطورس',s:4.24*YR,ic:'#ff8a5c',why:'نزدیک‌ترین ستاره بعد از خورشید؛ همین امشب نوری را می‌بینیم که حدود سال ۲۰۲۲ میلادی راه افتاده است.'},
+   {n:'شعرای یمانی (سیریوس)',s:8.6*YR,ic:'#ffffff',why:'درخشان‌ترین ستاره‌ی شب است؛ نورش حدود ۸٫۶ سال پیش راه افتاده.'},
+   {n:'ابط‌الجوزا',s:600*YR,ic:'#ff6a4c',why:'حدود ۶۰۰ سال پیش، دوران تیموریان؛ بسیار پیش از اختراع تلسکوپ. (فاصله‌ی دقیقش هنوز بین ۵۵۰ تا ۷۰۰ سال نوری برآورد می‌شود.)'},
+   {n:'آندرومدا',s:2.5e6*YR,ic:'#b9a8ff',why:'حدود ۲٫۵ میلیون سال پیش؛ قبل از پیدایش انسان خردمند (حدود ۳۰۰ هزار سال پیش).'},
+   {n:'دورترین کهکشان‌های وب',s:13.5e9*YR,ic:'#4fd8ff',why:'نوری که تلسکوپ جیمز وب می‌گیرد، حدود ۱۳٫۵ میلیارد سال پیش راه افتاده؛ وقتی جهان فقط حدود ۳۰۰ میلیون ساله بود.'}
+  ];
+  function ft(s){
+    if(s<60)return nf(s,s<10?1:0)+' ثانیه';if(s<3600)return nf(s/60,s<600?1:0)+' دقیقه';if(s<86400)return nf(s/3600,1)+' ساعت';
+    var y=s/YR;if(y<1)return nf(s/86400)+' روز';if(y<1000)return nf(y,y<100?1:0)+' سال';if(y<1e6)return nf(y/1e3,0)+' هزار سال';if(y<1e9)return nf(y/1e6,1)+' میلیون سال';return nf(y/1e9,1)+' میلیارد سال'}
+  var bx=$('#ltb');
+  OB.forEach(function(o,i){var bt=document.createElement('button');bt.type='button';bt.className='tab';bt.innerHTML='<span class="dotc" style="background:'+o.ic+'"></span>'+o.n;
+    bt.onclick=function(){$$('.tab',bx).forEach(function(x,k){x.classList.toggle('act',k===i)});
+      var f=$('#ltf');f.innerHTML='<b>'+o.n+'</b>: نور از آن‌جا تا ما <b>'+ft(o.s)+'</b> راه است. یعنی چیزی که می‌بینی، تصویر <b>'+ft(o.s)+' پیش</b> است.<br><span class="lab">'+o.why+'</span>';
+      f.classList.remove('swap');void f.offsetWidth;f.classList.add('swap')};bx.appendChild(bt)});
+  bx.children[1].click();
+  var run=false,tm=null;
+  function reset(){clearTimeout(tm);$('#soS').className='so-sun';$('#soW').style.cssText='';$('#soE').className='so-earth';$('#soC').textContent=fa('00:00');msg($('#soM'),'')}
+  $('#soB').onclick=function(){
+    reset();void $('#soW').offsetWidth;run=true;$('#soS').classList.add('off');msg($('#soM'),'خورشید خاموش شد. روی زمین هنوز روز است...');
+    var t0=performance.now(),dur=5200;
+    (function st(t){var p=clamp((t-t0)/dur,0,1);var s=Math.round(500*p);$('#soC').textContent=fa(String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0'));
+      $('#soW').style.width=(p*100)+'%';$('#soW').style.opacity=p<1?1:0;
+      if(p<1&&run)requestAnimationFrame(st);else if(run){$('#soE').classList.add('gone');msg($('#soM'),'<b>۸:۲۰</b> نور رفت و گرانش هم رسید: زمین هم‌زمان تاریک شد و مدارش را رها کرد. (زمان نمایش ۱۰۰ برابر سریع‌تر است.)','no')}})(performance.now());
+  };
+  onSlide('s1a',{off:function(){run=false;reset()}});
+})();
+
+/* ---------- 1b: cosmic address ---------- */
+var d=$('#r1b');
+d.innerHTML=head('1','آدرس کیهانی؛ زوم به عقب','اسلایدر را بکش یا «زوم» را بزن. هر حلقه، بزرگ‌تر از قبلی است.')+
+ '<div class="grid2 rise" style="--i:3"><div class="panel" style="display:flex;flex-direction:column;gap:8px;align-items:center"><svg class="cv" id="zs" viewBox="0 0 400 400" style="max-width:420px" role="img" aria-label="حلقه‌های تودرتوی مقیاس‌های کیهان"></svg>'+
+ '<div class="ctl"><label for="zr"><span>مقیاس</span><b id="zrv"></b></label><input id="zr" type="range" min="0" max="10" value="0"></div>'+
+ '<button class="btn sm" id="zp" type="button">زوم به عقب (خودکار)</button></div>'+
+ '<div style="display:flex;flex-direction:column;gap:10px"><div class="panel"><h3 id="zn"></h3><div class="tiles" id="zt"></div><div class="fact" id="zf" style="margin-top:8px"></div></div>'+
+ '<div class="panel"><h4>آدرس کیهانی تو</h4><ol class="addr" id="za"></ol></div>'+
+ '<details class="panel"><summary style="cursor:pointer;font-weight:800;color:var(--cy)">اخترشناسی یا اخترگویی؟</summary><div class="grid2" style="margin-top:8px"><div class="fact"><b>اخترشناسی (Astronomy)</b><br>علمی است؛ پیش‌بینی‌هایش آزمون‌پذیر است (مثلاً زمان دقیق ماه‌گرفتگی) و با شواهد اصلاح می‌شود.</div>'+
+ '<div class="fact"><b>اخترگویی (Astrology)</b><br>علم نیست. در آزمایش دوسوکور شاون کارلسون (مجله‌ی Nature، ۱۹۸۵)، اخترگویان نتوانستند بهتر از شانس، طالع افراد را تشخیص دهند.</div></div></details></div></div>';
+(function(){
+  var L=[
+   {n:'اتاق کلاس',e:1,r:'۱۰ متر',t:'۳۳ نانوثانیه',a:'کلاس',f:'نور در همین اتاق فقط ۳۳ نانوثانیه راه است؛ ما همه‌چیز را «همین الان» می‌بینیم.'},
+   {n:'شهر',e:4.3,r:'۲۰ کیلومتر',t:'۶۷ میکروثانیه',a:'شهر',f:'چراغ‌های شهر، بخشی از آسمانی را که دیدیم گم کرده‌اند.'},
+   {n:'سیاره‌ی زمین',e:7.1,r:'۱۲٬۷۴۲ کیلومتر (قطر)',t:'۴۲ میلی‌ثانیه',a:'سیاره‌ی زمین',f:'نور در یک ثانیه حدود ۷ بار دور زمین می‌چرخد.'},
+   {n:'مدار ماه',e:8.6,r:'۳۸۴٬۴۰۰ کیلومتر',t:'۱٫۳ ثانیه',a:'سامانه‌ی زمین و ماه',f:'ماه تنها جرمی است که انسان تا امروز روی آن قدم گذاشته.'},
+   {n:'مدار زمین',e:11.2,r:'۱۴۹٫۶ میلیون کیلومتر (۱ واحد نجومی)',t:'۸ دقیقه و ۲۰ ثانیه',a:'مدار زمین دور خورشید',f:'یک واحد نجومی، میانگین فاصله‌ی زمین تا خورشید است.'},
+   {n:'منظومه‌ی شمسی',e:12.7,r:'حدود ۴٫۵ میلیارد کیلومتر (مدار نپتون)',t:'۴ ساعت',a:'منظومه‌ی شمسی',f:'وویجر ۱ پس از حدود ۴۹ سال به فاصله‌ی «یک روز نوری» نزدیک می‌شود.'},
+   {n:'همسایگی ستاره‌ای',e:16.6,r:'۴٫۲۴ سال نوری',t:'۴٫۲۴ سال',a:'بازوی شکارچی',f:'تا نزدیک‌ترین ستاره، با سرعت وویجر حدود ۷۰ هزار سال راه است.'},
+   {n:'کهکشان راه شیری',e:20.7,r:'حدود ۵۰ هزار سال نوری (شعاع)',t:'۵۰ هزار سال',a:'کهکشان راه شیری',f:'۱۰۰ تا ۴۰۰ میلیارد ستاره؛ خورشید حدود ۲۶ هزار سال نوری از مرکز دور است.'},
+   {n:'گروه محلی',e:22.7,r:'حدود ۵ میلیون سال نوری (شعاع)',t:'۵ میلیون سال',a:'گروه محلی',f:'راه شیری، آندرومدا، مثلث و حدود ۸۰ کهکشان دیگر.'},
+   {n:'ابرخوشه‌ی لانیاکیا',e:24.4,r:'حدود ۲۶۰ میلیون سال نوری (شعاع)',t:'۲۶۰ میلیون سال',a:'ابرخوشه‌ی لانیاکیا',f:'«لانیاکیا» در زبان هاوایی یعنی «بهشت بی‌کران»؛ شامل حدود ۱۰۰ هزار کهکشان.'},
+   {n:'جهان قابل مشاهده',e:26.6,r:'حدود ۴۶ میلیارد سال نوری (شعاع)',t:'۱۳٫۸ میلیارد سال (چون جهان در راه منبسط شده)',a:'جهان قابل مشاهده',f:'هرچه دورتر ببینیم، قدیمی‌تر می‌بینیم؛ دورترین نور، حدود ۱۳٫۸ میلیارد ساله است.'}
+  ];
+  var s=$('#zs'),h='';
+  for(var i=L.length-1;i>=0;i--){var rr=16+i*17.2;h+='<circle class="zc" data-i="'+i+'" cx="200" cy="200" r="'+rr+'"/>'}
+  h+='<circle cx="200" cy="200" r="3.5" fill="#ffc857"/><text x="200" y="193" class="zy" text-anchor="middle">ما</text><circle id="zm" r="5" fill="#4fd8ff"/>';
+  s.innerHTML=h;
+  var cur=0,tm=null;
+  function show(i){
+    cur=i;$('#zr').value=i;
+    $$('.zc',s).forEach(function(c){var k=+c.getAttribute('data-i');c.setAttribute('class','zc'+(k<i?' in':k===i?' now':''))});
+    var o=L[i],rr=16+i*17.2,m=$('#zm');m.setAttribute('cx',200+rr*Math.cos(-.7));m.setAttribute('cy',200+rr*Math.sin(-.7));
+    $('#zn').textContent=o.n;$('#zrv').textContent=o.n;
+    $('#zt').innerHTML='<div class="tile"><span>اندازه‌ی حلقه</span><b>'+o.r+'</b></div><div class="tile"><span>نور تا لبه‌ی حلقه</span><b>'+o.t+'</b></div><div class="tile"><span>مرتبه‌ی بزرگی</span><b>ده به توان '+nf(o.e,1)+' متر</b></div>';
+    var f=$('#zf');f.textContent=o.f;f.classList.remove('swap');void f.offsetWidth;f.classList.add('swap');
+    $('#za').innerHTML=L.map(function(x,k){return '<li class="'+(k<=i?'on':'')+'">'+x.a+'</li>'}).join('');
+  }
+  $('#zr').oninput=function(){clearInterval(tm);show(+this.value)};
+  $('#zp').onclick=function(){clearInterval(tm);show(0);tm=setInterval(function(){if(cur>=L.length-1){clearInterval(tm);return}show(cur+1)},1000)};
+  show(0);
+  onSlide('s1b',{off:function(){clearInterval(tm)}});
+})();
+})();
+
+/* ===== section 2: Earth ===== */
+(function(){
+var a=$('#r2a');
+a.innerHTML=hook('2','وقتی در ایران تابستان است، نیمکره‌ی جنوبی زمستان دارد. آیا زمین در تابستان به خورشید نزدیک‌تر است؟',
+ '<b>نه!</b> زمین حدود ۱۴ دی (اوایل ژانویه) به خورشید نزدیک‌ترین است، یعنی وسط زمستان نیمکره‌ی شمالی. فصل‌ها را <b>کجی محور ۲۳٫۵ درجه‌ای</b> می‌سازد: زاویه‌ی تابش و طول روز. اسلایدر را بکش و خودت ببین.')+
+ '<div class="grid2 rise" style="--i:3"><div class="panel"><svg class="cv" id="ob" viewBox="0 0 520 250" role="img" aria-label="مدار زمین دور خورشید با محور کج"></svg>'+
+ '<div class="grid2" style="margin-top:8px"><div class="ctl"><label for="sd"><span>روز سال</span><b id="sdv"></b></label><input id="sd" type="range" min="0" max="364" value="93"></div>'+
+ '<div class="ctl"><label for="st"><span>کجی محور</span><b id="stv"></b></label><input id="st" type="range" min="0" max="90" step=".5" value="23.5"></div></div>'+
+ '<div class="row" style="margin-top:6px"><button class="btn sm" id="sp" type="button">پخش یک سال</button><button class="tab" data-tilt="0" type="button">محور صاف ۰°</button><button class="tab" data-tilt="23.5" type="button">واقعی ۲۳٫۵°</button><button class="tab" data-tilt="60" type="button">خیلی کج ۶۰°</button></div></div>'+
+ '<div class="panel"><div class="row" style="justify-content:space-between"><h3 style="margin:0">زاویه‌ی تابش ظهر</h3><select id="sl" aria-label="مکان"><option value="36.3">مشهد (۳۶٫۳° شمالی)</option><option value="0">استوا</option><option value="-36.3">نیمکره‌ی جنوبی (۳۶٫۳° جنوبی)</option><option value="80">نزدیک قطب شمال (۸۰°)</option></select></div>'+
+ '<svg class="cv" id="rs" viewBox="0 0 400 190" role="img" aria-label="پرتوهای خورشید و زاویه‌ی برخورد"></svg>'+
+ '<div class="tiles" id="sx" style="margin-top:8px"></div><div class="callout" id="sn" style="margin-top:8px"></div></div></div>';
+var MN=['فروردین','اردیبهشت','خرداد','تیر','مرداد','شهریور','مهر','آبان','آذر','دی','بهمن','اسفند'],ML=[31,31,31,31,31,31,30,30,30,30,30,29];
+function pdate(t){t=Math.floor(t);for(var i=0;i<12;i++){if(t<ML[i])return nf(t+1)+' '+MN[i];t-=ML[i]}return '۲۹ اسفند'}
+var s=$('#ob');
+function orb(){
+  var h='<defs><radialGradient id="eg" cx=".5" cy=".5" r=".6" fx=".7" fy=".4"><stop offset="0" stop-color="#cfe9ff"/><stop offset=".5" stop-color="#2f7dff"/><stop offset="1" stop-color="#0a2466"/></radialGradient>'+
+   '<radialGradient id="sg"><stop offset="0" stop-color="#fff6c9"/><stop offset=".5" stop-color="#ffc857"/><stop offset="1" stop-color="#ff8a3d"/></radialGradient></defs>';
+  h+='<ellipse cx="260" cy="125" rx="200" ry="62" fill="none" stroke="rgba(160,180,255,.3)" stroke-dasharray="4 5"/>';
+  [[0,'۱ فروردین'],[93,'۱ تیر'],[186,'۱ مهر'],[276,'۱ دی']].forEach(function(p){var th=rad(180-(p[0]-91.3)*360/365.25),x=260+200*Math.cos(th),y=125+62*Math.sin(th);
+    h+='<circle cx="'+x+'" cy="'+y+'" r="3" fill="rgba(255,200,87,.7)"/><text x="'+(x+(x<260?-8:8))+'" y="'+(y+(y<125?-8:16))+'" class="ot" text-anchor="'+(x<260?'end':'start')+'">'+p[1]+'</text>'});
+  h+='<circle cx="260" cy="125" r="26" fill="url(#sg)" style="filter:drop-shadow(0 0 14px #ffb347)"/>';
+  h+='<g id="eg0"></g>';s.innerHTML=h;
+}
+orb();
+var tilt=23.5,t=93,lat=36.3;
+function decl(t){return tilt*Math.sin(2*Math.PI*t/365.25)}
+function draw(){
+  var th=rad(180-(t-91.3)*360/365.25),x=260+200*Math.cos(th),y=125+62*Math.sin(th),tl=rad(tilt);
+  var dx=260-x,dy=125-y,dl=Math.hypot(dx,dy),g=$('#eg');g.setAttribute('fx',(.5+.28*dx/dl).toFixed(2));g.setAttribute('fy',(.5+.28*dy/dl).toFixed(2));
+  var tx=x+30*Math.sin(tl),ty=y-30*Math.cos(tl),bx=x-30*Math.sin(tl),by=y+30*Math.cos(tl);
+  $('#eg0').innerHTML='<line x1="'+bx+'" y1="'+by+'" x2="'+tx+'" y2="'+ty+'" stroke="#ffc857" stroke-width="2" stroke-linecap="round"/>'+
+   '<circle cx="'+x+'" cy="'+y+'" r="15" fill="url(#eg)"/><circle cx="'+tx+'" cy="'+ty+'" r="3.5" fill="#fff"/><text x="'+(tx+7)+'" y="'+(ty-3)+'" class="ot">N</text>';
+  var dcl=decl(t),L=rad(lat),de=rad(dcl);
+  var alt=90-Math.abs(lat-dcl);
+  var cH=-Math.tan(L)*Math.tan(de),day=cH>=1?0:cH<=-1?24:2*deg(Math.acos(cH))/15;
+  var dist=149.6*(1-.0167*Math.cos(2*Math.PI*(t-288)/365.25));
+  var seas;
+  if(tilt<2)seas='بدون فصل (محور صاف)';
+  else if(Math.abs(lat)>66&&(day===0||day===24))seas=day?'روز قطبی (خورشید غروب نمی‌کند)':'شب قطبی (خورشید طلوع نمی‌کند)';
+  else if(Math.abs(lat)<12)seas='فصل‌های ضعیف (استوا)';
+  else{var tt=lat<0?(t+182.6)%365.25:t;seas=tt<93?'بهار':tt<186?'تابستان':tt<276?'پاییز':'زمستان'}
+  $('#sdv').textContent=pdate(t);$('#stv').textContent=nf(tilt,1)+' درجه';
+  var sA=Math.sin(rad(Math.max(alt,0)));
+  $('#sx').innerHTML='<div class="tile"><span>فصل این مکان</span><b>'+seas+'</b></div><div class="tile"><span>ارتفاع خورشید در ظهر</span><b>'+(alt>0?nf(alt,1)+' درجه':'زیر افق')+'</b></div><div class="tile"><span>طول روز</span><b>'+(day===0?'۰ ساعت':day===24?'۲۴ ساعت':nf(day,1)+' ساعت')+'</b></div><div class="tile"><span>شدت نور در هر متر مربع</span><b>'+nf(sA*100)+'٪ حداکثر</b></div>';
+  $('#sn').innerHTML='فاصله‌ی زمین تا خورشید الان: <b>'+nf(dist,1)+' میلیون کیلومتر</b>'+(dist<148?' (نزدیک‌ترین نقطه، وسط زمستان شمال!)':dist>151?' (دورترین نقطه، وسط تابستان شمال!)':'')+'. اختلاف فاصله فقط حدود ۳٪ است، اما اثر زاویه‌ی تابش بسیار بزرگ‌تر.';
+  /* rays */
+  var r=$('#rs'),A=Math.max(alt,0),h='';
+  h+='<rect x="0" y="160" width="400" height="30" fill="#1d2a55"/><line x1="0" y1="160" x2="400" y2="160" stroke="#5a6fb8" stroke-width="2"/>';
+  if(alt<=0.5){h+='<text x="200" y="85" text-anchor="middle" class="rt" style="font-size:16px">خورشید امروز در ظهر هم بالای افق نمی‌آید</text>'}
+  else{
+    var a2=rad(Math.max(A,6)),c=Math.cos(a2),sn=Math.sin(a2),w=46,x1=170,x2=x1+w/sn,Ln=170;
+    if(x2>380){x2=380}
+    h+='<polygon points="'+x1+',160 '+x2+',160 '+(x2-Ln*c)+','+(160-Ln*sn)+' '+(x1-Ln*c)+','+(160-Ln*sn)+'" fill="rgba(255,200,87,.2)"/>';
+    h+='<line x1="'+x1+'" y1="160" x2="'+(x1-Ln*c)+'" y2="'+(160-Ln*sn)+'" stroke="#ffc857" stroke-width="2"/><line x1="'+x2+'" y1="160" x2="'+(x2-Ln*c)+'" y2="'+(160-Ln*sn)+'" stroke="#ffc857" stroke-width="2"/>';
+    h+='<line x1="'+x1+'" y1="160" x2="'+x2+'" y2="160" stroke="#ff8a3d" stroke-width="7" stroke-linecap="round" style="filter:drop-shadow(0 0 6px #ff8a3d)"/>';
+    h+='<path d="M'+(x1-36)+' 160 A36 36 0 0 1 '+(x1-36*c)+' '+(160-36*sn)+'" fill="none" stroke="#fff" stroke-width="1.2"/>';
+    h+='<text x="'+(x1-62)+'" y="226" class="rt">'+nf(A,0)+'°</text>';
+    h+='<text x="'+((x1+x2)/2)+'" y="180" text-anchor="middle" class="rt" fill="#ffc857">همان پرتو، روی ردی به طول ×'+nf(1/sn,1)+'</text>';
+  }
+  r.innerHTML=h;
+}
+$('#sd').oninput=function(){t=+this.value;draw()};
+$('#st').oninput=function(){tilt=+this.value;draw()};
+$('#sl').onchange=function(){lat=+this.value;draw()};
+$$('[data-tilt]',a).forEach(function(b){b.onclick=function(){tilt=+b.getAttribute('data-tilt');$('#st').value=tilt;draw()}});
+var play=null;
+$('#sp').onclick=function(){
+  if(play){clearInterval(play);play=null;this.textContent='پخش یک سال';return}
+  var b=this;b.textContent='توقف';t=0;play=setInterval(function(){t+=2;if(t>=364){t=364;clearInterval(play);play=null;b.textContent='پخش یک سال'}$('#sd').value=t;draw()},60);
+};
+onSlide('s2a',{off:function(){if(play){clearInterval(play);play=null;$('#sp').textContent='پخش یک سال'}}});
+draw();
+
+/* ---------- 2b: star trails + shield ---------- */
+var b=$('#r2b');
+b.innerHTML=head('2','ردپای ستاره‌ها و سپر زمین','زمین هم می‌چرخد و هم از ما محافظت می‌کند')+
+ '<div class="tabs rise" style="--i:2" id="t2"></div><div class="panel rise" style="--i:3;width:100%" id="p2"></div>';
+var tabs=['ردپای ستاره‌ها','سپر مغناطیسی و جو'],pn=$('#p2');
+tabs.forEach(function(n,i){var x=document.createElement('button');x.type='button';x.className='tab';x.textContent=n;x.onclick=function(){sel(i)};$('#t2').appendChild(x)});
+var loopS=null;
+function sel(i){
+  $$('.tab',$('#t2')).forEach(function(x,k){x.classList.toggle('act',k===i)});
+  if(loopS)loopS.stop();
+  if(i===0)trails();else shield();
+}
+function trails(){
+  pn.innerHTML='<div class="grid21"><canvas class="cv" id="tc" width="640" height="480" role="img" aria-label="ردپای ستاره‌ها دور ستاره‌ی قطبی"></canvas><div style="display:flex;flex-direction:column;gap:10px">'+
+   '<div class="ctl"><label for="th"><span>زمان نوردهی عکس</span><b id="thv"></b></label><input id="th" type="range" min="0" max="12" step=".25" value="3"></div>'+
+   '<div class="fact">آسمان به‌نظر می‌چرخد چون <b>زمین دور خودش می‌چرخد</b>: ۱۵ درجه در هر ساعت. یک دور کامل آسمان حدود ۲۳ ساعت و ۵۶ دقیقه است.</div>'+
+   '<div class="fact"><b>ستاره‌ی قطبی</b> تقریباً روی امتداد محور زمین است، پس ثابت می‌ماند. <b>ارتفاع آن از افق = عرض جغرافیایی تو</b>؛ در مشهد حدود ۳۶ درجه بالای افق شمال.</div>'+
+   '<div class="fact">جهت‌یابی: رو به ستاره‌ی قطبی بایست؛ جلوی تو شمال است. با دب اکبر در بخش ۶ پیدایش می‌کنیم.</div></div></div>';
+  var c=$('#tc').getContext('2d'),W0=640,H0=480,cx0=320,cy0=300,S=[],i;
+  for(i=0;i<260;i++){var rr=10+Math.pow(Math.random(),.7)*330;S.push({r:rr,a:Math.random()*6.283,b:Math.random()})}
+  S.push({r:6,a:1,b:1});
+  function d(){
+    var h=+$('#th').value;$('#thv').textContent=nf(h,2)+' ساعت · '+nf(h*15)+' درجه';
+    c.fillStyle='#03061a';c.fillRect(0,0,W0,H0);
+    S.forEach(function(s){var al=.35+.65*s.b;c.strokeStyle='rgba(235,240,255,'+al+')';c.lineWidth=s.b>.9?2.2:1.2;c.beginPath();
+      var a0=s.a,a1=s.a-rad(h*15);c.arc(cx0,cy0,s.r,a0,Math.min(a1,a0-.0001),true);c.stroke();
+      if(h===0){c.fillStyle='#fff';c.fillRect(cx0+s.r*Math.cos(a0),cy0+s.r*Math.sin(a0),1.6,1.6)}});
+    c.fillStyle='#ffc857';c.beginPath();c.arc(cx0,cy0,3.5,0,6.283);c.fill();c.fillStyle='#ffc857';c.font='15px Vazirmatn,Tahoma';c.fillText('ستاره‌ی قطبی',cx0+10,cy0-8);
+  }
+  $('#th').oninput=d;d();
+}
+function shield(){
+  pn.innerHTML='<div class="grid21"><canvas class="cv" id="sc" width="640" height="380" role="img" aria-label="باد خورشیدی و سپر مغناطیسی زمین"></canvas><div style="display:flex;flex-direction:column;gap:10px">'+
+   '<div class="row"><button class="tab act" id="mgOn" type="button">میدان مغناطیسی روشن</button><button class="tab" id="mgOff" type="button">خاموش</button></div>'+
+   '<div class="ctl"><label for="ws"><span>شدت باد خورشیدی</span><b id="wsv"></b></label><input id="ws" type="range" min="1" max="5" value="2"></div>'+
+   '<div class="tiles"><div class="tile"><span>ذرات رسیده به جو</span><b id="hit">۰</b></div><div class="tile"><span>وضعیت</span><b id="stt"></b></div></div>'+
+   '<div class="fact">باد خورشیدی جریانی از ذرات باردار است. <b>میدان مغناطیسی</b> زمین آن‌ها را به اطراف می‌راند و <b>جو</b> مانند سپر دوم، بیشتر پرتوهای خطرناک و شهاب‌های کوچک را متوقف می‌کند.</div>'+
+   '<div class="fact">مریخ میدان مغناطیسی جهانی ندارد و جوی بسیار نازک دارد؛ فرسایش جو توسط باد خورشیدی یکی از دلایل اصلی پذیرفته‌شده‌ی آن است.</div></div></div>';
+  var c=$('#sc').getContext('2d'),W0=640,H0=380,ex=450,ey=190,R=36,on=true,P=[],hits=0,str=2;
+  function spawn(){return {x:-10,y:Math.random()*H0,vx:0,vy:0,dead:0}}
+  for(var i=0;i<90;i++){var p=spawn();p.x=Math.random()*W0;p.vx=1;P.push(p)}
+  $('#mgOn').onclick=function(){on=true;$('#mgOn').classList.add('act');$('#mgOff').classList.remove('act');st()};
+  $('#mgOff').onclick=function(){on=false;$('#mgOff').classList.add('act');$('#mgOn').classList.remove('act');st()};
+  $('#ws').oninput=function(){str=+this.value;$('#wsv').textContent=nf(str)+' از ۵'};$('#wsv').textContent=nf(2)+' از ۵';
+  function st(){$('#stt').textContent=on?'محافظت‌شده':'بدون سپر مغناطیسی'}st();
+  loopS=makeLoop(function(dt){
+    c.fillStyle='#03061a';c.fillRect(0,0,W0,H0);
+    var Rs=on?120-5*str:0;
+    if(on){c.strokeStyle='rgba(79,216,255,.35)';c.lineWidth=2;c.beginPath();c.arc(ex,ey,Rs,Math.PI*.5,Math.PI*1.5,false);c.stroke();
+      for(var k=1;k<=3;k++){var L=R*(1+k*1.1);c.strokeStyle='rgba(155,140,255,.28)';c.lineWidth=1.2;c.beginPath();c.ellipse(ex+(L)*.55,ey,L*1.6,L*.75,0,0,6.283);c.stroke()}}
+    var g=c.createRadialGradient(ex,ey,R,ex,ey,R+12);g.addColorStop(0,'rgba(120,190,255,.55)');g.addColorStop(1,'rgba(120,190,255,0)');c.fillStyle=g;c.beginPath();c.arc(ex,ey,R+12,0,6.283);c.fill();
+    c.fillStyle='#2f7dff';c.beginPath();c.arc(ex,ey,R,0,6.283);c.fill();c.fillStyle='#4ccf7a';c.beginPath();c.ellipse(ex-8,ey-6,12,9,0,0,6.283);c.fill();
+    c.fillStyle='#ffc857';c.font='14px Vazirmatn,Tahoma';c.fillText('☀ خورشید',6,16);
+    var v0=60+str*45;
+    P.forEach(function(p){
+      if(p.vx===0){p.vx=v0}
+      var dx=p.x-ex,dy=p.y-ey,d=Math.hypot(dx,dy);
+      if(on&&d<Rs*1.5){var f=Math.pow(Rs/Math.max(d,Rs*.98),3);p.vy+=(dy/d)*f*900*dt;p.vx+=(dx/d)*f*500*dt;if(d<Rs){p.x=ex+dx/d*Rs;p.y=ey+dy/d*Rs}}
+      p.vx+=(v0-p.vx)*1.2*dt;p.vy*=1-1.1*dt;
+      p.x+=p.vx*dt;p.y+=p.vy*dt;
+      if(!on&&d<R+8){hits++;p.x=-10;p.y=Math.random()*H0;p.vx=v0;p.vy=0;c.fillStyle='#fff';c.beginPath();c.arc(ex+dx/d*(R+4),ey+dy/d*(R+4),6,0,6.283);c.fill()}
+      if(p.x>W0+10||p.y<-20||p.y>H0+20){p.x=-10;p.y=Math.random()*H0;p.vx=v0;p.vy=0}
+      c.fillStyle='rgba(255,200,87,.9)';c.fillRect(p.x,p.y,2.4,2.4)});
+    $('#hit').textContent=nf(hits);
+  });
+  loopS.start();
+}
+sel(0);
+onSlide('s2b',{on:function(){if($('#sc')&&loopS)loopS.start()},off:function(){if(loopS)loopS.stop()}});
+})();
+
+/* ===== section 3: Moon ===== */
+(function(){
+/* shared: moon disc SVG for phase angle th (deg from new moon, 0..360), northern-hemisphere view */
+function moonSVG(th,size){
+  var R=40,p=rad(th),c=Math.cos(p),rx=Math.abs(R*c).toFixed(2),waxing=th<180,d='';
+  if(th>3&&th<357&&Math.abs(th-180)>0){
+    var s1=waxing?1:0,s2=waxing?(c>0?0:1):(c>0?1:0);
+    d='M0,-'+R+' A'+R+','+R+' 0 0 '+s1+' 0,'+R+' A'+rx+','+R+' 0 0 '+s2+' 0,-'+R+' Z';
+  }
+  return '<svg viewBox="-46 -46 92 92" width="'+(size||110)+'" height="'+(size||110)+'" aria-hidden="true"><circle r="40" fill="#1b2150" stroke="#3a4390"/>'+(d?'<path d="'+d+'" fill="#f1f0e6"/>':'')+'</svg>';
+}
+window.moonSVG=moonSVG;
+
+/* ---------- 3a: phases ---------- */
+var a=$('#r3a');
+a.innerHTML=hook('3','چرا ماه به سمت ما نمی‌افتد؟ و چرا همیشه فقط یک روی آن را می‌بینیم؟',
+ 'ماه <b>در حال افتادن است!</b> اما هم‌زمان با سرعت حدود <b>۱ کیلومتر بر ثانیه</b> به پهلو هم می‌رود، پس مدام «از کنار زمین رد می‌شود». و چون چرخشش به دور خودش با گردشش دور زمین هماهنگ است (قفل کشندی)، همیشه یک روی آن به ما می‌رسد.')+
+ '<div class="grid21 rise" style="--i:3"><div class="panel"><svg class="cv" id="pm" viewBox="0 0 420 340" role="img" aria-label="ماه در حال گردش دور زمین"></svg>'+
+ '<div class="row" style="margin-top:6px"><button class="btn sm" id="pp" type="button">پخش یک ماه</button><button class="tab" id="psh" type="button">نمایش سایه‌ی زمین</button><span class="hint">ماه را با موشواره/انگشت بکش</span></div></div>'+
+ '<div style="display:flex;flex-direction:column;gap:10px"><div class="panel" style="display:flex;gap:14px;align-items:center"><div id="pv" style="flex:none"></div><div><h3 id="pn" style="margin:0"></h3><div class="lab" id="pi"></div></div></div>'+
+ '<div class="tiles" id="pt"></div>'+
+ '<div class="callout warn"><b>اشتباه رایج:</b> «فاز ماه، سایه‌ی زمین روی ماه است». نه! همیشه نیمی از ماه روشن است؛ ما فقط از زاویه‌های مختلف، بخش‌های متفاوتی از آن نیمه‌ی روشن را می‌بینیم. سایه‌ی زمین فقط در <b>ماه‌گرفتگی</b> روی ماه می‌افتد.</div></div></div>';
+(function(){
+  var th=70,cx=240,cy=170,R=118,show=false;
+  var s=$('#pm');
+  function names(t){return t<10||t>350?'محاق (ماه نو)':t<80?'هلال نو':t<100?'تربیع اول':t<170?'بدر در حال رشد':t<190?'بدر (ماه کامل)':t<260?'بدر در حال کاهش':t<280?'تربیع آخر':'هلال پیر'}
+  function draw(){
+    var rr=rad(th),mx=cx-R*Math.cos(rr),my=cy+R*Math.sin(rr);
+    var h='<defs><radialGradient id="peg" cx=".35" cy=".3" r=".8"><stop offset="0" stop-color="#cfe9ff"/><stop offset=".5" stop-color="#2f7dff"/><stop offset="1" stop-color="#0a2466"/></radialGradient></defs>';
+    for(var k=0;k<7;k++){var yy=50+k*40;h+='<line x1="8" y1="'+yy+'" x2="64" y2="'+yy+'" stroke="#ffc857" stroke-width="2"/><path d="M64 '+yy+' l-8 -4 v8z" fill="#ffc857"/>'}
+    h+='<text x="36" y="26" class="ot" text-anchor="middle">پرتوهای خورشید</text>';
+    if(show)h+='<polygon points="'+(cx+16)+','+(cy-22)+' 410,'+(cy-8)+' 410,'+(cy+8)+' '+(cx+16)+','+(cy+22)+'" fill="rgba(0,0,0,.55)" stroke="rgba(255,106,92,.6)" stroke-dasharray="4 4"/><text x="380" y="'+(cy-14)+'" class="ot" text-anchor="end">سایه‌ی زمین (باریک و دور از مدار ماه در بیشتر ماه‌ها)</text>';
+    h+='<circle cx="'+cx+'" cy="'+cy+'" r="'+R+'" fill="none" stroke="rgba(160,180,255,.3)" stroke-dasharray="4 5"/>';
+    h+='<circle cx="'+cx+'" cy="'+cy+'" r="22" fill="url(#peg)"/><text x="'+cx+'" y="'+(cy+4)+'" class="ot" text-anchor="middle" fill="#fff">زمین</text>';
+    h+='<line x1="'+cx+'" y1="'+cy+'" x2="'+mx+'" y2="'+my+'" stroke="rgba(255,255,255,.18)"/>';
+    h+='<g id="pmg" style="cursor:grab"><circle cx="'+mx+'" cy="'+my+'" r="24" fill="transparent"/><circle cx="'+mx+'" cy="'+my+'" r="14" fill="#2a3158"/><path d="M'+mx+' '+(my-14)+' A14 14 0 0 0 '+mx+' '+(my+14)+' Z" fill="#f1f0e6"/><circle cx="'+mx+'" cy="'+my+'" r="14" fill="none" stroke="#fff" stroke-opacity=".5"/></g>';
+    s.innerHTML=h;
+    var ill=(1-Math.cos(rr))/2,age=th/360*29.53,rise=(6+th/15)%24,set=(rise+12)%24;
+    function clock(x){var hh=Math.floor(x),mm=Math.round((x-hh)*60/10)*10;if(mm===60){hh=(hh+1)%24;mm=0}return fa(String(hh).padStart(2,'0')+':'+String(mm).padStart(2,'0'))}
+    $('#pv').innerHTML=moonSVG(th,120);$('#pn').textContent=names(th);
+    $('#pi').textContent=th<180?'ماه در حال بزرگ شدن (رشد)':'ماه در حال کوچک شدن (کاهش)';
+    $('#pt').innerHTML='<div class="tile"><span>سن ماه</span><b>'+nf(age,1)+' روز از ۲۹٫۵</b></div><div class="tile"><span>بخش روشن دیده‌شده</span><b>'+nf(ill*100)+'٪</b></div><div class="tile"><span>طلوع تقریبی</span><b>'+clock(rise)+'</b></div><div class="tile"><span>غروب تقریبی</span><b>'+clock(set)+'</b></div>';
+  }
+  function setFrom(e){var pt=s.createSVGPoint();pt.x=e.clientX;pt.y=e.clientY;var q=pt.matrixTransform(s.getScreenCTM().inverse());
+    var t=deg(Math.atan2(q.y-cy,-(q.x-cx)));th=(t+360)%360;draw()}
+  var drag=false;
+  s.addEventListener('pointerdown',function(e){drag=true;try{s.setPointerCapture(e.pointerId)}catch(x){}setFrom(e);stop()});
+  s.addEventListener('pointermove',function(e){if(drag)setFrom(e)});
+  s.addEventListener('pointerup',function(){drag=false});
+  var lp=makeLoop(function(dt){th=(th+dt*360/9)%360;draw()});
+  function stop(){lp.stop();$('#pp').textContent='پخش یک ماه'}
+  $('#pp').onclick=function(){if(lp.running){stop()}else{lp.start();this.textContent='توقف'}};
+  $('#psh').onclick=function(){show=!show;this.classList.toggle('act',show);draw()};
+  draw();onSlide('s3a',{off:stop});
+})();
+
+/* ---------- 3b: eclipse + tidal lock ---------- */
+var b=$('#r3b');
+b.innerHTML=head('3','گرفتگی و قفل کشندی','دو راز بزرگ ماه')+
+ '<div class="grid2 rise" style="--i:3"><div class="panel"><h3>چرا هر ماه، ماه‌گرفتگی نداریم؟</h3><canvas class="cv" id="ec" width="640" height="400" role="img" aria-label="عبور ماه از سایه‌ی زمین"></canvas>'+
+ '<div class="ctl"><label for="eo"><span>فاصله‌ی ماه از مرکز سایه (بالا یا پایین)</span><b id="eov"></b></label><input id="eo" type="range" min="-5.1" max="5.1" step=".05" value=".3"></div>'+
+ '<div class="row"><button class="btn sm" id="eg3" type="button">ماه کامل بعدی</button><button class="tab" id="e0" type="button">اگر مدار هم‌صفحه بود (۰°)</button></div>'+
+ '<div class="pmsg" id="em"></div><div class="lab" id="ec2"></div></div>'+
+ '<div class="panel"><h3>قفل کشندی: همیشه یک روی ماه</h3><svg class="cv" id="tl" viewBox="0 0 360 340" role="img" aria-label="چرخش همگام ماه"></svg>'+
+ '<div class="row" id="tlm"></div><div class="pmsg" id="tm2"></div>'+
+ '<div class="fact">ماه حدود ۴٫۵ میلیارد سال پیش هنوز سریع‌تر می‌چرخید؛ نیروی کشندی زمین چرخشش را آهسته کرد تا با دوره‌ی گردشش برابر شود. ماه هر سال حدود ۳٫۸ سانتی‌متر دورتر می‌شود. به‌خاطر کمی «تکان‌خوردن» (لیبراسیون)، در مجموع حدود ۵۹٪ سطح ماه از زمین دیده می‌شود.</div></div></div>';
+(function(){
+  var c=$('#ec').getContext('2d'),SC=160,CX=320,CY=200,Ru=.687,Rp=1.22,Rm=.259,off=.3,mxd=0,loop=null,fm=0,ecl=0;
+  function status(b){var d=Math.abs(b);return d<=Ru-Rm?['ماه‌گرفتگی <b>کامل</b>: ماه مسی‌رنگ می‌شود','ok']:d<Ru+Rm?['ماه‌گرفتگی <b>جزئی</b>: بخشی از ماه در سایه است','ok']:d<Rp+Rm?['فقط <b>نیم‌سایه</b>: تغییر بسیار کم‌رنگ، تقریباً نامحسوس','']:['<b>بدون گرفتگی</b>: ماه از بالا یا پایین سایه رد می‌شود','no']}
+  function d(){
+    c.fillStyle='#03061a';c.fillRect(0,0,640,400);
+    function circ(x,y,r){c.beginPath();c.arc(x,y,r,0,6.283)}
+    c.fillStyle='rgba(120,110,150,.22)';circ(CX,CY,Rp*SC);c.fill();c.fillStyle='rgba(50,22,24,.75)';circ(CX,CY,Ru*SC);c.fill();
+    c.strokeStyle='rgba(255,255,255,.2)';c.setLineDash([4,5]);circ(CX,CY,Ru*SC);c.stroke();c.setLineDash([]);
+    c.fillStyle='#aab5e8';c.font='13px Vazirmatn,Tahoma';c.textAlign='center';c.fillText('سایه‌ی اصلی',CX,CY-Ru*SC-8);c.fillText('نیم‌سایه',CX,CY-Rp*SC-8);
+    var my=CY-off*SC,mx=CX+mxd*SC;
+    if(Math.abs(off)>1.6){c.fillStyle='#ffc857';c.fillText(off>0?'▲ ماه از این‌جا خیلی بالاتر رد می‌شود ('+nf(Math.abs(off),1)+'°)':'▼ ماه از این‌جا خیلی پایین‌تر رد می‌شود ('+nf(Math.abs(off),1)+'°)',CX,off>0?24:388)}
+    else{
+      c.fillStyle='#ece8d6';circ(mx,my,Rm*SC);c.fill();c.fillStyle='rgba(120,120,110,.35)';[[-.08,-.05,.05],[.07,.06,.07],[.02,-.1,.04]].forEach(function(k){circ(mx+k[0]*SC*2,my+k[1]*SC*2,k[2]*SC*.9);c.fill()});
+      c.save();circ(CX,CY,Rp*SC);c.clip();c.fillStyle='rgba(0,0,0,.28)';circ(mx,my,Rm*SC);c.fill();c.restore();
+      c.save();circ(CX,CY,Ru*SC);c.clip();c.fillStyle='rgba(150,40,20,.82)';circ(mx,my,Rm*SC);c.fill();c.restore();
+    }
+    c.textAlign='start';
+    var s=status(off);msg($('#em'),'بیشینه‌ی نزدیکی: '+s[0],s[1]);$('#eov').textContent=nf(off,2)+' درجه';
+    $('#ec2').textContent=fm?'از '+nf(fm)+' ماه کامل، '+nf(ecl)+' بار ماه‌گرفتگی جزئی یا کامل (قدر واقعی: حدود ۱۲٪؛ سالی حدود ۲ بار از ۱۲ ماه کامل).':'عدد را دستی تغییر بده یا «ماه کامل بعدی» را بزن.';
+  }
+  function run(){if(loop)loop.stop();mxd=-2.1;loop=makeLoop(function(dt){mxd+=dt*1.1;d();if(mxd>2.1){mxd=0;loop.stop();d()}});loop.start()}
+  $('#eo').oninput=function(){off=+this.value;mxd=0;if(loop)loop.stop();d()};
+  $('#e0').onclick=function(){off=0;$('#eo').value=0;run()};
+  $('#eg3').onclick=function(){off=5.145*Math.sin(Math.random()*6.283);off=Math.round(off*20)/20;$('#eo').value=off;fm++;if(Math.abs(off)<Ru+Rm)ecl++;run()};
+  d();onSlide('s3b',{on:function(){d()},off:function(){if(loop)loop.stop();tlp.stop()}});
+  /* tidal lock */
+  var mode=0,al=0,tlp=null,svg=$('#tl');
+  var M=[['همگام (واقعی)',function(a){return a}],['بدون چرخش',function(a){return 0}],['چرخش سریع (۳ برابر)',function(a){return 3*a}]];
+  M.forEach(function(m,i){var bt=document.createElement('button');bt.type='button';bt.className='tab'+(i===0?' act':'');bt.textContent=m[0];bt.onclick=function(){mode=i;$$('.tab',$('#tlm')).forEach(function(x,k){x.classList.toggle('act',k===i)});upd(0)};$('#tlm').appendChild(bt)});
+  function upd(dt){
+    al+=dt*(2*Math.PI/6);var ex=180,ey=170,R=118,mx=ex+R*Math.cos(al),my=ey+R*Math.sin(al),psi=M[mode][1](al);
+    var ax=mx+13*Math.cos(psi+Math.PI),ay=my+13*Math.sin(psi+Math.PI),bx=mx+13*Math.cos(psi),by=my+13*Math.sin(psi);
+    var h='<circle cx="'+ex+'" cy="'+ey+'" r="'+R+'" fill="none" stroke="rgba(160,180,255,.3)" stroke-dasharray="4 5"/><circle cx="'+ex+'" cy="'+ey+'" r="22" fill="#2f7dff"/><text x="'+ex+'" y="'+(ey+4)+'" class="ot" text-anchor="middle" fill="#fff">زمین</text>';
+    h+='<line x1="'+mx+'" y1="'+my+'" x2="'+ex+'" y2="'+ey+'" stroke="rgba(255,255,255,.15)"/><circle cx="'+mx+'" cy="'+my+'" r="15" fill="#c9ccdb"/><circle cx="'+ax+'" cy="'+ay+'" r="5" fill="#ffc857"/><circle cx="'+bx+'" cy="'+by+'" r="4" fill="#4fd8ff"/>';
+    h+='<text x="180" y="326" class="ot" text-anchor="middle"><tspan fill="#ffc857">● رویه‌ای که علامت زدیم</tspan>   <tspan fill="#4fd8ff">● رویه‌ی مقابل</tspan></text>';
+    svg.innerHTML=h;
+    msg($('#tm2'),mode===0?'علامت زرد همیشه به زمین نگاه می‌کند: فقط یک روی ماه دیده می‌شود.':mode===1?'اگر ماه نمی‌چرخید، به‌مرور همه‌ی رویه‌هایش را از زمین می‌دیدیم.':'اگر سریع می‌چرخید، همه‌ی رویه‌ها پشت‌سرهم دیده می‌شد.',mode===0?'ok':'');
+  }
+  tlp=makeLoop(function(dt){upd(dt)});upd(0);
+  onSlide('s3b',{on:function(){d();tlp.start()},off:function(){if(loop)loop.stop();tlp.stop()}});
+})();
+
+/* ---------- 3c: Newton's cannon + jump + Artemis ---------- */
+var cx0=$('#r3c');
+cx0.innerHTML=head('3','توپ نیوتن و پرش روی ماه','چرا ماهواره‌ها نمی‌افتند؟ و تو روی ماه چقدر می‌پری؟')+
+ '<div class="grid2 rise" style="--i:3"><div class="panel"><h3>توپ نیوتن</h3><canvas class="cv" id="nc" width="640" height="420" role="img" aria-label="مسیر پرتاب از بالای کوه"></canvas>'+
+ '<div class="ctl"><label for="nv"><span>سرعت پرتاب افقی</span><b id="nvv"></b></label><input id="nv" type="range" min="1" max="12" step=".05" value="5"></div>'+
+ '<div class="row"><button class="btn sm" id="nl" type="button">پرتاب!</button><button class="tab" data-v="7.85" type="button">سرعت مداری</button><button class="tab" data-v="9.5" type="button">بیضی بلند</button><button class="tab" data-v="11.3" type="button">فرار</button></div>'+
+ '<div class="pmsg" id="nm"></div></div>'+
+ '<div class="panel"><h3>وزن و پرش روی دنیاهای دیگر</h3><div class="grid2"><div class="ctl"><label for="jw"><span>وزن تو</span><b id="jwv"></b></label><input id="jw" type="range" min="30" max="110" value="60"></div>'+
+ '<div class="ctl"><label for="jh"><span>پرش روی زمین</span><b id="jhv"></b></label><input id="jh" type="range" min=".2" max="1" step=".05" value=".5"></div></div>'+
+ '<div class="row"><select id="jb" aria-label="جرم"></select></div><canvas class="cv" id="jc" width="520" height="250" role="img" aria-label="مقایسه‌ی پرش روی زمین و جرم انتخابی"></canvas><div class="tiles" id="jt"></div>'+
+ '<div class="fact">فضانوردان آپولو با لباس و کوله‌پشتی (حدود ۸۰ کیلوگرم جرم) پرش‌هایی کوتاه‌تر از آنچه این محاسبه‌ی ساده می‌دهد داشتند.</div></div></div>'+
+ '<div class="grid3 rise" style="--i:4"><div class="fact"><b>قطب جنوب ماه</b><br>دهانه‌هایی که هرگز نور خورشید نمی‌بینند و یخ آب در آن‌ها یافت شده است؛ هم آب آشامیدنی، هم سوخت موشک.</div>'+
+ '<div class="fact"><b>برنامه‌ی آرتمیس</b><br>بازگشت انسان به ماه و ساخت پایگاه پایدار؛ آرتمیس ۱ در ۲۰۲۲ بدون سرنشین انجام شد. تاریخ مأموریت‌های بعدی را از ناسا بررسی کن.</div>'+
+ '<div class="fact"><b>هلیوم-۳؟</b><br>روی ماه فراوان‌تر از زمین است و سوخت احتمالی همجوشی در آینده؛ اما هنوز نظری است و راکتور عملیاتی ندارد.</div></div>';
+(function(){
+  var c=$('#nc').getContext('2d'),MU=398600,RE=6371,r0=RE+100,PX=105,CXc=320,CYc=235,path=[],cls='';
+  function sim(v){
+    var x=0,y=r0,vx=v,vy=0,dt=4,p=[[x,y]],hit=false;
+    for(var i=0;i<9000;i++){
+      var r=Math.hypot(x,y),ax=-MU*x/(r*r*r),ay=-MU*y/(r*r*r);
+      vx+=ax*dt/2;vy+=ay*dt/2;x+=vx*dt;y+=vy*dt;r=Math.hypot(x,y);ax=-MU*x/(r*r*r);ay=-MU*y/(r*r*r);vx+=ax*dt/2;vy+=ay*dt/2;
+      if(r<RE){hit=true;p.push([x,y]);break}
+      if(i%3===0)p.push([x,y]);
+      if(r>RE*7)break;
+    }
+    return {p:p,hit:hit};
+  }
+  function drawBase(){
+    c.fillStyle='#03061a';c.fillRect(0,0,640,420);
+    var g=c.createRadialGradient(CXc,CYc,PX,CXc,CYc,PX+16);g.addColorStop(0,'rgba(120,190,255,.5)');g.addColorStop(1,'rgba(120,190,255,0)');c.fillStyle=g;c.beginPath();c.arc(CXc,CYc,PX+16,0,6.283);c.fill();
+    c.fillStyle='#2f7dff';c.beginPath();c.arc(CXc,CYc,PX,0,6.283);c.fill();c.fillStyle='#4ccf7a';c.beginPath();c.ellipse(CXc-30,CYc+10,30,22,.3,0,6.283);c.fill();c.beginPath();c.ellipse(CXc+40,CYc+35,20,26,0,0,6.283);c.fill();
+    c.fillStyle='#8a7a6a';c.beginPath();c.moveTo(CXc-16,CYc-PX+3);c.lineTo(CXc,CYc-PX*(r0/RE)-2);c.lineTo(CXc+16,CYc-PX+3);c.fill();
+  }
+  function px(P){return [CXc+P[0]/RE*PX,CYc-P[1]/RE*PX]}
+  var drawn=null;
+  function draw(v){
+    drawBase();var s=sim(v);path=s.p;
+    c.strokeStyle='#ffc857';c.lineWidth=2.4;c.beginPath();path.forEach(function(P,i){var q=px(P);if(i)c.lineTo(q[0],q[1]);else c.moveTo(q[0],q[1])});c.stroke();
+    if(s.hit){var q=px(path[path.length-1]);c.fillStyle='#ff6a5c';c.font='20px sans-serif';c.fillText('✕',q[0]-7,q[1]+7)}
+    var vc=Math.sqrt(MU/r0),ve=vc*Math.SQRT2,m;
+    if(s.hit){m=['توپ پیش از یک دور کامل روی زمین می‌افتد','no']}
+    else if(Math.abs(v-vc)<.06){m=['<b>مدار تقریباً دایره‌ای</b>: توپ ماهواره‌ی زمین شد!','ok']}
+    else if(v<ve){m=['<b>مدار بیضی</b>: توپ دور زمین می‌چرخد و برمی‌گردد','ok']}
+    else{m=['<b>فرار از گرانش زمین</b>: دیگر برنمی‌گردد (سرعت فرار ≈ '+nf(ve,1)+' کیلومتر بر ثانیه)','ok']}
+    msg($('#nm'),m[0],m[1]);$('#nvv').textContent=nf(v,2)+' کیلومتر بر ثانیه';
+  }
+  var lp=null;
+  $('#nv').oninput=function(){if(lp)lp.stop();draw(+this.value)};
+  $$('[data-v]',cx0).forEach(function(b){b.onclick=function(){var v=+b.getAttribute('data-v');$('#nv').value=v;draw(v);launch()}});
+  function launch(){
+    if(lp)lp.stop();var v=+$('#nv').value;draw(v);var i=0;
+    lp=makeLoop(function(dt){i+=Math.max(1,Math.round(path.length/180));if(i>=path.length){lp.stop();return}draw(v);var q=px(path[i]);c.fillStyle='#fff';c.beginPath();c.arc(q[0],q[1],6,0,6.283);c.fill()});
+    lp.start();
+  }
+  $('#nl').onclick=launch;draw(5);
+  onSlide('s3c',{off:function(){if(lp)lp.stop();if(jl)jl.stop()},on:function(){if(jl)jl.start()}});
+  /* jump */
+  var BD=[['ماه',.1654],['مریخ',.379],['عطارد',.378],['زهره',.904],['مشتری',2.528],['زحل',1.065],['پلوتو',.062]];
+  BD.forEach(function(b,i){var o=document.createElement('option');o.value=i;o.textContent=b[0];$('#jb').appendChild(o)});
+  var jc=$('#jc').getContext('2d'),jl=null,tau=0;
+  function jinfo(){
+    var w=+$('#jw').value,h0=+$('#jh').value,b=BD[+$('#jb').value],g=b[1];
+    $('#jwv').textContent=nf(w)+' کیلوگرم';$('#jhv').textContent=nf(h0,2)+' متر';
+    var h=h0/g,t0=2*Math.sqrt(2*h0/9.81),t=t0/g;
+    $('#jt').innerHTML='<div class="tile"><span>وزن روی '+b[0]+'</span><b>'+nf(w*g,1)+' کیلوگرم</b></div><div class="tile"><span>ارتفاع پرش</span><b>'+nf(h,2)+' متر</b></div><div class="tile"><span>زمان در هوا</span><b>'+nf(t,1)+' ثانیه (زمین: '+nf(t0,1)+')</b></div>';
+    return {h:h,h0:h0,t:t,t0:t0,g:g};
+  }
+  var J=jinfo();
+  ['jw','jh','jb'].forEach(function(id){$('#'+id).oninput=$('#'+id).onchange=function(){J=jinfo()}});
+  function jdraw(dt){
+    tau+=dt;var cyc=Math.max(J.t,J.t0)+.6;if(tau>cyc)tau=0;
+    jc.fillStyle='#03061a';jc.fillRect(0,0,520,250);jc.fillStyle='#1d2a55';jc.fillRect(0,220,520,30);
+    var sc=170/Math.max(J.h,J.h0,.3);
+    function ball(x,T,h,col,lab){var y=0;if(tau<T){y=h*4*(tau/T)*(1-tau/T)}
+      jc.strokeStyle='rgba(255,255,255,.22)';jc.setLineDash([4,5]);jc.beginPath();jc.moveTo(x-50,220-h*sc);jc.lineTo(x+50,220-h*sc);jc.stroke();jc.setLineDash([]);
+      jc.fillStyle=col;jc.beginPath();jc.arc(x,220-12-y*sc,12,0,6.283);jc.fill();jc.fillStyle='#fff';jc.font='13px Vazirmatn,Tahoma';jc.textAlign='center';jc.fillText(lab,x,242);jc.fillStyle='#ffc857';jc.fillText(nf(h,2)+' متر',x,212-h*sc-8)}
+    ball(150,J.t0,J.h0,'#4fd8ff','زمین');ball(370,J.t,J.h,'#ffc857',BD[+$('#jb').value][0]);jc.textAlign='start';
+  }
+  jl=makeLoop(jdraw);
+})();
+})();
+
+/* ===== section 4: Sun ===== */
+(function(){
+function sci(x){var e=Math.floor(Math.log10(x)),m=x/Math.pow(10,e);return nf(m,1)+' × ۱۰<sup>'+nf(e)+'</sup>'}
+var a=$('#r4a');
+a.innerHTML=hook('4','تفاوت بمب هیدروژنی با خورشید چیست؟ و خورشید بدون اکسیژن چطور «می‌سوزد»؟',
+ 'خورشید <b>نمی‌سوزد</b>؛ سوختن یک واکنش شیمیایی است. خورشید <b>همجوشی هسته‌ای</b> می‌کند: هیدروژن به هلیوم تبدیل می‌شود. در بمب، این واکنش بی‌کنترل و در کسری از ثانیه رخ می‌دهد؛ در خورشید، گرانش هسته را فشرده نگه می‌دارد و واکنش آرام و پایدار است. حتی چگالی توان هسته‌ی خورشید فقط حدود <b>۲۷۰ وات بر مترمکعب</b> است، شبیه یک توده‌ی کمپوست!')+
+ '<div class="grid21 rise" style="--i:3"><div class="panel" style="display:flex;flex-direction:column;align-items:center;gap:8px"><svg class="cv" id="sl4" viewBox="0 0 400 400" style="max-width:430px" role="img" aria-label="برش عرضی خورشید"></svg><div class="hint">روی هر لایه بزن</div></div>'+
+ '<div style="display:flex;flex-direction:column;gap:10px"><div class="panel"><h3 id="sln"></h3><div class="tiles" id="slt"></div><div class="fact" id="slf" style="margin-top:8px"></div></div>'+
+ '<div class="panel"><h4>E = mc² در عمل</h4><div class="row" id="emb"></div><div class="tiles" id="emt" style="margin-top:8px"></div></div></div></div>';
+(function(){
+  var L=[
+   {id:'corona',n:'تاج (کرونا)',r:190,c:'rgba(180,200,255,.18)',t:[['دما','۱ تا ۳ میلیون درجه'],['دیدن','هنگام خورشیدگرفتگی کامل']],f:'تاج از سطح هم بسیار داغ‌تر است و علتش هنوز بخشی از معمای فیزیک خورشید است. باد خورشیدی از همین‌جا به فضا می‌وزد.'},
+   {id:'chromo',n:'کروموسفر',r:142,c:'rgba(255,90,110,.55)',t:[['دما','حدود ۲۰ هزار درجه'],['ضخامت','چند هزار کیلومتر']],f:'لایه‌ی نازک قرمزرنگ. در خورشیدگرفتگی کامل، حلقه‌ی صورتی-قرمز دور ماه دیده می‌شود.'},
+   {id:'photo',n:'فوتوسفر (سطح مرئی)',r:132,c:'#ffd45a',t:[['دما','حدود ۵٬۵۰۰ درجه'],['لکه‌ها','حدود ۳٬۵۰۰ تا ۴٬۵۰۰ درجه']],f:'سطحی که می‌بینیم. لکه‌های خورشیدی چون سردترند، تیره‌تر دیده می‌شوند و جای میدان مغناطیسی قوی‌اند.'},
+   {id:'conv',n:'منطقه‌ی همرفت',r:128,c:'#ff9a3c',t:[['حرکت','بالا و پایین رفتن گاز داغ'],['دما','از ۲ میلیون تا ۵٫۵ هزار درجه']],f:'مثل آب در حال جوشیدن، گاز داغ بالا می‌آید، خنک می‌شود و فرو می‌رود؛ از همین رو سطح خورشید «دانه‌دانه» است.'},
+   {id:'rad',n:'منطقه‌ی تابشی',r:91,c:'#ff7a3a',t:[['محدوده','۲۵٪ تا ۷۰٪ شعاع'],['زمان خروج یک فوتون','ده‌ها تا صدها هزار سال']],f:'نور آن‌قدر در گاز چگال برخورد می‌کند که یک فوتون در این لایه ده‌ها هزار تا بیش از صد هزار سال طول می‌کشد تا بیرون بیاید (برآوردها متفاوت‌اند).'},
+   {id:'core',n:'هسته',r:34,c:'#fff3b0',t:[['دما','حدود ۱۵ میلیون درجه'],['همجوشی','حدود ۶۰۰ میلیون تن هیدروژن در هر ثانیه']],f:'چهار هسته‌ی هیدروژن به یک هلیوم تبدیل می‌شود و حدود ۰٫۷٪ جرم به انرژی بدل می‌گردد. خورشید در هر ثانیه حدود ۴٫۳ میلیون تن از جرم خود را به انرژی تبدیل می‌کند.'}
+  ];
+  var s=$('#sl4'),h='<defs><radialGradient id="cg"><stop offset=".55" stop-color="rgba(255,230,180,.5)"/><stop offset="1" stop-color="rgba(255,230,180,0)"/></radialGradient></defs>';
+  L.forEach(function(l){h+='<circle class="sly" data-id="'+l.id+'" cx="200" cy="200" r="'+l.r+'" fill="'+l.c+'"/>'});
+  h+='<text x="200" y="206" text-anchor="middle" class="rt" style="pointer-events:none;fill:#3a1d00">هسته</text>';
+  s.innerHTML=h;
+  function show(id){
+    var l=L.filter(function(x){return x.id===id})[0];
+    $$('.sly',s).forEach(function(c){c.classList.toggle('act',c.getAttribute('data-id')===id)});
+    $('#sln').textContent=l.n;$('#slt').innerHTML=l.t.map(function(x){return '<div class="tile"><span>'+x[0]+'</span><b>'+x[1]+'</b></div>'}).join('');
+    var f=$('#slf');f.textContent=l.f;f.classList.remove('swap');void f.offsetWidth;f.classList.add('swap');
+  }
+  $$('.sly',s).forEach(function(c){c.onclick=function(){show(c.getAttribute('data-id'))}});
+  show('core');
+  var E=[['۱ گرم',1e-3],['۱ کیلوگرم',1],['خورشید در ۱ ثانیه (۴٫۳ میلیون تن)',4.26e9]];
+  E.forEach(function(e,i){var b=document.createElement('button');b.type='button';b.className='tab';b.textContent=e[0];b.onclick=function(){
+    $$('.tab',$('#emb')).forEach(function(x,k){x.classList.toggle('act',k===i)});
+    var J=e[1]*9e16,tnt=J/4.184e9;
+    $('#emt').innerHTML='<div class="tile"><span>انرژی</span><b>'+sci(J)+' ژول</b></div><div class="tile"><span>برابر با (TNT)</span><b>'+(tnt<1e6?nf(tnt/1000,tnt<1e5?1:0)+' کیلوتن':sci(tnt)+' تن')+'</b></div>'};
+    $('#emb').appendChild(b)});
+  $('#emb').children[0].click();
+})();
+
+/* ---------- 4b ---------- */
+var b=$('#r4b');
+b.innerHTML=head('4','طوفان خورشیدی، شفق قطبی و ایمنی','وقتی خورشید «آروغ» می‌زند، زمین می‌فهمد')+
+ '<div class="grid21 rise" style="--i:3"><div class="panel"><canvas class="cv" id="ac" width="640" height="320" role="img" aria-label="شفق قطبی"></canvas>'+
+ '<div class="ctl"><label for="ag"><span>شدت طوفان ژئومغناطیسی (مقیاس G)</span><b id="agv"></b></label><input id="ag" type="range" min="1" max="5" value="2"></div>'+
+ '<div class="callout" id="ai"></div>'+
+ '<div class="fact" style="margin-top:8px">رنگ‌ها: <b style="color:#5cf2b0">سبز</b> اکسیژن در ارتفاع ۱۰۰ تا ۲۵۰ کیلومتر · <b style="color:#ff6b9a">قرمز</b> اکسیژن بسیار بالاتر · <b style="color:#b98cff">بنفش/صورتی</b> لبه‌ی پایین، نیتروژن.</div></div>'+
+ '<div style="display:flex;flex-direction:column;gap:10px"><div class="panel"><h3>یک شراره تا زمین</h3><div class="sf" id="sf"><div class="sf-sun" id="sfS"></div><div class="sf-e"></div><div class="sf-p" id="sfP"></div></div>'+
+ '<div class="row"><button class="btn sm" id="sfb" type="button">شراره!</button></div><div class="pmsg" id="sfm"></div>'+
+ '<ul class="list"><li><b>۸ دقیقه:</b> نور و پرتو ایکس؛ قطع امواج رادیویی کوتاه</li><li><b>دقایق تا ساعت‌ها:</b> ذرات پرانرژی؛ خطر برای فضانوردان و ماهواره‌ها</li><li><b>۱ تا ۳ روز:</b> ابر پلاسما (CME)؛ طوفان ژئومغناطیسی و شفق</li></ul></div>'+
+ '<div class="callout warn"><b>ایمنی رصد:</b> هرگز بدون فیلتر خورشیدی استاندارد (عینک مخصوص خورشیدگرفتگی یا فیلتر مایلار/شیشه‌ای مخصوص) به خورشید نگاه نکن. فیلتر باید <b>جلوی تلسکوپ</b> نصب شود، نه پشت چشمی. نگاه کوتاه بدون فیلتر هم می‌تواند شبکیه را برای همیشه آسیب بزند؛ حتی در خورشیدگرفتگی جزئی.</div></div></div>';
+(function(){
+  var c=$('#ac').getContext('2d'),W0=640,H0=320,g=2,cur=null,tm=[];
+  var FX=[
+   ['ضعیف','نوسان جزئی در شبکه‌ی برق؛ شفق فقط نزدیک قطب (حدود ۶۰° عرض ژئومغناطیسی)',60],
+   ['متوسط','ممکن است سامانه‌های ماهواره‌ای کمی خطا کنند؛ شفق تا حدود ۵۵°',55],
+   ['قوی','خطا در ماهواره و GPS، ایرادهای محدود در شبکه‌ی برق؛ شفق تا حدود ۵۰°',50],
+   ['شدید','مشکلات گسترده‌ی شبکه‌ی برق و ناوبری؛ شفق تا حدود ۴۵°',45],
+   ['فوق‌العاده','احتمال خاموشی گسترده و آسیب ماهواره‌ها؛ شفق تا حدود ۴۰° (مثل طوفان مه ۲۰۲۴ و رویداد کرینگتون ۱۸۵۹)',40]];
+  var tr=[];for(var i=0;i<46;i++)tr.push({x:i*14+Math.random()*8,h:34+Math.random()*60});
+  var st=[];for(i=0;i<160;i++)st.push([Math.random()*W0,Math.random()*H0*.7,Math.random()*1.3+.3]);
+  function info(){var f=FX[g-1];$('#agv').textContent='G'+nf(g)+' ('+f[0]+')';
+    $('#ai').innerHTML='<b>G'+nf(g)+':</b> '+f[1]+'.<br><span class="lab">مشهد حدود ۳۰° عرض ژئومغناطیسی دارد؛ شفق در ایران تقریباً هرگز دیده نمی‌شود، حتی در طوفان‌های G5.</span>'}
+  var lp=makeLoop(function(dt,t){
+    var I=g/5;
+    c.fillStyle='#02040f';c.fillRect(0,0,W0,H0);var gg=c.createLinearGradient(0,0,0,H0);gg.addColorStop(0,'#02040f');gg.addColorStop(1,'#0a1630');c.fillStyle=gg;c.fillRect(0,0,W0,H0);
+    st.forEach(function(s){c.fillStyle='rgba(255,255,255,'+(.4+.4*Math.sin(t*s[2]+s[0]))+')';c.fillRect(s[0],s[1],s[2],s[2])});
+    c.globalCompositeOperation='lighter';
+    for(var k=0;k<5;k++){
+      var base=H0*.72,hh=70+I*150;
+      for(var x=0;x<W0;x+=4){
+        var w=Math.sin(x*.012+t*.5+k*1.7)+Math.sin(x*.027-t*.8+k)*.5+Math.sin(x*.005+t*.2)*.7;
+        var top=base-hh*(.55+.3*w)-k*10,al=(.05+.1*I)*(0.6+.4*Math.sin(x*.05+t*1.3+k));
+        var gr=c.createLinearGradient(0,top,0,base);
+        gr.addColorStop(0,'rgba(255,107,154,'+al*.7+')');gr.addColorStop(.35,'rgba(92,242,176,'+al*1.4+')');gr.addColorStop(.85,'rgba(92,242,176,'+al+')');gr.addColorStop(1,'rgba(185,140,255,'+al*.9+')');
+        c.fillStyle=gr;c.fillRect(x,top,4,base-top);
+      }
+    }
+    c.globalCompositeOperation='source-over';
+    c.fillStyle='#02030a';c.fillRect(0,H0-34,W0,34);tr.forEach(function(q){c.beginPath();c.moveTo(q.x-9,H0-30);c.lineTo(q.x,H0-30-q.h*.55);c.lineTo(q.x+9,H0-30);c.fill()});
+  });
+  $('#ag').oninput=function(){g=+this.value;info()};info();
+  /* flare timeline */
+  function reset(){tm.forEach(clearTimeout);tm=[];$('#sfS').className='sf-sun';$('#sfP').className='sf-p';msg($('#sfm'),'')}
+  $('#sfb').onclick=function(){
+    reset();void $('#sfS').offsetWidth;$('#sfS').classList.add('fl');
+    msg($('#sfm'),'شراره روی خورشید...');
+    tm.push(setTimeout(function(){$('#sfP').classList.add('p1');msg($('#sfm'),'<b>پس از ۸ دقیقه:</b> نور و پرتو ایکس رسید. قطع امواج رادیویی کوتاه.')},1300));
+    tm.push(setTimeout(function(){$('#sfP').classList.add('p2');msg($('#sfm'),'<b>پس از ساعت‌ها:</b> ذرات پرانرژی رسیدند؛ خطر برای فضانوردان و ماهواره‌ها.','no')},3100));
+    tm.push(setTimeout(function(){$('#sfP').classList.add('p3');msg($('#sfm'),'<b>پس از ۱ تا ۳ روز:</b> ابر پلاسما رسید. طوفان ژئومغناطیسی و شفق قطبی!','ok')},5600));
+  };
+  onSlide('s4b',{on:function(){lp.start()},off:function(){lp.stop();reset()}});
+})();
+})();
+
+/* ===== section 5: Solar system ===== */
+(function(){
+var P=function(s){return fa(s).replace(/,/g,'٬').replace(/\./g,'٫')};
+var PL=window.PL=[
+{id:'mercury',n:'عطارد',type:'rock',kind:'سیاره‌ی سنگی',cols:['#e4dfd8','#a39b91','#4b4540'],fx:'crater',r:.38,
+ story:'کوچک‌ترین و نزدیک‌ترین سیاره به خورشید؛ سطحی پر از دهانه، شبیه ماه.',
+ stats:[['قطر','4,879 کیلومتر'],['فاصله از خورشید','57.9 میلیون کیلومتر'],['طول سال','88 روز زمینی'],['طول روز (چرخش)','59 روز زمینی'],['قمر','ندارد'],['دما','از ‎−180 تا 430 درجه'],['گرانش','0.38 زمین'],['جو','تقریباً ندارد']],
+ deep:['یک روز خورشیدی (طلوع تا طلوع بعدی) ۱۷۶ روز زمینی است؛ دو برابر سالش!','بدون جو، سمت آفتابی بسیار داغ و سمت شب بسیار سرد است.','در دهانه‌های همیشه‌سایه‌ی قطبی‌اش یخ آب پیدا شده است.','مسنجر (۲۰۱۱ تا ۲۰۱۵) دورش چرخید؛ بپی‌کلمبو در راه است (رسیدن: حدود پایان ۲۰۲۶).']},
+{id:'venus',n:'زهره',type:'rock',kind:'سیاره‌ی سنگی',cols:['#fff1c9','#e8b66b','#9a6a2c'],fx:'cloud',r:.95,
+ story:'درخشان‌ترین سیاره‌ی آسمان («ستاره‌ی صبح و شام») و داغ‌ترین سیاره‌ی منظومه، حتی از عطارد داغ‌تر.',
+ stats:[['قطر','12,104 کیلومتر'],['فاصله از خورشید','108.2 میلیون کیلومتر'],['طول سال','225 روز زمینی'],['طول روز (چرخش)','243 روز زمینی (وارونه)'],['قمر','ندارد'],['دمای سطح','حدود 464 درجه'],['گرانش','0.90 زمین'],['جو','دی‌اکسید کربن، فشار 92 برابر زمین']],
+ deep:['اثر گلخانه‌ای افسارگسیخته دمای سطحش را به ۴۶۴ درجه رسانده است.','ابرهایش از اسید سولفوریک است؛ باران اسید پیش از رسیدن به سطح تبخیر می‌شود.','برخلاف بیشتر سیاره‌ها وارونه می‌چرخد و روزش از سالش طولانی‌تر است.','کاوشگرهای ونرا (شوروی) روی سطحش فقط تا ۱۲۷ دقیقه دوام آوردند.']},
+{id:'earth',n:'زمین',type:'rock',kind:'سیاره‌ی سنگی',cols:['#bff4ff','#2f7dff','#0d2f78'],fx:'earth',r:1,
+ story:'خانه‌ی ما و تنها جایی که تاکنون می‌دانیم در آن حیات هست. حدود ۷۱٪ سطحش را آب پوشانده است.',
+ stats:[['قطر','12,742 کیلومتر'],['فاصله از خورشید','149.6 میلیون کیلومتر'],['طول سال','365.25 روز'],['طول روز (چرخش)','24 ساعت'],['قمر','1 (ماه)'],['دمای میانگین','حدود 15 درجه'],['گرانش','1 (مبنا)'],['جو','78٪ نیتروژن، 21٪ اکسیژن']],
+ deep:['میدان مغناطیسی و جو، سپر زندگی روی زمین هستند.','با سرعت حدود ۱۰۷ هزار کیلومتر بر ساعت دور خورشید می‌چرخد.','فاصله‌ی زمین تا خورشید، یک «واحد نجومی» است.']},
+{id:'mars',n:'مریخ',type:'rock',kind:'سیاره‌ی سنگی',cols:['#ffd2b0','#d6623a','#5e2412'],fx:'crater',r:.53,
+ story:'سیاره‌ی سرخ؛ خاک آهن‌دارش زنگ‌زده است. روزش تقریباً هم‌اندازه‌ی روز زمین است و ربات‌هایمان رویش کار می‌کنند.',
+ stats:[['قطر','6,779 کیلومتر'],['فاصله از خورشید','227.9 میلیون کیلومتر'],['طول سال','687 روز زمینی'],['طول روز (چرخش)','24 ساعت و 37 دقیقه'],['قمر','2 (فوبوس و دیموس)'],['دما','میانگین ‎−65 (از ‎−125 تا 20)'],['گرانش','0.38 زمین'],['جو','نازک، بیشتر CO₂؛ فشار 0.6٪ زمین']],
+ deep:['المپوس مونس، بلندترین کوه شناخته‌شده‌ی منظومه، حدود ۲۲ کیلومتر ارتفاع دارد؛ حدود ۲٫۵ برابر اورست.','دره‌ی مارینر حدود ۴ هزار کیلومتر طول و تا ۷ کیلومتر عمق دارد.','نشانه‌هایی از آب مایع در گذشته‌ی دور یافت شده است.','کنجکاوی (۲۰۱۲) و استقامت (۲۰۲۱) روی آن کار می‌کنند؛ هلیکوپتر نبوغ ۷۲ پرواز انجام داد.']},
+{id:'jupiter',n:'مشتری',type:'gas',kind:'غول گازی',cols:['#fff0dc','#d9a56b','#8a5a34'],fx:'bands',r:11.2,
+ story:'بزرگ‌ترین سیاره؛ بیشتر هیدروژن و هلیوم. جرمش بیش از ۲ برابر مجموع جرم همه‌ی سیاره‌های دیگر است.',
+ stats:[['قطر','139,820 کیلومتر'],['فاصله از خورشید','778.5 میلیون کیلومتر'],['طول سال','11.9 سال زمینی'],['طول روز (چرخش)','حدود 10 ساعت'],['قمر','حدود 95 (در حال به‌روزرسانی)'],['دمای ابرها','حدود ‎−110 درجه'],['گرانش','2.53 زمین'],['حلقه','دارد (کم‌نور)']],
+ deep:['لکه‌ی سرخ بزرگ طوفانی بزرگ‌تر از زمین است که دست‌کم ۱۵۰ سال دوام آورده (و کوچک می‌شود).','چهار قمر بزرگ گالیله‌ای (آیو، اروپا، گانیمد، کالیستو) با دوربین دوچشمی دیده می‌شوند.','اروپا زیر پوسته‌ی یخی‌اش اقیانوس آب مایع دارد و یکی از کاندیداهای حیات است.','گانیمد بزرگ‌ترین قمر منظومه است، حتی بزرگ‌تر از عطارد.']},
+{id:'saturn',n:'زحل',type:'gas',kind:'غول گازی',cols:['#fff3d4','#e3c58b','#8f7240'],fx:'saturn',r:9.45,
+ story:'سیاره‌ی حلقه‌دار. حلقه‌هایش از میلیاردها تکه‌ی یخ و سنگ ساخته شده و چگالی متوسط خود سیاره از آب کمتر است.',
+ stats:[['قطر','116,460 کیلومتر'],['فاصله از خورشید','1.43 میلیارد کیلومتر'],['طول سال','29.4 سال زمینی'],['طول روز (چرخش)','حدود 10.7 ساعت'],['قمر','بیش از 270'],['دمای ابرها','حدود ‎−140 درجه'],['گرانش','1.07 زمین'],['حلقه','پهن اما بسیار نازک']],
+ deep:['اگر حوضی به‌اندازه‌ی کافی بزرگ پیدا می‌شد، زحل روی آب شناور می‌ماند.','حلقه‌ها صدها هزار کیلومتر پهن‌اند اما ضخامتشان معمولاً چند ده متر است.','تیتان جو غلیظ و دریاچه‌های متان دارد؛ انسلادوس از قطب جنوبش فواره‌ی آب یخی بیرون می‌دهد.','کاسینی از ۲۰۰۴ تا ۲۰۱۷ دور زحل بود.']},
+{id:'uranus',n:'اورانوس',type:'ice',kind:'غول یخی',cols:['#e6ffff','#7fdde0','#2b7f8a'],fx:'ring',r:4,
+ story:'سیاره‌ای فیروزه‌ای که روی پهلو می‌چرخد. متان جو، نور قرمز را جذب می‌کند و آن را آبی-سبز نشان می‌دهد.',
+ stats:[['قطر','50,724 کیلومتر'],['فاصله از خورشید','2.87 میلیارد کیلومتر'],['طول سال','84 سال زمینی'],['طول روز (چرخش)','17 ساعت'],['قمر','29'],['دما','حدود ‎−195 درجه'],['گرانش','0.89 زمین'],['کجی محور','98 درجه']],
+ deep:['ویلیام هرشل در ۱۷۸۱ با تلسکوپ کشفش کرد؛ اولین سیاره‌ی کشف‌شده با تلسکوپ.','احتمالاً برخوردی عظیم محورش را خوابانده است.','فقط یک فضاپیما (وویجر ۲، ۱۹۸۶) از نزدیک دیده است.']},
+{id:'neptune',n:'نپتون',type:'ice',kind:'غول یخی',cols:['#c9e2ff','#3d6dff','#14247a'],fx:'bands',r:3.9,
+ story:'دورترین سیاره‌ی منظومه؛ آبی عمیق و سرد، با تندترین بادهای شناخته‌شده در منظومه‌ی شمسی.',
+ stats:[['قطر','49,244 کیلومتر'],['فاصله از خورشید','4.5 میلیارد کیلومتر'],['طول سال','165 سال زمینی'],['طول روز (چرخش)','16 ساعت'],['قمر','16'],['دما','حدود ‎−200 درجه'],['گرانش','1.14 زمین'],['باد','تا حدود 2,000 کیلومتر بر ساعت']],
+ deep:['در ۱۸۴۶ ابتدا با محاسبه‌ی ریاضی پیش‌بینی و بعد با تلسکوپ پیدا شد.','تریتون برخلاف جهت چرخش نپتون می‌گردد؛ احتمالاً از کمربند کوییپر گرفتار شده است.','در ۲۰۱۱ برای نخستین بار از زمان کشفش یک دور کامل دور خورشید را تمام کرد.','فقط وویجر ۲ (۱۹۸۹) از نزدیک دیده است.']},
+{id:'pluto',n:'پلوتو',type:'dwarf',kind:'سیاره‌ی کوتوله',cols:['#fff2e6','#d9b99a','#6f4f3c'],fx:'crater',r:.18,
+ story:'جرمی کوچک و یخی در کمربند کوییپر. در ۲۰۰۶ به «سیاره‌ی کوتوله» تغییر نام داد چون مدارش را از اجرام دیگر پاک نکرده است.',
+ stats:[['قطر','2,377 کیلومتر'],['فاصله از خورشید','حدود 5.9 میلیارد کیلومتر'],['طول سال','248 سال زمینی'],['طول روز (چرخش)','6.4 روز زمینی'],['قمر','5 (شارون بزرگ‌ترین)'],['دما','حدود ‎−230 درجه'],['گرانش','0.06 زمین'],['کشف','۱۹۳۰، کلاید تامبو']],
+ deep:['نیوهورایزنز در ۲۰۱۵ از کنارش گذشت و «قلب» سفیدش را دید.','شارون نیمی از اندازه‌ی پلوتو است؛ هر دو همیشه یک روی خود را به هم نشان می‌دهند.','سیاره‌های کوتوله‌ی دیگر: سرس، اریس، هائومیا و ماکه‌ماکه.']}
+];
+function sph(b,s){return '<span class="sph '+b.fx+'" style="width:'+s+'px;height:'+s+'px;background:radial-gradient(circle at 35% 30%,'+b.cols[0]+','+b.cols[1]+' 48%,'+b.cols[2]+')"></span>'}
+window.planetSph=sph;
+
+/* ---------- 5a explorer ---------- */
+var a=$('#r5a');
+a.innerHTML=hook('5','در کدام سیاره باران اسید سولفوریک می‌بارد؟ و کدام سیاره کوهی ۲٫۵ برابر اورست دارد؟',
+ '<b>زهره</b> (باران اسید که پیش از رسیدن به سطح تبخیر می‌شود) و <b>مریخ</b> (کوه المپوس مونس با حدود ۲۲ کیلومتر ارتفاع). روی هر سیاره بزن و ویژگی‌های شگفت‌انگیزش را بخوان.')+
+ '<div class="pick rise" style="--i:3" id="pk5"></div><div class="grid2 rise" style="--i:4;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr)" id="pc5"></div>';
+(function(){
+  var pk=$('#pk5');
+  PL.forEach(function(b,i){var s=Math.min(52,12+10*Math.sqrt(b.r));var btn=document.createElement('button');btn.type='button';btn.className='pk';btn.innerHTML=sph(b,s)+'<span class="nm">'+b.n+'</span>';btn.onclick=function(){show(i)};pk.appendChild(btn)});
+  function show(i){
+    var b=PL[i],c=$('#pc5');$$('.pk',pk).forEach(function(x,k){x.classList.toggle('act',k===i)});
+    var big=Math.round(86+22*Math.log10(Math.max(b.r,.1)*10));
+    c.innerHTML='<div class="panel" style="display:flex;flex-direction:column;gap:8px;align-items:flex-start"><div style="align-self:center;min-height:130px;display:grid;place-items:center">'+sph(b,big)+'</div><h3 style="margin:0">'+b.n+'</h3><span class="badge '+(b.type==='rock'?'am':b.type==='dwarf'?'mg':'')+'">'+b.kind+'</span><p style="font-size:1rem">'+b.story+'</p></div>'+
+     '<div class="panel"><div class="tiles">'+b.stats.map(function(s){return '<div class="tile"><span>'+s[0]+'</span><b>'+P(s[1])+'</b></div>'}).join('')+'</div><h4 style="margin-top:10px">بدانیم و شگفت‌زده شویم</h4><ul class="list">'+b.deep.map(function(x){return '<li>'+x+'</li>'}).join('')+'</ul></div>';
+    c.classList.remove('swap');void c.offsetWidth;c.classList.add('swap');
+  }
+  show(1);
+})();
+
+/* ---------- 5b compare + Pluto ---------- */
+var b=$('#r5b');
+b.innerHTML=head('5','مقایسه‌گر سیاره‌ها و ماجرای پلوتو','هر ویژگی را انتخاب کن؛ رنگ‌ها نوع سیاره را نشان می‌دهند')+
+ '<div class="grid21 rise" style="--i:3"><div class="panel"><div class="row" style="justify-content:space-between"><select id="cm" aria-label="ویژگی"></select><button class="tab" id="cl" type="button">مقیاس لگاریتمی</button><button class="tab" id="cs" type="button">مرتب‌سازی</button></div>'+
+ '<div class="bars" id="cb"></div><div class="row"><span class="badge am">سنگی</span><span class="badge" style="background:rgba(155,140,255,.18);color:var(--vi)">غول گازی</span><span class="badge">غول یخی</span></div><div class="hint" id="cn"></div></div>'+
+ '<div class="panel"><h3>چرا پلوتو سیاره نماند؟</h3><div class="row" id="pob" style="justify-content:flex-start"></div><div class="row" style="margin:8px 0"><button class="tab" data-c="0" type="button">۱) دور خورشید می‌چرخد؟</button><button class="tab" data-c="1" type="button">۲) به‌اندازه‌ی کافی گرد است؟</button><button class="tab" data-c="2" type="button">۳) مدارش را پاک کرده؟</button></div>'+
+ '<div class="tiles" id="pot"></div><div class="callout" id="pov" style="margin-top:8px"></div><div class="hint" style="margin-top:6px">تعریف اتحادیه‌ی بین‌المللی نجوم (۲۰۰۶): سیاره باید هر سه شرط را داشته باشد.</div></div></div>';
+(function(){
+  var M=[
+   {k:'قطر',u:'کیلومتر',v:[4879,12104,12742,6779,139820,116460,50724,49244],log:true,d:0},
+   {k:'فاصله از خورشید',u:'واحد نجومی',v:[.39,.72,1,1.52,5.2,9.58,19.2,30.07],log:true,d:2},
+   {k:'طول سال',u:'سال زمینی',v:[.241,.615,1,1.88,11.86,29.46,84,164.8],log:true,d:2},
+   {k:'دمای میانگین',u:'درجه‌ی سانتی‌گراد',v:[167,464,15,-65,-110,-140,-195,-200],d:0,note:'برای غول‌ها دمای ابرها در فشار ۱ بار.'},
+   {k:'گرانش سطح',u:'برابر زمین',v:[.38,.9,1,.38,2.53,1.07,.89,1.14],d:2},
+   {k:'تعداد قمرها',u:'قمر (تقریبی)',v:[0,0,1,2,95,274,29,16],d:0,note:'تعداد قمرها مدام با کشف‌های تازه تغییر می‌کند.'},
+   {k:'طول روز (چرخش)',u:'ساعت',v:[1408,5832,24,24.6,9.9,10.7,17.2,16.1],log:true,d:1}
+  ];
+  var sel=$('#cm'),lg=false,srt=false;
+  M.forEach(function(m,i){var o=document.createElement('option');o.value=i;o.textContent=m.k;sel.appendChild(o)});
+  var col={rock:'#ffc857',gas:'#9b8cff',ice:'#4fd8ff'};
+  function draw(){
+    var m=M[+sel.value],ord=PL.slice(0,8).map(function(p,i){return i});
+    if(srt)ord.sort(function(x,y){return m.v[y]-m.v[x]});
+    var vs=m.v,mn=Math.min.apply(null,vs),mx=Math.max.apply(null,vs),useLog=lg&&m.log;
+    $('#cl').disabled=!m.log;$('#cl').classList.toggle('act',useLog);
+    $('#cb').innerHTML=ord.map(function(i){var p=PL[i],v=vs[i],f;
+      if(useLog)f=(Math.log10(v)-Math.log10(Math.max(mn,.01))+.15)/(Math.log10(mx)-Math.log10(Math.max(mn,.01))+.15);
+      else if(m.k==='دمای میانگین')f=(v-mn)/(mx-mn)*.96+.04;
+      else f=v/mx;
+      f=clamp(f,.012,1);
+      return '<div class="br"><span class="bn">'+sph(p,18)+p.n+'</span><span class="bt"><i style="width:'+(f*100)+'%;background:'+col[p.type]+'"></i></span><span class="bv">'+nf(v,m.d)+'</span></div>'}).join('');
+    $('#cn').textContent=m.u+(m.note?' · '+m.note:'')+(useLog?' · مقیاس لگاریتمی':'');
+  }
+  sel.onchange=draw;$('#cl').onclick=function(){lg=!lg;draw()};$('#cs').onclick=function(){srt=!srt;this.classList.toggle('act',srt);draw()};draw();
+  /* Pluto */
+  var OB=[
+   {n:'زمین',c:[1,1,1],r:'<b>سیاره</b>'},{n:'مشتری',c:[1,1,1],r:'<b>سیاره</b>'},
+   {n:'پلوتو',c:[1,1,0],r:'<b>سیاره‌ی کوتوله</b>: در کمربند کوییپر است و مدارش را پاک نکرده'},
+   {n:'اریس',c:[1,1,0],r:'<b>سیاره‌ی کوتوله</b>: از پلوتو سنگین‌تر است و همین بحث ۲۰۰۶ را شعله‌ور کرد'},
+   {n:'سرس',c:[1,1,0],r:'<b>سیاره‌ی کوتوله</b>: بزرگ‌ترین جرم کمربند سیارک‌ها'},
+   {n:'ماه',c:[0,1,0],r:'<b>قمر</b>: دور زمین می‌چرخد، نه خورشید'},
+   {n:'دنباله‌دار هالی',c:[1,0,0],r:'<b>جرم کوچک</b>: به‌اندازه‌ی کافی گرد نیست'}];
+  var cur=2,shown=[0,0,0];
+  OB.forEach(function(o,i){var bt=document.createElement('button');bt.type='button';bt.className='tab'+(i===cur?' act':'');bt.textContent=o.n;bt.onclick=function(){cur=i;shown=[0,0,0];$$('.tab',$('#pob')).forEach(function(x,k){x.classList.toggle('act',k===i)});rp()};$('#pob').appendChild(bt)});
+  $$('[data-c]',b).forEach(function(bt){bt.onclick=function(){shown[+bt.getAttribute('data-c')]=1;rp()}});
+  function rp(){var o=OB[cur];
+    $('#pot').innerHTML=['دور خورشید','گرد (تعادل هیدروستاتیک)','مدار پاک‌شده'].map(function(n,k){return '<div class="tile"><span>'+n+'</span><b style="color:'+(shown[k]?(o.c[k]?'var(--gr)':'var(--rd)'):'var(--mu)')+'">'+(shown[k]?(o.c[k]?'✔ بله':'✘ خیر'):'؟')+'</b></div>'}).join('');
+    $('#pov').innerHTML=(shown[0]&&shown[1]&&shown[2])?'نتیجه برای '+o.n+': '+o.r:'اول حدس بزن، بعد هر شرط را آشکار کن.';
+  }
+  rp();
+})();
+
+/* ---------- 5c survival speed game + Venus ---------- */
+var c=$('#r5c');
+c.innerHTML=head('5','کدام سیاره‌ام؟ (بازی سرعتی) و راز زهره','اگر بدون لباس فضایی فرود بیایی چه می‌شود؟ شرایط را بخوان و سیاره را حدس بزن')+
+ '<div class="grid2 rise" style="--i:3"><div class="panel"><div class="row" style="justify-content:space-between"><h3 style="margin:0">فرود اضطراری</h3><div class="row"><span class="badge am" id="gsc">امتیاز ۰</span><span class="badge" id="grd">دور ۱ از ۸</span></div></div>'+
+ '<div class="gtime"><b id="gtb"></b></div><div class="tiles" id="gcl"></div><div class="row" id="gop" style="margin-top:8px"></div><div class="pmsg" id="gms"></div><div id="gtl"></div><div class="row"><button class="btn sm" id="gnx" type="button" hidden>سیاره‌ی بعدی</button><button class="btn sm ghost" id="gst" type="button">شروع بازی</button></div></div>'+
+ '<div style="display:flex;flex-direction:column;gap:10px"><div class="panel"><h3>چرا زهره از عطارد داغ‌تر است؟</h3><div class="row" id="vtb"></div><div class="gh" id="vgh"></div><div class="callout" id="vco" style="margin-top:8px"></div></div></div></div>';
+(function(){
+  var CL={
+   mercury:{c:[['دما','روز +430 / شب ‎−180'],['فشار هوا','تقریباً صفر'],['هوا','تقریباً هیچ'],['سطح','سنگی و پر از دهانه']],sp:'نزدیک‌ترین سیاره به خورشید؛ نور ۷ برابر زمین',
+    t:['فرود روی سمت روز: نور خورشید حدود ۷ برابر زمین و سطح ۴۳۰ درجه است.','بدون هوا، اکسیژن خونت تمام می‌شود: حدود ۱۰ تا ۱۵ ثانیه تا بیهوشی.','سپس گرما و نبود هوا کار را تمام می‌کنند.'],v:'خلأ + گرمای سمت روز'},
+   venus:{c:[['دما','حدود ۴۶۴ (شب و روز یکسان)'],['فشار هوا','۹۲ برابر زمین'],['هوا','دی‌اکسید کربن؛ ابرهای اسید'],['سطح','سنگی و آتشفشانی']],sp:'داغ‌ترین سیاره؛ وارونه می‌چرخد',
+    t:['در ارتفاع ۵۰ کیلومتری فشار و دما شبیه زمین است، اما هوا سمی و ابرها اسیدی‌اند.','هنگام فرود دما به ۴۶۴ درجه و فشار به ۹۲ برابر می‌رسد، مثل عمق حدود ۹۰۰ متری اقیانوس.','بدن در چند لحظه از کار می‌افتد؛ حتی فضاپیماهای ونرا فقط تا ۱۲۷ دقیقه دوام آوردند.'],v:'گرما + فشار + هوای سمی'},
+   earth:{c:[['دما','حدود +۱۵ (میانگین)'],['فشار هوا','۱ (مبنا)'],['هوا','نیتروژن و اکسیژن'],['سطح','سنگی + ۷۱٪ اقیانوس']],sp:'تنها سیاره‌ی دارای حیات شناخته‌شده',
+    t:['هوا قابل تنفس، دما ملایم و آب مایع فراوان است.','همین‌جا خانه‌ی توست!'],v:'امن! (فعلاً)'},
+   mars:{c:[['دما','میانگین ‎−۶۵'],['فشار هوا','حدود ۰٫۶٪ زمین'],['هوا','دی‌اکسید کربن نازک'],['سطح','سنگی با خاک سرخ']],sp:'سیاره‌ی سرخ؛ بلندترین کوه منظومه',
+    t:['فشار هوا مثل ارتفاع ۳۵ کیلومتری بالای زمین است؛ تقریباً خلأ.','حدود ۱۵ ثانیه تا بیهوشی: اکسیژن ندارد و فشار بسیار کم است.','سرما و پرتوهای فرابنفش و کیهانی هم آسیب می‌زنند.'],v:'تقریباً خلأ + سرما'},
+   jupiter:{c:[['دما','حدود ‎−۱۱۰ بالای ابرها'],['فشار هوا','از ۱ تا بی‌نهایت (بدون سطح)'],['هوا','هیدروژن و هلیوم'],['سطح','جامد ندارد']],sp:'طوفان لکه‌ی سرخ بزرگ؛ بیش از ۹۰ قمر',
+    t:['سطح جامدی نیست؛ در ابرها فرو می‌افتی.','هوا هیدروژن و هلیوم است و اکسیژن ندارد: ظرف چند ده ثانیه بیهوش می‌شوی.','با فرو رفتن، فشار و دما بالا می‌روند. (کاوشگر گالیله تا فشار ۲۲ برابر زمین و حدود ۱۵۰ درجه ۵۸ دقیقه دوام آورد.)'],v:'نبود اکسیژن + فشار روزافزون'},
+   saturn:{c:[['دما','حدود ‎−۱۴۰ بالای ابرها'],['فشار هوا','از ۱ تا بی‌نهایت (بدون سطح)'],['هوا','هیدروژن و هلیوم'],['سطح','جامد ندارد']],sp:'حلقه‌های یخی؛ از آب سبک‌تر',
+    t:['سطح جامدی نیست؛ بادها تا حدود ۱۸۰۰ کیلومتر بر ساعت می‌وزند.','نبود اکسیژن و سرمای شدید: بیهوشی در چند ده ثانیه.','سپس فشار و دمای رو‌به‌افزایش لایه‌های عمیق‌تر.'],v:'نبود اکسیژن + سرما و باد'},
+   uranus:{c:[['دما','حدود ‎−۱۹۵'],['فشار هوا','از ۱ تا بی‌نهایت (بدون سطح)'],['هوا','هیدروژن، هلیوم و متان'],['سطح','جامد ندارد']],sp:'روی پهلو می‌چرخد؛ فیروزه‌ای',
+    t:['سطح جامدی نیست؛ سرمای ‎−۱۹۵ درجه فوراً بدن را یخ می‌زند.','نبود اکسیژن: بیهوشی در چند ده ثانیه.','بادها تا حدود ۹۰۰ کیلومتر بر ساعت می‌وزند.'],v:'سرمای شدید + نبود اکسیژن'},
+   neptune:{c:[['دما','حدود ‎−۲۰۰'],['فشار هوا','از ۱ تا بی‌نهایت (بدون سطح)'],['هوا','هیدروژن، هلیوم و متان'],['سطح','جامد ندارد']],sp:'تندترین بادها؛ آبی عمیق',
+    t:['سطح جامدی نیست؛ بادها تا حدود ۲۰۰۰ کیلومتر بر ساعت می‌وزند.','سرمای ‎−۲۰۰ درجه و نبود اکسیژن در چند ده ثانیه کار را تمام می‌کند.'],v:'سرما + نبود اکسیژن + طوفان'}
+  };
+  var order=[],ri=0,score=0,t0=0,tmr=null,answered=true,TL=14;
+  var g=$('#gop');PL.slice(0,8).forEach(function(p){var b=document.createElement('button');b.type='button';b.className='tab';b.textContent=p.n;b.dataset.id=p.id;b.onclick=function(){ans(p.id,b)};g.appendChild(b)});
+  function setTb(r){var el=$('#gtb');el.style.width=(r*100)+'%';el.style.background=r<.3?'var(--rd)':r<.6?'var(--am)':'var(--gr)'}
+  function round(){
+    clearInterval(tmr);answered=false;var p=order[ri],d=CL[p];
+    $('#grd').textContent='دور '+nf(ri+1)+' از ۸';$('#gtl').innerHTML='';$('#gnx').hidden=true;msg($('#gms'),'');
+    $$('.tab',g).forEach(function(b){b.disabled=false;b.classList.remove('good','bad')});
+    $('#gcl').innerHTML=d.c.map(function(x){return '<div class="tile"><span>'+x[0]+'</span><b>'+fa(x[1]).replace(/\./g,'٫')+'</b></div>'}).join('')+'<div class="tile" id="gsp" style="opacity:.0"><span>نشانه‌ی ویژه (بعد از ۶ ثانیه)</span><b>'+d.sp+'</b></div>';
+    t0=Date.now();setTb(1);
+    tmr=setInterval(function(){var el=(Date.now()-t0)/1000,r=1-el/TL;setTb(Math.max(r,0));if(el>6)$('#gsp').style.opacity=1;if(r<=0){clearInterval(tmr);ans(null)}},100);
+  }
+  function ans(id,btn){
+    if(answered)return;answered=true;clearInterval(tmr);var p=order[ri],left=Math.max(0,TL-(Date.now()-t0)/1000),d=CL[p];
+    $$('.tab',g).forEach(function(b){b.disabled=true;if(b.dataset.id===p)b.classList.add('good')});
+    if(id===p){var pts=10+Math.round(left);score+=pts;msg($('#gms'),'درست! +'+nf(pts)+' امتیاز','ok')}
+    else{if(btn)btn.classList.add('bad');msg($('#gms'),(id?'نه، ':'وقت تمام شد. ')+'این سیاره <b>'+PL.filter(function(x){return x.id===p})[0].n+'</b> بود.','no')}
+    $('#gsc').textContent='امتیاز '+nf(score);
+    $('#gtl').innerHTML='<div class="callout" style="margin-top:8px"><b>اگر بدون لباس فضایی فرود می‌آمدی:</b><ol class="list" style="margin-top:4px">'+d.t.map(function(x){return '<li>'+x+'</li>'}).join('')+'</ol><b>عامل اصلی:</b> '+d.v+'</div>';
+    $('#gsp').style.opacity=1;
+    if(ri<7){$('#gnx').hidden=false}else{msg($('#gms'),'پایان بازی! امتیاز نهایی: <b>'+nf(score)+'</b>','ok');if(score>=70)confetti()}
+  }
+  $('#gnx').onclick=function(){ri++;round()};
+  $('#gst').onclick=function(){order=shuffle(['mercury','venus','earth','mars','jupiter','saturn','uranus','neptune']);ri=0;score=0;$('#gsc').textContent='امتیاز ۰';this.textContent='شروع دوباره';round()};
+  $('#gcl').innerHTML='<div class="hint">«شروع بازی» را بزن. هر دور ۱۴ ثانیه وقت داری؛ هرچه سریع‌تر، امتیاز بیشتر.</div>';
+  PL.slice(0,0);
+  onSlide('s5c',{off:function(){clearInterval(tmr)}});
+  /* Venus greenhouse */
+  var V=[['زهره',-41,464,'#ffc857'],['زمین',-18,15,'#4fd8ff'],['مریخ',-63,-63,'#ff6a5c']];
+  V.forEach(function(v,i){var b=document.createElement('button');b.type='button';b.className='tab'+(i===0?' act':'');b.textContent=v[0];b.onclick=function(){$$('.tab',$('#vtb')).forEach(function(x,k){x.classList.toggle('act',k===i)});gh(i)};$('#vtb').appendChild(b)});
+  function gh(i){
+    var v=V[i],lo=-100,hi=500;function pc(x){return (x-lo)/(hi-lo)*100}
+    $('#vgh').innerHTML='<div class="gb"><span>بدون اثر گلخانه‌ای (محاسبه)</span><span class="gbt"><i style="width:'+pc(v[1])+'%;background:#6c7bd8"></i></span><b>'+nf(v[1])+'°</b></div>'+
+     '<div class="gb"><span>دمای واقعی سطح</span><span class="gbt"><i style="width:'+pc(v[2])+'%;background:'+v[3]+'"></i></span><b>'+nf(v[2])+'°</b></div>';
+    var dlt=v[2]-v[1];
+    $('#vco').innerHTML=i===0?'اثر گلخانه‌ای زهره حدود <b>۵۰۵ درجه</b> است! با اینکه نور خورشید ۲ برابر زمین به آن می‌رسد، ابرهایش ۷۵٪ آن را بازمی‌تابانند؛ بدون گلخانه حدود ‎−۴۰ درجه می‌بود. جو ضخیم CO₂ همه‌چیز را عوض کرده. عطارد با اینکه ۳ برابر به خورشید نزدیک‌تر است جو ندارد و فقط سمت روزش داغ‌تر است.':
+     i===1?'اثر گلخانه‌ای زمین حدود <b>۳۳ درجه</b> است و زندگی را ممکن کرده؛ بدون آن میانگین دما ‎−۱۸ درجه می‌بود. افزایش CO₂ این اثر را تقویت می‌کند و زمین را گرم‌تر می‌کند، اما زمین مسیر زهره را نمی‌رود؛ زهره بسیار نزدیک‌تر به خورشید است. درس زهره: اثر گلخانه‌ای یک واقعیت فیزیکی است و می‌توان آن را اندازه گرفت.':
+     'مریخ جو بسیار نازکی دارد و اثر گلخانه‌ای‌اش ناچیز است؛ دمایش تقریباً همان دمای تعادلی است.';
+  }
+  gh(0);
+})();
+
+/* ---------- 5d: boundaries (optional) ---------- */
+var d=$('#r5d');
+d.innerHTML=head('5.1','★ مرزهای منظومه و سیاره‌ی نهم فرضی','هرچه اسلایدر را بیشتر بکشی، از خورشید دورتر می‌شوی (مقیاس لگاریتمی)')+
+ '<div class="panel rise" style="--i:3;width:100%"><svg class="cv" id="bs" viewBox="0 0 800 150" role="img" aria-label="نوار مقیاس لگاریتمی منظومه"></svg><div class="ctl"><label for="bd"><span>فاصله از خورشید</span><b id="bdv"></b></label><input id="bd" type="range" min="0" max="1000" value="400"></div>'+
+ '<div class="grid3"><div class="fact" id="bz"></div><div class="fact" id="bt"></div><div class="fact" id="bo"></div></div></div>'+
+ '<div class="grid2 rise" style="--i:4"><div class="callout"><b>سیاره‌ی نهم؟</b> الگوی مدار برخی اجرام دوردست باعث شد پژوهشگران (باتیگین و براون، ۲۰۱۶) فرضیه‌ی یک سیاره‌ی پنج تا ده برابر زمین در فاصله‌ی چند صد واحد نجومی را مطرح کنند. هنوز <b>دیده نشده</b>؛ هنوز یک فرضیه است. رصدخانه‌ی روبین جست‌وجو را ادامه می‌دهد.</div>'+
+ '<div class="callout ok"><b>ابر اورت</b> پوسته‌ای فرضی از میلیاردها جرم یخی در فاصله‌ی ۲٬۰۰۰ تا ۱۰۰٬۰۰۰ واحد نجومی (یا بیشتر) است و خاستگاه بسیاری از دنباله‌دارهای دوره‌ی بلند. تاکنون مستقیم دیده نشده.</div></div>';
+(function(){
+  var Z=[[.39,1.52,'سیاره‌های سنگی','#ffc857'],[2.2,3.2,'کمربند سیارک‌ها','#a39b91'],[5.2,30.1,'غول‌های گازی و یخی','#9b8cff'],[30,50,'کمربند کوییپر','#4fd8ff'],[2000,100000,'ابر اورت (فرضی)','#5cf2b0']];
+  var s=$('#bs'),LO=-.5,HI=5.4,W0=800;
+  function X(au){return (Math.log10(au)-LO)/(HI-LO)*W0}
+  var h='<line x1="0" y1="62" x2="800" y2="62" stroke="rgba(255,255,255,.25)"/>';
+  Z.forEach(function(z){var x1=X(z[0]),x2=X(z[1]);h+='<rect x="'+x1+'" y="52" width="'+(x2-x1)+'" height="20" rx="4" fill="'+z[3]+'" opacity=".55"/><text x="'+((x1+x2)/2)+'" y="'+(z[0]>1000?100:100)+'" class="ot" text-anchor="middle">'+z[2]+'</text>'});
+  [[.39,'عطارد'],[1,'زمین'],[5.2,'مشتری'],[30.1,'نپتون'],[120,'هلیوپاز'],[170,'وویجر ۱'],[268000,'پروکسیما']].forEach(function(m,i){var x=X(m[0]);h+='<circle cx="'+x+'" cy="62" r="3.5" fill="#fff"/><text x="'+x+'" y="'+(i%2?38:28)+'" class="ot" text-anchor="middle">'+m[1]+'</text>'});
+  h+='<line id="bn" x1="0" y1="40" x2="0" y2="84" stroke="#ffc857" stroke-width="3"/>';
+  s.innerHTML=h;
+  function upd(){
+    var v=+$('#bd').value/1000,au=Math.pow(10,LO+v*(HI-LO)),x=X(au);$('#bn').setAttribute('x1',x);$('#bn').setAttribute('x2',x);
+    var ls=au*499,t=ls<3600?nf(ls/60,1)+' دقیقه':ls<86400?nf(ls/3600,1)+' ساعت':ls<3.156e7?nf(ls/86400,1)+' روز':nf(ls/3.156e7,2)+' سال';
+    $('#bdv').textContent=nf(au,au<10?2:0)+' واحد نجومی';
+    var z=au<.3?'نزدیک خورشید':au<2?'منظومه‌ی درونی (سیاره‌های سنگی)':au<4?'کمربند سیارک‌ها':au<30?'ناحیه‌ی غول‌ها':au<50?'کمربند کوییپر (پلوتو در ۳۹٫۵)':au<150?'فراتر از کوییپر؛ نزدیک مرز باد خورشیدی (هلیوپاز حدود ۱۲۰)':au<1900?'فضای میان‌ستاره‌ای؛ وویجر ۱ حدود ۱۷۰ واحد نجومی دور است':au<100000?'ابر اورت (فرضی)':'مرز گرانشی منظومه؛ نزدیک‌ترین ستاره در ۲۶۸٬۰۰۰';
+    $('#bz').innerHTML='<b>ناحیه:</b> '+z;$('#bt').innerHTML='<b>نور تا این‌جا:</b> '+t;
+    $('#bo').innerHTML='<b>برای مقایسه:</b> '+nf(au*149.6,au<10?1:0)+' میلیون کیلومتر · وویجر ۱ بعد از حدود ۴۹ سال، حدود ۱۷۰ واحد نجومی رفته';
+  }
+  $('#bd').oninput=upd;upd();
+})();
+})();
+
+/* ===== section 6: stars ===== */
+(function(){
+/* ---------- 6a: cosmic periodic table ---------- */
+var a=$('#r6a');
+a.innerHTML=hook('6','آهن موجود در گلبول‌های قرمز خونت و طلای داخل انگشتر، دقیقاً کجا ساخته شده‌اند؟',
+ 'در <b>ستاره‌ها</b>! هیدروژن و هلیوم در مهبانگ، کربن و اکسیژن در شکم ستاره‌ها، آهن در انفجار ابرنواخترها و طلا (به‌احتمال زیاد) در ادغام ستاره‌های نوترونی. کارل ساگان گفت: «ما از غبار ستاره‌ها ساخته شده‌ایم.»')+
+ '<div class="rise" style="--i:3;width:100%;display:flex;flex-direction:column;gap:10px"><div class="tabs" id="ptf"></div><div class="grid21"><div class="ptg" id="ptg"></div><div class="panel" id="pti"></div></div></div>';
+(function(){
+  var CAT={bb:['مهبانگ','#9b8cff'],st:['درون ستاره‌ها','#ffc857'],sn:['ابرنواخترها','#ff6b9a'],nm:['ادغام ستاره‌های نوترونی','#4fd8ff']};
+  var EL=[
+   ['H','هیدروژن','bb','آب بدنت؛ ۱۰٪ جرم بدن',10,'در دقایق نخست پس از مهبانگ ساخته شد.'],
+   ['He','هلیوم','bb','بادکنک‌های بزرگ',0,'حدود ۲۵٪ جهان را هلیومِ مهبانگ تشکیل می‌دهد؛ همجوشی ستاره‌ها هم بیشترش می‌کند.'],
+   ['Li','لیتیم','bb','باتری گوشی',0,'بخشی از آن در مهبانگ و بخشی در ستاره‌ها و پرتوهای کیهانی ساخته شده.'],
+   ['C','کربن','st','ستون فقرات مولکول‌های زیستی؛ ۱۸٪ جرم بدن',18,'در درون ستاره‌ها از همجوشی سه هلیوم ساخته می‌شود.'],
+   ['N','نیتروژن','st','هوا و DNA؛ ۳٪ جرم بدن',3,'در ستاره‌های متوسط و پیر تولید و به فضا پخش می‌شود.'],
+   ['O','اکسیژن','st','تنفس و آب؛ ۶۵٪ جرم بدن',65,'در ستاره‌های پرجرم ساخته و در ابرنواخترها پخش می‌شود.'],
+   ['Ne','نئون','st','چراغ‌های نئونی',0,'در ستاره‌های پرجرم ساخته می‌شود.'],
+   ['Mg','منیزیم','st','برگ‌های سبز (کلروفیل)',0,'در ستاره‌های پرجرم ساخته می‌شود.'],
+   ['Si','سیلیسیم','st','شن و تراشه‌های رایانه',0,'در ستاره‌های پرجرم و در ابرنواخترها ساخته می‌شود.'],
+   ['S','گوگرد','st','کبریت و پروتئین‌ها',0,'در ستاره‌های پرجرم و ابرنواخترها ساخته می‌شود.'],
+   ['Ca','کلسیم','sn','استخوان و دندان؛ ۱٫۵٪ جرم بدن',1.5,'در ابرنواخترها (و ستاره‌های پرجرم) ساخته می‌شود.'],
+   ['Fe','آهن','sn','هموگلوبین خون',0,'آخرین عنصری که ستاره‌ی پرجرم می‌سازد؛ در ابرنواخترها (از جمله نوع Ia) به فضا می‌رسد.'],
+   ['Ni','نیکل','sn','سکه و باتری',0,'در ابرنواخترها ساخته می‌شود.'],
+   ['Zn','روی','sn','آنزیم‌های بدن، گالوانیزه',0,'عمدتاً در ستاره‌های پرجرم و ابرنواخترها.'],
+   ['Ag','نقره','nm','زیور، آینه',0,'بخش مهمی از آن با فرایند r در رویدادهای شدید (ادغام ستاره‌های نوترونی و انفجارهای ویژه) ساخته می‌شود؛ بحث علمی ادامه دارد.'],
+   ['Au','طلا','nm','انگشتر و تراشه',0,'ادغام ستاره‌های نوترونی (مثل رویداد ۲۰۱۷ که امواج گرانشی داد) مقدار بسیار زیادی طلا و پلاتین می‌سازد؛ سهم دیگر رویدادها هنوز بحث علمی است.'],
+   ['Pt','پلاتین','nm','کاتالیست خودرو',0,'مثل طلا، با فرایند r در رویدادهای بسیار شدید.'],
+   ['U','اورانیوم','nm','سوخت نیروگاه هسته‌ای',0,'سنگین‌ترین عنصر طبیعی؛ تنها در رویدادهای شدید با نوترون فراوان ساخته می‌شود.']
+  ];
+  var f='all',sel=11;
+  function filt(){$('#ptg').innerHTML=EL.map(function(e,i){var c=CAT[e[2]];return '<button type="button" class="elb'+(f!=='all'&&e[2]!==f?' dim':'')+(i===sel?' act':'')+'" data-i="'+i+'" style="--c:'+c[1]+'"><b>'+e[0]+'</b><span>'+e[1]+'</span></button>'}).join('');
+    $$('.elb',$('#ptg')).forEach(function(b){b.onclick=function(){sel=+b.getAttribute('data-i');filt();info()}})}
+  function info(){var e=EL[sel],c=CAT[e[2]];
+    $('#pti').innerHTML='<div class="row" style="justify-content:flex-start"><div class="elbig" style="--c:'+c[1]+'">'+e[0]+'</div><div><h3 style="margin:0">'+e[1]+'</h3><span class="badge" style="background:'+c[1]+'33;color:'+c[1]+'">'+c[0]+'</span></div></div>'+
+     '<div class="fact" style="margin-top:8px"><b>منشأ:</b> '+e[5]+'</div><div class="fact" style="margin-top:8px"><b>در زندگی تو:</b> '+e[3]+'</div><div class="callout ok" style="margin-top:8px">حدود <b>۹۰٪</b> جرم بدنت عناصری است که در ستاره‌ها ساخته شده‌اند (هیدروژن، حدود ۱۰٪، از مهبانگ است).</div><div class="hint" style="margin-top:6px">منشأ برخی عناصر سنگین هنوز موضوع پژوهش است.</div>'}
+  [['all','همه','#aab5e8']].concat(Object.keys(CAT).map(function(k){return [k,CAT[k][0],CAT[k][1]]})).forEach(function(c,i){
+    var b=document.createElement('button');b.type='button';b.className='tab'+(i===0?' act':'');b.textContent=c[1];b.style.borderColor=i?c[2]+'88':'';b.onclick=function(){f=c[0];$$('.tab',$('#ptf')).forEach(function(x){x.classList.remove('act')});b.classList.add('act');filt()};$('#ptf').appendChild(b)});
+  filt();info();
+})();
+
+/* ---------- 6b: color + fate ---------- */
+var b=$('#r6b');
+b.innerHTML=head('6','رنگ ستاره، جرم ستاره، سرنوشت ستاره','ستاره‌ی آبی داغ‌ترین است، نه سردترین! برخلاف شیر آب')+
+ '<div class="grid2 rise" style="--i:3"><div class="panel"><h3>رنگ و دما</h3><div class="row" style="gap:18px;flex-wrap:nowrap"><div id="sbs" class="sbs"></div><div id="ssi" style="text-align:start"></div></div>'+
+ '<div class="ctl"><label for="stT"><span>دمای سطح</span><b id="stv6"></b></label><input id="stT" type="range" min="0" max="6" value="2"></div><div class="swatch" id="sw"></div></div>'+
+ '<div class="panel"><h3>مسیر سرنوشت ستاره</h3><canvas class="cv" id="fc" width="520" height="250" role="img" aria-label="مرگ ستاره بر اساس جرم"></canvas>'+
+ '<div class="ctl"><label for="fm"><span>جرم اولیه (برابر خورشید)</span><b id="fmv"></b></label><input id="fm" type="range" min="0" max="100" value="45"></div>'+
+ '<div class="tiles" id="ft"></div><div class="row"><button class="btn sm" id="fp" type="button">نمایش مرگ ستاره</button></div><div class="callout" id="fn" style="margin-top:6px"></div></div></div>';
+(function(){
+  var S=[
+   {k:'M',col:'#ff7a50',name:'قرمز',temp:'۲٬۴۰۰ تا ۳٬۷۰۰ کلوین',ex:'ابط‌الجوزا، پروکسیما قنطورس',txt:'سردترین ستاره‌ها؛ بیشتر ستاره‌های جهان از همین نوع‌اند.',sz:100},
+   {k:'K',col:'#ffb066',name:'نارنجی',temp:'۳٬۷۰۰ تا ۵٬۲۰۰ کلوین',ex:'سماک رامح (ارکتوروس)',txt:'کمی سردتر از خورشید و با عمری بسیار طولانی.',sz:110},
+   {k:'G',col:'#ffe27a',name:'زرد',temp:'۵٬۲۰۰ تا ۶٬۰۰۰ کلوین',ex:'خورشید',txt:'ستاره‌ی ما از این رده است؛ عمرش حدود ۱۰ میلیارد سال است. (نور خورشید در واقع سفید است و جو آن را زرد نشان می‌دهد.)',sz:120},
+   {k:'F',col:'#fff4cf',name:'زرد-سفید',temp:'۶٬۰۰۰ تا ۷٬۵۰۰ کلوین',ex:'شعرای شامی (پروکیون)',txt:'کمی داغ‌تر و روشن‌تر از خورشید.',sz:128},
+   {k:'A',col:'#ffffff',name:'سفید',temp:'۷٬۵۰۰ تا ۱۰٬۰۰۰ کلوین',ex:'شعرای یمانی (سیریوس)، نسر واقع (وگا)',txt:'سیریوس درخشان‌ترین ستاره‌ی آسمان شب است، حدود ۸٫۶ سال نوری دور.',sz:138},
+   {k:'B',col:'#cfe0ff',name:'آبی-سفید',temp:'۱۰٬۰۰۰ تا ۳۰٬۰۰۰ کلوین',ex:'رجل‌الجبار (ریگل)، سماک اعزل',txt:'داغ، درخشان و کم‌عمر؛ ریگل حدود ۸۶۰ سال نوری دور است.',sz:150},
+   {k:'O',col:'#9fc2ff',name:'آبی',temp:'بالای ۳۰٬۰۰۰ کلوین',ex:'ستاره‌های بسیار جوان و عظیم',txt:'داغ‌ترین و پرجرم‌ترین ستاره‌ها؛ فقط چند میلیون سال عمر می‌کنند.',sz:164}
+  ];
+  function set(i){var c=S[i];$('#stT').value=i;var e=$('#sbs');e.style.cssText='width:'+c.sz*.8+'px;height:'+c.sz*.8+'px;background:radial-gradient(circle at 38% 34%,#fff,'+c.col+' 55%);box-shadow:0 0 '+(24+i*7)+'px '+(6+i*3)+'px '+c.col+'88';
+    $('#stv6').textContent=c.name;$('#ssi').innerHTML='<div class="cls">رده‌ی '+c.k+'</div><h3 style="margin:0">'+c.name+'</h3><div class="lab">دما: '+c.temp+'</div><div class="lab">نمونه: '+c.ex+'</div><p style="font-size:.92rem">'+c.txt+'</p>';
+    $$('.sw',$('#sw')).forEach(function(x,k){x.classList.toggle('act',k===i)})}
+  S.forEach(function(c,i){var x=document.createElement('button');x.type='button';x.className='sw';x.textContent=c.k;x.style.setProperty('--c',c.col);x.onclick=function(){set(i)};$('#sw').appendChild(x)});
+  $('#stT').oninput=function(){set(+this.value)};set(2);
+  /* fate */
+  var cv=$('#fc'),c=cv.getContext('2d'),W0=520,H0=250,m=1,t=0,run=null,fin=false;
+  function mass(){var s=+$('#fm').value;return .1*Math.pow(500,s/100)}
+  function info(){
+    m=mass();var life=10*Math.pow(m,-2.5),fate,cls=m<.45?'M':m<.8?'K':m<1.04?'G':m<1.4?'F':m<2.1?'A':m<16?'B':'O';
+    var end=m<.5?['کوتوله‌ی سفید هلیومی (آن‌قدر طول می‌کشد که تا امروز هیچ‌کدام نمرده)','wd']:m<8?['غول سرخ ← سحابی سیاره‌نما ← کوتوله‌ی سفید','wd']:m<20?['ابرغول ← ابرنواختر ← ستاره‌ی نوترونی','ns']:['ابرغول ← ابرنواختر ← سیاه‌چاله','bh'];
+    var lt=life>=1e3?nf(life/1e3,0)+' هزار میلیارد سال':life>=1?nf(life,life<10?1:0)+' میلیارد سال':nf(life*1000,life*1000<10?1:0)+' میلیون سال';
+    $('#fmv').textContent=nf(m,m<1?2:1)+' برابر خورشید';
+    $('#ft').innerHTML='<div class="tile"><span>رده‌ی طیفی تقریبی</span><b>'+cls+'</b></div><div class="tile"><span>عمر (زمان سوختن هیدروژن)</span><b>'+lt+'</b></div><div class="tile" style="grid-column:1/-1"><span>سرنوشت</span><b>'+end[0]+'</b></div>';
+    $('#fn').innerHTML=m<8?'خورشید ما این‌جاست (۱): پایان آرام. بعد از غول سرخ، لایه‌های بیرونی‌اش پخش می‌شود و هسته‌ی داغ باقی می‌ماند.':m<20?'ستاره‌ی پرجرم ناگهان فرومی‌پاشد و منفجر می‌شود: ابرنواختر. هسته‌ی باقی‌مانده یک «ستاره‌ی نوترونی» است؛ یک قاشق چای‌خوری از آن میلیاردها تن وزن دارد.':'برای ستاره‌های بسیار پرجرم، هسته‌ی فروریخته آن‌قدر چگال می‌شود که هیچ چیز، حتی نور، از آن فرار نمی‌کند: سیاه‌چاله. (مرزهای جرمی تقریبی‌اند.)';
+    return {cls:cls,end:end[1]};
+  }
+  var I=info();
+  function starRC(cls){return {M:['#ff7a50',.5],K:['#ffb066',.8],G:['#ffe27a',1],F:['#fff4cf',1.3],A:['#ffffff',1.8],B:['#cfe0ff',3.2],O:['#9fc2ff',5]}[cls]}
+  function draw(tt){
+    c.fillStyle='#03061a';c.fillRect(0,0,W0,H0);var cx=W0/2,cy=H0/2;
+    for(var i=0;i<60;i++){c.fillStyle='rgba(255,255,255,.4)';c.fillRect((i*97)%W0,(i*53)%H0,1.2,1.2)}
+    var sc=starRC(I.cls),r0=14+Math.min(22,sc[1]*7);
+    function glow(x,y,r,col,a){var g=c.createRadialGradient(x,y,0,x,y,r);g.addColorStop(0,col);g.addColorStop(1,'rgba(0,0,0,0)');c.globalAlpha=a;c.fillStyle=g;c.beginPath();c.arc(x,y,r,0,6.283);c.fill();c.globalAlpha=1}
+    var lab='';
+    if(tt<2){glow(cx,cy,r0*3,sc[0],.55);c.fillStyle=sc[0];c.beginPath();c.arc(cx,cy,r0,0,6.283);c.fill();lab='ستاره‌ی پایدار (رشته‌ی اصلی)'}
+    else if(tt<4.5){var p=(tt-2)/2.5,r=r0*(1+p*(m<8?4:6));var col=p>.3?'#ff6a4c':sc[0];glow(cx,cy,r*1.8,col,.5);c.fillStyle=col;c.beginPath();c.arc(cx,cy,r,0,6.283);c.fill();lab=m<8?'غول سرخ':'ابرغول'}
+    else{
+      var q=(tt-4.5)/3;
+      if(I.end==='wd'){var rr=r0*5+q*110;c.strokeStyle='rgba(120,200,255,'+(1-q*.5)+')';c.lineWidth=14*(1-q*.5)+2;c.beginPath();c.arc(cx,cy,rr,0,6.283);c.stroke();glow(cx,cy,rr*.9,'rgba(155,140,255,.5)',.35);c.fillStyle='#fff';c.beginPath();c.arc(cx,cy,5,0,6.283);c.fill();lab='سحابی سیاره‌نما و کوتوله‌ی سفید'}
+      else{var rr2=q*230;if(q<.15){glow(cx,cy,W0,'#fff',1-q/.15)}
+        c.strokeStyle='rgba(255,160,90,'+(1-q*.7)+')';c.lineWidth=10*(1-q*.6)+2;c.beginPath();c.arc(cx,cy,rr2,0,6.283);c.stroke();glow(cx,cy,rr2,'rgba(255,107,154,.6)',.3);
+        if(I.end==='ns'){c.fillStyle='#bfe6ff';c.beginPath();c.arc(cx,cy,4+Math.sin(tt*14)*1.2,0,6.283);c.fill();lab='ابرنواختر و ستاره‌ی نوترونی'}
+        else{c.fillStyle='#000';c.beginPath();c.arc(cx,cy,12,0,6.283);c.fill();c.strokeStyle='rgba(255,200,87,.9)';c.lineWidth=2;c.beginPath();c.ellipse(cx,cy,26,7,0,0,6.283);c.stroke();lab='ابرنواختر و سیاه‌چاله'}}
+    }
+    c.fillStyle='#fff';c.font='15px Vazirmatn,Tahoma';c.textAlign='center';c.fillText(lab,cx,H0-12);c.textAlign='start';
+  }
+  draw(0);
+  var lp=makeLoop(function(dt){t+=dt;draw(Math.min(t,8.2));if(t>8.2)lp.stop()});
+  $('#fm').oninput=function(){lp.stop();I=info();t=0;draw(0)};
+  $('#fp').onclick=function(){I=info();t=0;lp.start()};
+  onSlide('s6b',{off:function(){lp.stop()}});
+})();
+
+/* ---------- 6c: constellation puzzle ---------- */
+var c=$('#r6c');
+c.innerHTML=head('6','پازل صورت فلکی؛ ستاره‌ها را به ترتیب وصل کن','شماره‌ها را به ترتیب بزن تا شکل ساخته شود. ستاره‌ها از دید ما کنار هم‌اند، نه لزوماً در واقعیت')+
+ '<div class="tabs rise" style="--i:2" id="ctb"></div><div class="grid21 rise" style="--i:3"><svg class="cv" id="cs6" viewBox="0 0 420 340" role="img" aria-label="صفحه‌ی صورت فلکی"></svg><div style="display:flex;flex-direction:column;gap:10px"><div class="pmsg" id="cm6"></div><div class="panel" id="cst"></div><div class="row"><button class="btn sm ghost" id="cr" type="button">دوباره</button><button class="btn sm" id="cp" type="button" hidden>ستاره‌ی قطبی را پیدا کن</button></div></div></div>';
+(function(){
+  var CS=[
+   {n:'دب اکبر (ملاقه)',pts:[[330,265,'دبه'],[336,310,'مراق'],[276,318],[268,275],[214,262],[166,276],[116,306]],seq:[6,5,4,3,2,1,0,3],
+    story:'هفت ستاره‌ی دب اکبر شبیه ملاقه است. دو ستاره‌ی لبه‌ی کاسه (دبه و مراق) «اشاره‌گر»اند: فاصله‌ی آن‌ها را حدود ۵ بار روی همان خط ادامه بده تا به ستاره‌ی قطبی برسی.',polaris:true},
+   {n:'جبار (شکارچی)',pts:[[125,55,'ابط‌الجوزا','#ff7a50'],[295,50,'بلاتریکس'],[170,165],[205,158],[240,150],[150,285,'سیف'],[280,290,'رجل‌الجبار','#bcd2ff']],seq:[0,2,3,4,1,4,6,5,2],
+    story:'شکارچی آسمان زمستان. ابط‌الجوزا (شانه‌ی سرخ‌رنگ، سردتر، حدود ۳٬۶۰۰ کلوین) و رجل‌الجبار (پای آبی-سفید، داغ‌تر، حدود ۱۲٬۰۰۰ کلوین) تفاوت رنگ و دما را نشان می‌دهند. زیر کمربند، سحابی جبار (زایشگاه ستاره‌ها) را با چشم می‌شود دید.'},
+   {n:'ذات‌الکرسی',pts:[[60,150],[130,235],[210,150],[290,235],[360,140]],seq:[0,1,2,3,4],
+    story:'پنج ستاره به شکل W یا M. مثل دب اکبر دور ستاره‌ی قطبی می‌چرخد و در طرف مقابل آن قرار دارد؛ پس هر دو بیشتر شب‌ها بالای افق شمال‌اند.'}
+  ];
+  var bg=[];for(var k=0;k<70;k++)bg.push([Math.random()*420,Math.random()*340,Math.random()*1.1+.3]);
+  var ci=0,step=0,miss=0,done=false;
+  CS.forEach(function(x,i){var b=document.createElement('button');b.type='button';b.className='tab';b.textContent=x.n.replace(/\s*\(.*\)/,'');b.onclick=function(){load(i)};$('#ctb').appendChild(b)});
+  function load(i){
+    ci=i;step=0;miss=0;done=false;var cc=CS[i],lab={};$$('.tab',$('#ctb')).forEach(function(x,k){x.classList.toggle('act',k===i)});
+    cc.seq.forEach(function(s,n){(lab[s]=lab[s]||[]).push(n+1)});
+    var h=bg.map(function(q){return '<circle cx="'+q[0]+'" cy="'+q[1]+'" r="'+q[2]+'" fill="#aab5e8" opacity=".55"/>'}).join('')+'<g id="cl6"></g><g id="pol"></g>';
+    cc.pts.forEach(function(p,j){var col=p[3]||'#ffe9a8';
+      h+='<g class="cst" data-j="'+j+'" tabindex="0" role="button" aria-label="ستاره '+fa(lab[j].join(' و '))+'"><circle cx="'+p[0]+'" cy="'+p[1]+'" r="22" fill="transparent"/><circle class="cs" cx="'+p[0]+'" cy="'+p[1]+'" r="7" fill="'+col+'"/><text x="'+(p[0]+11)+'" y="'+(p[1]-9)+'" class="cn">'+fa(lab[j].join('، '))+'</text>'+(p[2]?'<text x="'+(p[0]+11)+'" y="'+(p[1]+16)+'" class="ot">'+p[2]+'</text>':'')+'</g>'});
+    $('#cs6').innerHTML=h;msg($('#cm6'),'ستاره‌ی شماره‌ی '+nf(1)+' را بزن.');$('#cst').innerHTML='<div class="lab">'+(cc.polaris?'پس از ساختن دب اکبر، ستاره‌ی قطبی را پیدا می‌کنیم.':'')+'</div>';$('#cp').hidden=true;
+    $$('.cst',$('#cs6')).forEach(function(g){function hit(){tap(+g.getAttribute('data-j'),g)}g.onclick=hit;g.onkeydown=function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();hit()}}});
+  }
+  function tap(j,g){
+    var cc=CS[ci];if(done)return;
+    if(j===cc.seq[step]){
+      if(step>0){var A=cc.pts[cc.seq[step-1]],B=cc.pts[j],l=document.createElementNS('http://www.w3.org/2000/svg','line');
+        l.setAttribute('x1',A[0]);l.setAttribute('y1',A[1]);l.setAttribute('x2',B[0]);l.setAttribute('y2',B[1]);l.setAttribute('class','cl');$('#cl6').appendChild(l)}
+      g.classList.add('lit');step++;
+      if(step===cc.seq.length){done=true;msg($('#cm6'),'ساخته شد! '+(miss?'با '+nf(miss)+' اشتباه':'بدون هیچ اشتباه'),'ok');$('#cst').innerHTML='<b>'+cc.n+'</b><p style="margin-top:4px">'+cc.story+'</p>';confetti();if(cc.polaris)$('#cp').hidden=false}
+      else msg($('#cm6'),'ستاره‌ی شماره‌ی '+nf(step+1)+' را بزن.')
+    }else{miss++;shake(g);msg($('#cm6'),'این ستاره شماره‌ی '+nf(step+1)+' نیست.','no')}
+  }
+  $('#cr').onclick=function(){load(ci)};
+  $('#cp').onclick=function(){
+    var D=CS[0].pts[0],M=CS[0].pts[1],dx=D[0]-M[0],dy=D[1]-M[1],px=D[0]+dx*5,py=D[1]+dy*5;
+    $('#pol').innerHTML='<line x1="'+M[0]+'" y1="'+M[1]+'" x2="'+px+'" y2="'+py+'" stroke="#ffc857" stroke-width="2" stroke-dasharray="6 5" class="cl"/><circle cx="'+px+'" cy="'+py+'" r="8" fill="#ffc857" style="filter:drop-shadow(0 0 8px #ffc857)"/><text x="'+(px+14)+'" y="'+(py+5)+'" class="rt" fill="#ffc857">ستاره‌ی قطبی (شمال)</text>';
+    $('#cst').innerHTML='<b>پیدا شد!</b> فاصله‌ی «مراق تا دبه» را ۵ بار ادامه بده. ستاره‌ی قطبی ثابت می‌ماند و ارتفاعش از افق برابر عرض جغرافیایی توست (مشهد حدود ۳۶ درجه).';
+  };
+  load(0);
+})();
+})();
+
+/* ===== section 7: galaxies ===== */
+(function(){
+/* ---------- 7a: dark matter rotation curve ---------- */
+var a=$('#r7a');
+a.innerHTML=hook('7','اگر فقط ستاره‌ها و گازهای دیده‌شده در کهکشان باشند، باید کهکشان از هم بپاشد. چرا نمی‌پاشد؟',
+ 'چون <b>ماده‌ی تاریک</b> وجود دارد: چیزی که نور نمی‌دهد ولی گرانش دارد. حدود ۵٪ جهان ماده‌ی معمولی، حدود ۲۷٪ ماده‌ی تاریک و حدود ۶۸٪ انرژی تاریک است.')+
+ '<div class="grid2 rise" style="--i:3;width:100%"><div class="panel"><h3>منحنی چرخش کهکشان</h3><canvas class="cv" id="rc" width="520" height="280" role="img" aria-label="نمودار سرعت چرخش بر حسب فاصله"></canvas>'+
+ '<div class="ctl"><label for="dm"><span>مقدار ماده‌ی تاریک (هاله)</span><b id="dmv"></b></label><input id="dm" type="range" min="0" max="150" value="0"></div><div class="callout" id="dmn"></div></div>'+
+ '<div class="panel"><h3>جهان از چه ساخته شده؟</h3><div class="row" style="flex-wrap:nowrap;gap:16px"><div class="donut" aria-label="۵٪ معمولی، ۲۷٪ تاریک، ۶۸٪ انرژی تاریک"></div><div style="text-align:start;font-size:.92rem;line-height:1.9"><div><i class="dt" style="background:#4fd8ff"></i> ماده‌ی معمولی ۵٪</div><div><i class="dt" style="background:#9b8cff"></i> ماده‌ی تاریک ۲۷٪</div><div><i class="dt" style="background:#ff6b9a"></i> انرژی تاریک ۶۸٪</div></div></div>'+
+ '<div class="tiles"><div class="tile"><span>قطر کهکشان راه شیری</span><b>حدود ۱۰۰ هزار سال نوری</b></div><div class="tile"><span>تعداد ستاره‌ها</span><b>۱۰۰ تا ۴۰۰ میلیارد</b></div><div class="tile"><span>فاصله‌ی خورشید تا مرکز</span><b>حدود ۲۶ هزار سال نوری</b></div><div class="tile"><span>یک دور خورشید دور مرکز</span><b>حدود ۲۲۰ میلیون سال</b></div></div>'+
+ '<div class="hint">در مرکز راه شیری یک سیاه‌چاله‌ی عظیم (کمان ‌آ*) با جرم حدود ۴ میلیون خورشید است.</div></div></div>';
+(function(){
+  var cv=$('#rc'),c=cv.getContext('2d'),W=520,H=280,L=48,B=36,T=14,R=12,XM=30,YM=320;
+  function X(x){return L+x/XM*(W-L-R)}function Y(y){return H-B-y/YM*(H-B-T)}
+  function vis(r){var x=r/7;return 242*x/Math.pow(1+x*x,.75)}
+  function halo(r){return 200*r/Math.sqrt(r*r+64)}
+  function tot(r,k){return Math.sqrt(vis(r)*vis(r)+k*halo(r)*halo(r))}
+  var pts=[];for(var i=1;i<=22;i++){var r=i*1.3;var n=Math.sin(i*12.9898)*43758.5453;n=(n-Math.floor(n)-.5)*16;pts.push([r,tot(r,1)+n])}
+  function draw(){
+    var k=+$('#dm').value/100;c.clearRect(0,0,W,H);
+    c.strokeStyle='rgba(255,255,255,.12)';c.fillStyle='#aab5e8';c.font='12px Vazirmatn,Tahoma';c.lineWidth=1;c.textAlign='center';
+    for(var x=0;x<=30;x+=5){c.beginPath();c.moveTo(X(x),T);c.lineTo(X(x),H-B);c.stroke();c.fillText(fa(x),X(x),H-B+16)}
+    c.textAlign='end';for(var y=0;y<=300;y+=100){c.beginPath();c.moveTo(L,Y(y));c.lineTo(W-R,Y(y));c.stroke();c.fillText(fa(y),L-6,Y(y)+4)}
+    c.textAlign='center';c.fillText('فاصله از مرکز (هزار سال نوری)',W/2,H-6);c.save();c.translate(12,H/2);c.rotate(-Math.PI/2);c.fillText('سرعت (کیلومتر بر ثانیه)',0,0);c.restore();
+    c.setLineDash([6,5]);c.strokeStyle='#ffc857';c.lineWidth=2.5;c.beginPath();for(var r=.2;r<=30;r+=.3){var p=r==.2;c[p?'moveTo':'lineTo'](X(r),Y(vis(r)))}c.stroke();c.setLineDash([]);
+    c.fillStyle='#ffc857';c.textAlign='start';c.fillText('پیش‌بینی با ماده‌ی دیده‌شده',L+8,T+14);
+    pts.forEach(function(p){c.fillStyle='#fff';c.beginPath();c.arc(X(p[0]),Y(p[1]),3,0,6.283);c.fill()});
+    c.fillStyle='#fff';c.fillText('● مشاهدات (مدل آموزشی)',L+8,T+32);
+    c.strokeStyle='#4fd8ff';c.lineWidth=3;c.beginPath();for(var r2=.2;r2<=30;r2+=.3){c[r2<.3?'moveTo':'lineTo'](X(r2),Y(tot(r2,k)))}c.stroke();
+    c.fillStyle='#4fd8ff';c.fillText('منحنی مدل تو',L+8,T+50);
+    c.strokeStyle='rgba(92,242,176,.7)';c.setLineDash([3,4]);c.beginPath();c.moveTo(X(26),T);c.lineTo(X(26),H-B);c.stroke();c.setLineDash([]);c.fillStyle='#5cf2b0';c.textAlign='center';c.fillText('خورشید',X(26),T+10);
+    var err=0;pts.forEach(function(p){err+=Math.abs(tot(p[0],k)-p[1])});err/=pts.length;
+    $('#dmv').textContent=nf(k*100,0)+'٪ از مقدار پیشنهادی';
+    var n=$('#dmn');if(k<.1){n.className='callout';n.innerHTML='بدون ماده‌ی تاریک، سرعت ستاره‌های دوردست باید پایین بیاید (مثل سیاره‌های دور منظومه‌ی شمسی). اما در مشاهدات واقعی، سرعت‌ها تقریباً ثابت می‌ماند.'}
+    else if(err<8){n.className='callout ok';n.innerHTML='<b>مدل با مشاهدات می‌خواند!</b> نزدیک ۵ برابر ماده‌ی دیده‌شده، ماده‌ی نادیدنی لازم است. نخستین بار ورا روبین این را در دهه‌ی ۱۹۷۰ نشان داد.'}
+    else n.innerHTML='نزدیک‌تر شدی. نمودار آبی را به نقطه‌های سفید برسان.';
+    if(k>1.3){n.className='callout';n.innerHTML='زیادی شد! منحنی از مشاهدات بالاتر رفت.'}
+    c.textAlign='start';
+  }
+  $('#dm').oninput=draw;draw();
+})();
+
+/* ---------- 7b: Andromeda merger ---------- */
+var b=$('#r7b');
+b.innerHTML=head('7','برخورد کهکشان‌ها؛ آندرومدا و راه شیری','فاصله‌ها آن‌قدر بزرگ است که ستاره‌ها تقریباً هرگز با هم برخورد نمی‌کنند')+
+ '<div class="grid21 rise" style="--i:3"><div class="panel"><canvas class="cv" id="gm" width="560" height="320" role="img" aria-label="شبیه‌سازی ادغام دو کهکشان"></canvas>'+
+ '<div class="row"><button class="btn sm" id="gp" type="button">شروع / توقف</button><button class="btn sm ghost" id="gr" type="button">از نو</button><label class="inl">سرعت <input id="gs" type="range" min="1" max="8" value="3" style="width:120px"></label></div><div class="hint" id="gt">زمان: ۰</div></div>'+
+ '<div class="panel"><h3>مقیاس را حس کن</h3><div class="fact">اگر خورشید یک دانه‌ی نخود (۱ سانتی‌متر) بود، نزدیک‌ترین ستاره (آلفا قنطورس) حدود <b>۲۹۰ کیلومتر</b> آن‌طرف‌تر قرار داشت.</div>'+
+ '<div class="fact" style="margin-top:8px">آندرومدا (M31) حدود <b>۲٫۵ میلیون سال نوری</b> دور است و با سرعت حدود ۱۱۰ کیلومتر بر ثانیه به ما نزدیک می‌شود. شاید در آینده‌ی دور (چند میلیارد سال بعد) به هم برسیم. پژوهش ۲۰۲۵ نشان داد احتمال برخورد در ۱۰ میلیارد سال آینده حدود ۵۰٪ است، نه ۱۰۰٪.</div>'+
+ '<div class="fact" style="margin-top:8px">کهکشان‌ها انواع مختلفی دارند: مارپیچی (مثل راه شیری)، بیضوی و نامنظم. اندازه‌ی کهکشان‌ها می‌تواند از چند میلیارد تا هزاران میلیارد ستاره متفاوت باشد.</div>'+
+ '<div class="callout" style="margin-top:8px">شبیه‌سازی ساده‌شده است: هر کهکشان یک جرم مرکزی و حلقه‌هایی از ستاره‌های آزمایشی دارد.</div></div></div>';
+(function(){
+  var cv=$('#gm'),c=cv.getContext('2d'),W=560,H=320,P=[],G=[],t=0,run=true,eps=.12;
+  function init(){
+    t=0;G=[{x:-3.2,y:-.9,vx:.38,vy:.12,m:1},{x:3.2,y:.9,vx:-.38,vy:-.12,m:1}];P=[];
+    for(var g=0;g<2;g++){var tilt=g?.5:-.3;for(var i=0;i<650;i++){var r=.25+Math.random()*1.5,an=Math.random()*6.283,v=Math.sqrt(1/Math.sqrt(r*r+eps*eps))*0.82*(g?1:-1)*(1);
+      var ex=Math.cos(an)*r,ey=Math.sin(an)*r*Math.cos(tilt);
+      P.push({x:G[g].x+ex,y:G[g].y+ey,vx:G[g].vx-Math.sin(an)*v,vy:G[g].vy+Math.cos(an)*v*Math.cos(tilt),g:g})}}
+    var d=$('#gt');if(d)d.textContent='زمان: ۰'}
+  function acc(x,y){var ax=0,ay=0;for(var k=0;k<2;k++){var dx=G[k].x-x,dy=G[k].y-y,r2=dx*dx+dy*dy+eps*eps,inv=G[k].m/(r2*Math.sqrt(r2));ax+=dx*inv;ay+=dy*inv}return [ax,ay]}
+  function step(dt){
+    var dx=G[1].x-G[0].x,dy=G[1].y-G[0].y,r2=dx*dx+dy*dy+eps*eps,i3=1/(r2*Math.sqrt(r2));
+    G[0].vx+=dx*i3*dt;G[0].vy+=dy*i3*dt;G[1].vx-=dx*i3*dt;G[1].vy-=dy*i3*dt;
+    G.forEach(function(g){g.x+=g.vx*dt;g.y+=g.vy*dt});
+    for(var i=0;i<P.length;i++){var p=P[i],a=acc(p.x,p.y);p.vx+=a[0]*dt;p.vy+=a[1]*dt;p.x+=p.vx*dt;p.y+=p.vy*dt}
+    t+=dt}
+  function draw(){
+    c.fillStyle='#02040f';c.fillRect(0,0,W,H);var s=48,cx=W/2,cy=H/2;
+    c.globalCompositeOperation='lighter';
+    for(var i=0;i<P.length;i++){var p=P[i];c.fillStyle=p.g?'rgba(255,140,170,.75)':'rgba(120,200,255,.75)';c.fillRect(cx+p.x*s,cy+p.y*s,1.8,1.8)}
+    c.globalCompositeOperation='source-over';
+    G.forEach(function(g,k){var gr=c.createRadialGradient(cx+g.x*s,cy+g.y*s,0,cx+g.x*s,cy+g.y*s,16);gr.addColorStop(0,'#fff');gr.addColorStop(1,'rgba(255,255,255,0)');c.fillStyle=gr;c.beginPath();c.arc(cx+g.x*s,cy+g.y*s,16,0,6.283);c.fill()});
+    c.fillStyle='#aab5e8';c.font='13px Vazirmatn,Tahoma';c.fillText('آبی: راه شیری   صورتی: آندرومدا',10,H-10);
+  }
+  init();draw();
+  var lp=makeLoop(function(){if(!run)return;var n=+$('#gs').value;for(var i=0;i<n*3;i++)step(.006);draw();$('#gt').textContent='زمان (واحد مدل): '+nf(t,1)});
+  $('#gp').onclick=function(){run=!run};$('#gr').onclick=function(){init();draw()};
+  onSlide('s7b',{on:function(){lp.start()},off:function(){lp.stop()}});
+})();
+
+/* ---------- 7c: telescopes & wavelengths ---------- */
+var d=$('#r7c');
+d.innerHTML=head('7','تلسکوپ‌ها؛ با نورهای نادیدنی هم می‌شود دید','هر طول موج چیز دیگری را نشان می‌دهد؛ مثل اسکن‌های مختلف پزشکی')+
+ '<div class="grid21 rise" style="--i:3"><div class="panel"><canvas class="cv" id="wl" width="520" height="320" role="img" aria-label="سحابی مدل‌سازی‌شده در طول موج‌های مختلف"></canvas>'+
+ '<div class="tabs" id="wt"></div><div class="ctl"><label for="ws"><span>خط جداکننده؛ سمت چپ مرئی، سمت راست طول موج انتخابی</span></label><input id="ws" type="range" min="0" max="100" value="50"></div><div class="callout" id="wn"></div><div class="hint">این تصویر مدل آموزشی ساخته‌شده است، عکس واقعی نیست.</div></div>'+
+ '<div class="panel"><h3>تلسکوپ‌های بزرگ</h3><div class="fact"><b>هابل</b> (۱۹۹۰): آینه‌ی ۲٫۴ متری، مدار پایین زمین (حدود ۵۴۰ کیلومتر)، نور مرئی، فرابنفش و کمی فروسرخ.</div>'+
+ '<div class="fact" style="margin-top:8px"><b>جیمز وب</b> (پرتاب ۲۰۲۱): آینه‌ی ۶٫۵ متری، نقطه‌ی لاگرانژ L2 (حدود ۱٫۵ میلیون کیلومتر از زمین)، فروسرخ. می‌تواند از میان غبار ببیند و کهکشان‌های اولیه را رصد کند.</div>'+
+ '<div class="fact" style="margin-top:8px"><b>چاندرا</b> (۱۹۹۹): پرتو ایکس؛ گاز بسیار داغ، سیاه‌چاله‌ها و بقایای ابرنواختر.</div>'+
+ '<div class="fact" style="margin-top:8px"><b>رادیوتلسکوپ‌ها</b> (و تلسکوپ افق رویداد): نخستین تصویر سیاه‌چاله‌ی M87 در ۲۰۱۹.</div>'+
+ '<div class="fact" style="margin-top:8px"><b>LIGO</b>: امواج گرانشی؛ ادغام سیاه‌چاله‌ها را «می‌شنود». نخستین تشخیص در ۲۰۱۵.</div></div></div>';
+(function(){
+  var cv=$('#wl'),c=cv.getContext('2d'),W=520,H=320,mode=1,seed=7;
+  function rnd(){seed=(seed*16807)%2147483647;return seed/2147483647}
+  seed=11;var stars=[],dust=[],gas=[],hot=[];
+  for(var i=0;i<260;i++)stars.push([rnd()*W,rnd()*H,rnd()*1.6+.4,rnd()]);
+  for(var j=0;j<9;j++)dust.push([60+rnd()*400,40+rnd()*240,40+rnd()*60]);
+  for(var k=0;k<6;k++)gas.push([140+rnd()*240,70+rnd()*180,50+rnd()*60]);
+  hot.push([260,160,45],[220,150,25],[310,175,30]);
+  var MODES=[['مرئی','#ffe9a8'],['فروسرخ','#ff6b6b'],['ایکس','#9b8cff'],['ترکیبی','#5cf2b0']];
+  var NOTE=['در نور مرئی، غبار جلوی نور ستاره‌های پشتی را می‌گیرد و لکه‌های تاریک می‌سازد.','در فروسرخ غبار نیمه‌شفاف می‌شود و ستاره‌های پنهان پدیدار می‌شوند؛ خود غبار گرم هم می‌درخشد.','پرتو ایکس فقط گاز بسیار داغ (میلیون‌ها درجه) را نشان می‌دهد.','ترکیب چند طول موج تصویر کامل‌تری می‌دهد، همان‌طور که اخترشناسان عمل می‌کنند.'];
+  function layer(m,w){
+    var o=document.createElement('canvas');o.width=W;o.height=H;var g=o.getContext('2d');g.fillStyle='#02040f';g.fillRect(0,0,W,H);
+    function blob(x,y,r,col,a){var gr=g.createRadialGradient(x,y,0,x,y,r);gr.addColorStop(0,col.replace('A',a));gr.addColorStop(1,col.replace('A',0));g.fillStyle=gr;g.beginPath();g.arc(x,y,r,0,6.283);g.fill()}
+    g.globalCompositeOperation='lighter';
+    if(m===0||m===3){gas.forEach(function(q){blob(q[0],q[1],q[2],'rgba(255,90,140,A)',.38)})}
+    if(m===1||m===3){dust.forEach(function(q){blob(q[0],q[1],q[2],'rgba(255,120,60,A)',.45)});gas.forEach(function(q){blob(q[0],q[1],q[2]*.7,'rgba(255,180,90,A)',.25)})}
+    if(m===2||m===3){hot.forEach(function(q){blob(q[0],q[1],q[2],'rgba(150,130,255,A)',.8)})}
+    g.globalCompositeOperation='source-over';
+    stars.forEach(function(s){
+      var hidden=false;dust.forEach(function(q){var dx=s[0]-q[0],dy=s[1]-q[1];if(dx*dx+dy*dy<q[2]*q[2]*.5)hidden=true});
+      var vis=(m===0||m===3)&&(!hidden||s[3]>.9),ir=(m===1||m===3)&&s[3]>.25;
+      if(vis||ir){g.fillStyle=hidden&&m!==0?'rgba(255,170,120,.9)':'rgba(255,255,255,.85)';g.beginPath();g.arc(s[0],s[1],s[2],0,6.283);g.fill()}});
+    if(m===0||m===3){g.globalCompositeOperation='multiply';dust.forEach(function(q){blob(q[0],q[1],q[2],'rgba(0,0,0,A)',1)});g.globalCompositeOperation='source-over'}
+    return o}
+  var cache={};function lay(m){return cache[m]||(cache[m]=layer(m))}
+  function draw(){var s=+$('#ws').value/100*W;c.clearRect(0,0,W,H);c.drawImage(lay(0),0,0);c.save();c.beginPath();c.rect(s,0,W-s,H);c.clip();c.drawImage(lay(mode===0?3:mode),0,0);c.restore();
+    c.fillStyle='#fff';c.fillRect(s-1,0,2,H);c.font='13px Vazirmatn,Tahoma';c.fillStyle='#fff';c.fillText('مرئی',s-46,18);c.fillText(MODES[mode===0?3:mode][0],s+8,18);
+    $('#wn').textContent=NOTE[mode]}
+  MODES.forEach(function(m,i){var b=document.createElement('button');b.type='button';b.className='tab'+(i===1?' act':'');b.textContent=m[0];b.onclick=function(){mode=i;$$('.tab',$('#wt')).forEach(function(x,k){x.classList.toggle('act',k===i)});draw()};$('#wt').appendChild(b)});
+  $('#ws').oninput=draw;draw();
+})();
+
+/* ---------- 7d: exoplanets ---------- */
+var e=$('#r7d');
+e.innerHTML=head('7.1','سیاره‌های فراخورشیدی؛ زمین دیگری هست؟','تا امروز بیش از ۶٬۰۰۰ سیاره‌ی فراخورشیدی تأیید شده است')+
+ '<div class="grid3 rise" style="--i:3"><div class="panel"><h3>منطقه‌ی قابل سکونت</h3><canvas class="cv" id="hz" width="320" height="170" role="img" aria-label="منطقه‌ی قابل سکونت"></canvas>'+
+ '<div class="ctl"><label for="hl"><span>درخشندگی ستاره (برابر خورشید)</span><b id="hlv"></b></label><input id="hl" type="range" min="0" max="100" value="50"></div><div class="ctl"><label for="hd"><span>فاصله‌ی سیاره (واحد نجومی)</span><b id="hdv"></b></label><input id="hd" type="range" min="1" max="100" value="33"></div><div class="callout" id="hn"></div></div>'+
+ '<div class="panel"><h3>روش گذر (ترانزیت)</h3><canvas class="cv" id="tr" width="320" height="170" role="img" aria-label="منحنی نور گذر"></canvas>'+
+ '<div class="ctl"><label for="tp"><span>اندازه‌ی سیاره نسبت به ستاره</span><b id="tpv"></b></label><input id="tp" type="range" min="1" max="15" value="10"></div><div class="hint">وقتی سیاره از جلوی ستاره می‌گذرد نور کمی کم می‌شود. تلسکوپ‌های کپلر و TESS با همین روش سیاره پیدا کردند.</div></div>'+
+ '<div class="panel"><h3>معادله‌ی دریک</h3><div class="ctl"><label for="d1"><span>ستاره‌های متولد‌شده در سال</span><b id="d1v"></b></label><input id="d1" type="range" min="1" max="10" value="2"></div><div class="ctl"><label for="d2"><span>درصد ستاره‌های دارای سیاره‌ی قابل سکونت</span><b id="d2v"></b></label><input id="d2" type="range" min="1" max="100" value="20"></div><div class="ctl"><label for="d3"><span>درصد پیدایش حیات</span><b id="d3v"></b></label><input id="d3" type="range" min="0" max="100" value="10"></div><div class="ctl"><label for="d4"><span>درصد حیات هوشمند</span><b id="d4v"></b></label><input id="d4" type="range" min="0" max="100" value="1"></div><div class="ctl"><label for="d5"><span>مدت دوام تمدن (هزار سال)</span><b id="d5v"></b></label><input id="d5" type="range" min="1" max="1000" value="10"></div><div class="callout" id="dn"></div></div></div>';
+(function(){
+  var h=$('#hz').getContext('2d');
+  function draw(){
+    var L=Math.pow(10,(+$('#hl').value-50)/25),d=Math.pow(10,(+$('#hd').value-33)/33);
+    $('#hlv').textContent=nf(L,L<1?3:1);$('#hdv').textContent=nf(d,d<1?2:1);
+    var Te=255*Math.pow(L,.25)/Math.sqrt(d),Ts=Te+33,inn=.5625*Math.sqrt(L),out=1.129*Math.sqrt(L);
+    var W=320,Hh=170;h.clearRect(0,0,W,Hh);
+    function px(a){return 20+Math.log10(a/.05)/Math.log10(100/.05)*(W-40)}
+    h.fillStyle='rgba(92,242,176,.25)';h.fillRect(px(inn),60,px(out)-px(inn),50);
+    h.fillStyle='#ffe27a';h.beginPath();h.arc(20,85,12,0,6.283);h.fill();
+    h.strokeStyle='rgba(255,255,255,.2)';h.beginPath();h.moveTo(20,85);h.lineTo(W-20,85);h.stroke();
+    var col=Ts<273?'#4fd8ff':Ts>373?'#ff6a4c':'#5cf2b0';h.fillStyle=col;h.beginPath();h.arc(px(d),85,8,0,6.283);h.fill();
+    h.fillStyle='#aab5e8';h.font='12px Vazirmatn,Tahoma';h.textAlign='center';h.fillText('منطقه‌ی قابل سکونت',(px(inn)+px(out))/2,50);h.fillText('زمین (۱)',px(1),130);h.fillStyle='#fff';h.fillText('دما: '+nf(Ts-273,0)+' درجه‌ی سانتی‌گراد',W/2,155);h.textAlign='start';
+    $('#hn').className='callout'+(Ts>=273&&Ts<=373?' ok':'');
+    $('#hn').textContent=Ts<273?'خیلی سرد؛ آب یخ می‌زند.':Ts>373?'خیلی گرم؛ آب می‌جوشد.':'در منطقه‌ی قابل سکونت: آب مایع ممکن است. این تخمین ساده با فرض جو شبیه زمین است.'}
+  ['hl','hd'].forEach(function(i){$('#'+i).oninput=draw});draw();
+  var t=$('#tr').getContext('2d'),ph=0;
+  function drawT(p){
+    var k=+$('#tp').value/100,W=320,Hh=170;t.clearRect(0,0,W,Hh);$('#tpv').textContent=nf(k*100,0)+'٪ شعاع ستاره';
+    var px=40+ph*240;
+    t.fillStyle='#ffe27a';t.beginPath();t.arc(160,38,24,0,6.283);t.fill();t.fillStyle='#000';t.beginPath();t.arc(40+((ph*1.0)%1)*240,38,24*k,0,6.283);t.fill();
+    t.strokeStyle='rgba(255,255,255,.2)';t.strokeRect(20,80,280,70);
+    var dep=k*k;t.strokeStyle='#4fd8ff';t.lineWidth=2.5;t.beginPath();
+    for(var i=0;i<=100;i++){var u=i/100,xx=40+u*240,x0=u,inT=Math.abs(x0-.5)<.18,yy=inT?dep:0;var Y=88+yy*55;t[i?'lineTo':'moveTo'](20+u*280,Y)}t.stroke();
+    var cur=Math.abs(ph-.5)<.18?dep:0;t.fillStyle='#fff';t.beginPath();t.arc(20+ph*280,88+cur*55,5,0,6.283);t.fill();
+    t.fillStyle='#aab5e8';t.font='12px Vazirmatn,Tahoma';t.fillText('افت نور: '+nf(dep*100,1)+'٪',24,70);
+  }
+  var lp=makeLoop(function(dt){ph=(ph+dt*.2)%1;drawT()});drawT();
+  $('#tp').oninput=drawT;
+  onSlide('s7d',{on:function(){lp.start()},off:function(){lp.stop()}});
+  function dr(){
+    var R=+$('#d1').value,fp=+$('#d2').value/100,fl=+$('#d3').value/100,fi=+$('#d4').value/100,Lf=+$('#d5').value*1000;
+    var N=R*fp*fl*fi*Lf*.5;
+    $('#d1v').textContent=nf(R);$('#d2v').textContent=nf(+$('#d2').value)+'٪';$('#d3v').textContent=nf(+$('#d3').value)+'٪';$('#d4v').textContent=nf(+$('#d4').value,0)+'٪';$('#d5v').textContent=nf(+$('#d5').value)+' هزار';
+    $('#dn').innerHTML='تعداد تمدن‌های هم‌زمان در کهکشان (برآورد ساده): <b>'+(N<1?'کمتر از ۱':nf(N,N<10?1:0))+'</b><br><span class="hint">هیچ‌کس مقدار واقعی این عددها را نمی‌داند؛ پاسخ به همین‌ها بستگی دارد.</span>'}
+  ['d1','d2','d3','d4','d5'].forEach(function(i){$('#'+i).oninput=dr});dr();
+})();
+})();
+
+/* ===== section 8: observing ===== */
+(function(){
+var a=$('#r8a');
+a.innerHTML=head('8','آسمان واقعی امشب','نقشه‌ی زنده‌ی آسمان؛ روی هر جرم بزن تا اطلاعاتش را ببینی')+
+ '<div class="grid21 rise" style="--i:3"><div class="panel"><canvas class="cv" id="sk" width="460" height="460" role="img" aria-label="نقشه‌ی آسمان"></canvas>'+
+ '<div class="hint">بالای نقشه شمال است و شرق سمت چپ (مثل نگاه کردن به بالا). مرکز نقشه بالای سر توست.</div></div>'+
+ '<div class="panel"><div class="row" style="justify-content:flex-start"><label class="inl">شهر <select id="skc"></select></label><button class="btn sm ghost" id="skn" type="button">اکنون</button></div>'+
+ '<div class="ctl"><label for="skd"><span>روز (نسبت به امروز)</span><b id="skdv"></b></label><input id="skd" type="range" min="-180" max="180" value="0"></div>'+
+ '<div class="ctl"><label for="skh"><span>ساعت (به وقت ایران)</span><b id="skhv"></b></label><input id="skh" type="range" min="0" max="23.75" step=".25" value="21"></div>'+
+ '<div class="row"><div id="skm" style="flex:none"></div><div class="fact" id="skmi" style="text-align:start"></div></div>'+
+ '<div class="callout" id="ski">روی یک ستاره یا سیاره بزن.</div><div class="hint" id="skl"></div></div></div>';
+(function(){
+  var cv=$('#sk'),c=cv.getContext('2d'),W=460,R=210,cx=230,cy=230,OBJ=[];
+  var CITY=[['مشهد',36.30,59.60],['تهران',35.69,51.39],['اصفهان',32.65,51.67],['شیراز',29.59,52.58],['تبریز',38.08,46.29],['کرمان',30.28,57.08],['بندرعباس',27.18,56.27]];
+  CITY.forEach(function(x,i){var o=document.createElement('option');o.value=i;o.textContent=x[0];$('#skc').appendChild(o)});
+  var STAR=[['شعرای یمانی (سیریوس)',6.752,-16.716,-1.5],['سماک رامح (ارکتوروس)',14.261,19.182,0],['نسر واقع (وگا)',18.616,38.784,0],['عیوق (کاپلا)',5.278,45.998,.1],['رجل‌الجبار (ریگل)',5.242,-8.202,.1],['شعرای شامی (پروکیون)',7.655,5.225,.4],['ابط‌الجوزا (بتلجوس)',5.919,7.407,.5],['نسر طایر (آلتایر)',19.846,8.868,.8],['دبران',4.599,16.509,.9],['قلب‌العقرب (آنتارس)',16.490,-26.432,1],['سماک اعزل (اسپیکا)',13.420,-11.161,1],['پولوکس',7.755,28.026,1.1],['ذنب‌الدجاجه (دنب)',20.690,45.280,1.2],['قلب‌الاسد (رگولوس)',10.139,11.967,1.4],['فم‌الحوت',22.961,-29.622,1.2],['ستاره‌ی قطبی',2.530,89.264,2],['دبه (دب اکبر)',11.062,61.751,1.8],['مراق (دب اکبر)',11.031,56.382,2.3],['بلاتریکس',5.418,6.350,1.6],['ذات‌الکرسی (شدار)',0.675,56.537,2.2]];
+  var EL={Mercury:[48.3313,3.24587e-5,7.0047,5e-8,29.1241,1.01444e-5,.387098,0,.205635,5.59e-10,168.6562,4.0923344368,'تیر (عطارد)','#c9b8a6',-.4],Venus:[76.6799,2.4659e-5,3.3946,2.75e-8,54.891,1.38374e-5,.72333,0,.006773,-1.302e-9,48.0052,1.6021302244,'ناهید (زهره)','#ffe9b0',-4],Mars:[49.5574,2.11081e-5,1.8497,-1.78e-8,286.5016,2.92961e-5,1.523688,0,.093405,2.516e-9,18.6021,.5240207766,'بهرام (مریخ)','#ff7a50',0],Jupiter:[100.4542,2.76854e-5,1.303,-1.557e-7,273.8777,1.64505e-5,5.20256,0,.048498,4.469e-9,19.895,.0830853001,'برجیس (مشتری)','#f1d9b0',-2],Saturn:[113.6634,2.3898e-5,2.4886,-1.081e-7,339.3939,2.97661e-5,9.55475,0,.055546,-9.499e-9,316.967,.0334442282,'کیوان (زحل)','#e8d28a',.5]};
+  var D=Math.PI/180,sn=function(x){return Math.sin(x*D)},cs=function(x){return Math.cos(x*D)};
+  function nm(x){x%=360;return x<0?x+360:x}
+  function kep(M,e){var E=M+e/D*sn(M)*(1+e*cs(M));for(var i=0;i<8;i++)E=E-(E-e/D*sn(E)-M)/(1-e*cs(E));return E}
+  function sun(d){var w=282.9404+4.70935e-5*d,e=.016709-1.151e-9*d,M=nm(356.047+.9856002585*d),E=kep(M,e),xv=cs(E)-e,yv=Math.sqrt(1-e*e)*sn(E),v=Math.atan2(yv,xv)/D,r=Math.sqrt(xv*xv+yv*yv),lon=nm(v+w);return {lon:lon,r:r,x:r*cs(lon),y:r*sn(lon),M:M,w:w}}
+  function eq(xg,yg,zg,d){var ec=23.4393-3.563e-7*d,y=yg*cs(ec)-zg*sn(ec),z=yg*sn(ec)+zg*cs(ec);return {ra:nm(Math.atan2(y,xg)/D),dec:Math.atan2(z,Math.sqrt(xg*xg+y*y))/D}}
+  function planet(k,d,S){var p=EL[k],N=p[0]+p[1]*d,i=p[2]+p[3]*d,w=p[4]+p[5]*d,e=p[8]+p[9]*d,M=nm(p[10]+p[11]*d),E=kep(M,e),xv=p[6]*(cs(E)-e),yv=p[6]*Math.sqrt(1-e*e)*sn(E),v=Math.atan2(yv,xv)/D,r=Math.sqrt(xv*xv+yv*yv);
+    var xh=r*(cs(N)*cs(v+w)-sn(N)*sn(v+w)*cs(i)),yh=r*(sn(N)*cs(v+w)+cs(N)*sn(v+w)*cs(i)),zh=r*sn(v+w)*sn(i);return eq(xh+S.x,yh+S.y,zh,d)}
+  function moon(d,S){var N=125.1228-.0529538083*d,i=5.1454,w=318.0634+.1643573223*d,e=.0549,Mm=nm(115.3654+13.0649929509*d),E=kep(Mm,e),xv=60.2666*(cs(E)-e),yv=60.2666*Math.sqrt(1-e*e)*sn(E),v=Math.atan2(yv,xv)/D,r=Math.sqrt(xv*xv+yv*yv);
+    var xh=r*(cs(N)*cs(v+w)-sn(N)*sn(v+w)*cs(i)),yh=r*(sn(N)*cs(v+w)+cs(N)*sn(v+w)*cs(i)),zh=r*sn(v+w)*sn(i);
+    var lon=nm(Math.atan2(yh,xh)/D),lat=Math.atan2(zh,Math.sqrt(xh*xh+yh*yh))/D,Ms=S.M,Lm=N+w+Mm,Ls=S.w+Ms,Dm=Lm-Ls,F=Lm-N;
+    lon+=-1.274*sn(Mm-2*Dm)+.658*sn(2*Dm)-.186*sn(Ms)-.059*sn(2*Mm-2*Dm)-.057*sn(Mm-2*Dm+Ms)+.053*sn(Mm+2*Dm)+.046*sn(2*Dm-Ms)+.041*sn(Mm-Ms)-.035*sn(Dm)-.031*sn(Mm+Ms);
+    lat+=-.173*sn(F-2*Dm);
+    var q=eq(cs(lat)*cs(lon),cs(lat)*sn(lon),sn(lat),d);q.lon=lon;return q}
+  function hor(ra,dec,jd,lat,lon){var lst=280.46061837+360.98564736629*(jd-2451545)+lon,H=(lst-ra)*D,ph=lat*D,dc=dec*D;
+    var alt=Math.asin(Math.sin(ph)*Math.sin(dc)+Math.cos(ph)*Math.cos(dc)*Math.cos(H))/D;
+    var az=nm(Math.atan2(Math.sin(H),Math.cos(H)*Math.sin(ph)-Math.tan(dc)*Math.cos(ph))/D+180);return {alt:alt,az:az}}
+  var base=Date.now();
+  function tms(){var dd=+$('#skd').value,h=+$('#skh').value,off=3.5*3600000,ds=Math.floor((base+off)/86400000)*86400000-off+dd*86400000;return ds+h*3600000}
+  function pos(h,al){var r=(90-Math.max(al,0))/90*R,a=h*D;return [cx-r*Math.sin(a),cy-r*Math.cos(a)]}
+  window.skyCalc={sun:sun,moon:moon,planet:planet,hor:hor};
+  function draw(){
+    var ms=tms(),jd=ms/86400000+2440587.5,d=jd-2451543.5,C=CITY[+$('#skc').value],S=sun(d),sh=hor(eq(S.x,S.y,0,d).ra,eq(S.x,S.y,0,d).dec,jd,C[1],C[2]);
+    var dt=new Date(ms),ds;try{ds=dt.toLocaleDateString('fa-IR-u-ca-persian',{year:'numeric',month:'long',day:'numeric',timeZone:'Asia/Tehran'})}catch(x){ds=dt.toDateString()}
+    $('#skdv').textContent=ds;var hh=+$('#skh').value;$('#skhv').textContent=nf(Math.floor(hh),0)+':'+fa(String(Math.round((hh%1)*60)).padStart(2,'0'));
+    var f=clamp((sh.alt+12)/18,0,1);
+    var g=c.createRadialGradient(cx,cy,0,cx,cy,R);g.addColorStop(0,'rgb('+Math.round(3+60*f)+','+Math.round(6+100*f)+','+Math.round(26+170*f)+')');g.addColorStop(1,'rgb('+Math.round(8+120*f)+','+Math.round(12+110*f)+','+Math.round(40+130*f)+')');
+    c.clearRect(0,0,W,W);c.fillStyle=g;c.beginPath();c.arc(cx,cy,R,0,6.283);c.fill();
+    c.strokeStyle='rgba(255,255,255,.18)';c.lineWidth=1;[30,60].forEach(function(a){c.beginPath();c.arc(cx,cy,(90-a)/90*R,0,6.283);c.stroke()});c.beginPath();c.moveTo(cx,cy-R);c.lineTo(cx,cy+R);c.moveTo(cx-R,cy);c.lineTo(cx+R,cy);c.stroke();
+    c.strokeStyle='#aab5e8';c.lineWidth=2;c.beginPath();c.arc(cx,cy,R,0,6.283);c.stroke();c.fillStyle='#fff';c.font='14px Vazirmatn,Tahoma';c.textAlign='center';c.fillText('شمال',cx,14);c.fillText('جنوب',cx,W-6);c.fillText('شرق',16,cy+5);c.fillText('غرب',W-18,cy+5);
+    OBJ=[];var below=[];
+    function add(n,ra,dec,col,sz,info,lab){var h=hor(ra,dec,jd,C[1],C[2]);if(h.alt<0){below.push(n);return}var p=pos(h.az,h.alt);OBJ.push({x:p[0],y:p[1],n:n,alt:h.alt,az:h.az,info:info});c.fillStyle=col;c.shadowColor=col;c.shadowBlur=sz*2;c.beginPath();c.arc(p[0],p[1],sz,0,6.283);c.fill();c.shadowBlur=0;if(lab){c.fillStyle='#e8ecff';c.font='12px Vazirmatn,Tahoma';c.textAlign='start';c.fillText(lab,p[0]+sz+4,p[1]+4)}}
+    var vis=f<.6;
+    if(vis)STAR.forEach(function(s){add(s[0],s[1]*15,s[2],'#fff',clamp(3.4-s[3]*.7,1.6,4.6),'ستاره‌ی درخشان؛ قدر ظاهری حدود '+nf(s[3],1),s[0].replace(/\s*\(.*\)/,''))});
+    var se=eq(S.x,S.y,0,d);add('خورشید',se.ra,se.dec,'#ffd34e',9,'خورشید؛ هرگز مستقیم به آن نگاه نکن.','خورشید');
+    var mo=moon(d,S);add('ماه',mo.ra,mo.dec,'#f4f1e6',8,'ماه','ماه');
+    Object.keys(EL).forEach(function(k){var p=planet(k,d,S),e=EL[k];add(e[12],p.ra,p.dec,e[13],5,'سیاره؛ با چشم غیرمسلح شبیه ستاره‌ی ثابت‌نما می‌بینیم و جای آن کم‌کم نسبت به ستاره‌ها عوض می‌شود.',e[12].replace(/\s*\(.*\)/,''))});
+    c.textAlign='start';
+    var th=nm(mo.lon-S.lon);$('#skm').innerHTML=moonSVG(th,70);var il=(1-cs(th))/2;
+    $('#skmi').innerHTML='ماه: روشنایی حدود <b>'+nf(il*100,0)+'٪</b><br>'+(th<180?'در حال بزرگ‌شدن (هلال تا بدر)':'در حال کوچک‌شدن');
+    $('#skl').textContent=sh.alt<-6?'':sh.alt<0?'هوا در گرگ‌ومیش است.':'خورشید بالای افق است؛ ستاره‌ها دیده نمی‌شوند.';
+    $('#skl').textContent+=(below.length?' زیر افق: '+below.filter(function(n){return/خورشید|ماه|تیر|ناهید|بهرام|برجیس|کیوان/.test(n)}).join('، '):'');
+  }
+  cv.addEventListener('click',function(ev){var r=cv.getBoundingClientRect(),x=(ev.clientX-r.left)*W/r.width,y=(ev.clientY-r.top)*W/r.height,best=null,bd=22;OBJ.forEach(function(o){var q=Math.hypot(o.x-x,o.y-y);if(q<bd){bd=q;best=o}});
+    if(best)$('#ski').innerHTML='<b>'+best.n+'</b><br>ارتفاع از افق: '+nf(best.alt,0)+' درجه • سمت: '+nf(best.az,0)+' درجه<br>'+best.info});
+  ['skc','skd','skh'].forEach(function(i){$('#'+i).oninput=draw;$('#'+i).onchange=draw});
+  $('#skn').onclick=function(){base=Date.now();var l=new Date(base+3.5*3600000);$('#skd').value=0;$('#skh').value=Math.round((l.getUTCHours()+l.getUTCMinutes()/60)*4)/4;draw()};
+  $('#skn').onclick();
+  if(+$('#skh').value>=5&&+$('#skh').value<18)$('#skh').value=21,draw();
+})();
+
+/* ---------- 8b ---------- */
+var b=$('#r8b');
+b.innerHTML=head('8','تلسکوپ، تاریکی و رصد','قطر دهانه مهم‌تر از بزرگ‌نمایی است')+
+ '<div class="grid3 rise" style="--i:3"><div class="panel"><h3>دهانه و بزرگ‌نمایی</h3>'+
+ '<div class="ctl"><label for="ap"><span>قطر دهانه‌ی تلسکوپ</span><b id="apv"></b></label><input id="ap" type="range" min="50" max="400" step="10" value="130"></div>'+
+ '<div class="ctl"><label for="fl"><span>فاصله‌ی کانونی تلسکوپ</span><b id="flv"></b></label><input id="fl" type="range" min="400" max="3000" step="50" value="650"></div>'+
+ '<div class="ctl"><label for="ep"><span>فاصله‌ی کانونی چشمی</span><b id="epv"></b></label><input id="ep" type="range" min="4" max="40" value="10"></div><div class="tiles" id="apt"></div><div class="callout" id="apn"></div></div>'+
+ '<div class="panel"><h3>تطبیق چشم با تاریکی</h3><canvas class="cv" id="da" width="320" height="200" role="img" aria-label="ستاره‌های دیده‌شده بر اساس تطبیق با تاریکی"></canvas>'+
+ '<div class="ctl"><label for="dm2"><span>زمان در تاریکی</span><b id="dmv2"></b></label><input id="dm2" type="range" min="0" max="30" value="0"></div>'+
+ '<div class="row"><button class="btn sm ghost" id="dw" type="button">فلش سفید موبایل!</button><button class="btn sm" id="dred" type="button">چراغ قرمز</button></div><div class="hint" id="dn2"></div></div>'+
+ '<div class="panel"><h3>بارش‌های شهابی و ابزارها</h3><div class="fact"><b>تیر شهاب (برساوشی)</b> حدود ۲۱ مرداد (۱۲ اوت): پرتعدادترین و معروف‌ترین.</div><div class="fact" style="margin-top:6px"><b>جباریات</b> اواخر مهر (حدود ۲۱ اکتبر): بقایای دنباله‌دار هالی.</div><div class="fact" style="margin-top:6px"><b>جوزایی</b> حدود ۲۳ آذر (۱۴ دسامبر): معمولاً قوی‌ترین بارش سال.</div><div class="fact" style="margin-top:6px"><b>ربعی</b> اوایل ژانویه، با اوج کوتاه.</div>'+
+ '<h3 style="margin-top:10px">ابزارهای رصد</h3><div class="hint">برنامه‌ی Stellarium (رایگان)، نقشه‌ی آلودگی نوری lightpollutionmap.info، دوربین دوچشمی ۱۰×۵۰ برای شروع، و چراغ قرمز برای حفظ تطبیق چشم.</div><div class="callout ok" style="margin-top:6px">قانون طلایی: هیچ‌وقت بدون فیلتر مخصوص به خورشید با تلسکوپ یا دوربین نگاه نکن.</div></div></div>';
+(function(){
+  function f(){
+    var D=+$('#ap').value,F=+$('#fl').value,E=+$('#ep').value,M=F/E,mx=2*D,mn=D/7,ex=D/M,lg=Math.pow(D/7,2),lim=7.7+5*Math.log10(D/10),res=116/D;
+    $('#apv').textContent=nf(D,0)+' میلی‌متر';$('#flv').textContent=nf(F,0)+' میلی‌متر';$('#epv').textContent=nf(E,0)+' میلی‌متر';
+    $('#apt').innerHTML='<div class="tile"><span>بزرگ‌نمایی</span><b>'+nf(M,0)+' برابر</b></div><div class="tile"><span>نورگیری نسبت به چشم</span><b>'+nf(lg,0)+' برابر</b></div><div class="tile"><span>کم‌نورترین ستاره (قدر)</span><b>'+nf(lim,1)+'</b></div><div class="tile"><span>قدرت تفکیک</span><b>'+nf(res,1)+' ثانیه‌ی قوسی</b></div>';
+    var n=$('#apn');if(M>mx){n.className='callout';n.innerHTML='بزرگ‌نمایی بیش از حد! حداکثر مفید حدود '+nf(mx,0)+' برابر است؛ بالاتر از آن تصویر فقط بزرگ و تار می‌شود.'}else if(M<mn){n.className='callout';n.innerHTML='بزرگ‌نمایی خیلی کم است (مردمک خروجی بزرگ‌تر از مردمک چشم).'}else{n.className='callout ok';n.innerHTML='بزرگ‌نمایی مناسب است. مردمک خروجی: '+nf(ex,1)+' میلی‌متر. حداکثر مفید حدود '+nf(mx,0)+' برابر.'}}
+  ['ap','fl','ep'].forEach(function(i){$('#'+i).oninput=f});f();
+  var c=$('#da').getContext('2d'),t=0,st=[];for(var i=0;i<160;i++)st.push([Math.random()*320,Math.random()*200,Math.pow(Math.random(),.5)*6.5]);
+  function da(){var lim=3+3*(1-Math.exp(-t/7));c.fillStyle='#02040f';c.fillRect(0,0,320,200);st.forEach(function(s){if(s[2]<=lim){c.fillStyle='rgba(255,255,255,'+clamp(1-(s[2]-1)/6,.3,1)+')';c.beginPath();c.arc(s[0],s[1],s[2]<2?2.4:1.4,0,6.283);c.fill()}});$('#dmv2').textContent=nf(t,0)+' دقیقه';$('#dn2').textContent='کم‌نورترین ستاره‌ی دیده‌شده: قدر حدود '+nf(lim,1)+'. بعد از ۲۰ تا ۳۰ دقیقه چشم کاملاً تطبیق می‌یابد.'}
+  $('#dm2').oninput=function(){t=+this.value;da()};$('#dw').onclick=function(){t=0;$('#dm2').value=0;da();msg($('#dn2'),'فلش سفید تطبیق چند ده دقیقه‌ای را از بین برد!','no')};
+  $('#dred').onclick=function(){$('#dn2').textContent='چراغ قرمز تطبیق چشم را تقریباً حفظ می‌کند؛ برای خواندن نقشه مناسب است.'};da();
+})();
+})();
+
+/* ===== section 9: myths & future ===== */
+(function(){
+var a=$('#r9a');
+a.innerHTML=head('9','اسطوره‌شکن؛ درست یا نادرست؟','قبل از باور کردن هر خبر نجومی، منبعش را بپرس')+
+ '<div class="grid21 rise" style="--i:3"><div class="panel"><div class="lab" id="mc">ادعا ۱ از ۸</div><div class="q" id="mq" style="min-height:3.2em"></div><div class="row"><button class="btn ok" id="mt" type="button">درست</button><button class="btn no" id="mf" type="button">نادرست</button></div><div class="callout" id="me" hidden></div><div class="row"><button class="btn sm" id="mn" type="button" hidden>ادعای بعدی</button></div></div>'+
+ '<div class="panel"><h3>چطور خبر نجومی را بسنجیم؟</h3><ol class="steps"><li>منبع اصلی چیست؟ ناسا، ایسا، مقاله‌ی علمی یا یک پست ناشناس؟</li><li>تاریخ خبر را ببین؛ اغلب خبرهای قدیمی دوباره منتشر می‌شوند.</li><li>عکس را جست‌وجوی معکوس کن.</li><li>ادعای خارق‌العاده، شواهد خارق‌العاده می‌خواهد.</li><li>پیش از اشتراک‌گذاری، دست‌کم دو منبع معتبر پیدا کن.</li></ol><div class="hint" id="ms">امتیاز: ۰</div></div></div>';
+(function(){
+  var M=[['«ماه مریخ شب‌ها به اندازه‌ی ماه زمین بزرگ دیده می‌شود» (پیامک معروف تقلبی)',false,'نادرست. این شایعه‌ی قدیمی هر چند سال برمی‌گردد. مریخ همیشه فقط یک نقطه‌ی کوچک است.'],
+   ['خورشید در واقع سفید است و جو زمین آن را زرد نشان می‌دهد.',true,'درست. از فضا خورشید سفید دیده می‌شود. پراکندگی نور آبی در جو، رنگ را زرد می‌کند.'],
+   ['فضانوردان ایستگاه فضایی چون گرانش ندارند شناورند.',false,'نادرست. گرانش در ارتفاع ایستگاه هنوز حدود ۹۰٪ زمین است. آن‌ها در حال سقوط آزاد دورِ زمین‌اند.'],
+   ['دیوار چین از ماه با چشم غیرمسلح دیده می‌شود.',false,'نادرست. حتی از مدار نزدیک زمین هم به‌سختی دیده می‌شود.'],
+   ['سیاره‌ی نیبیرو در حال نزدیک شدن به زمین است.',false,'نادرست. شواهدی برای چنین سیاره‌ای نیست و ناسا بارها این شایعه را رد کرده است.'],
+   ['فصل‌ها به‌خاطر تغییر فاصله‌ی زمین از خورشید رخ می‌دهند.',false,'نادرست. دلیلش شیب محور زمین است. زمین در دی‌ماه نزدیک‌ترین فاصله را با خورشید دارد.'],
+   ['سیاه‌چاله مثل جاروبرقی همه‌چیز را می‌بلعد.',false,'نادرست. دور از آن، گرانشش مثل ستاره‌ای هم‌جرم است. اگر خورشید جایش سیاه‌چاله‌ای هم‌جرم بود، زمین همچنان می‌چرخید.'],
+   ['ستاره‌شناسی با طالع‌بینی فرق دارد و پیش‌بینی طالع علمی نیست.',true,'درست. نجوم علم است؛ طالع‌بینی در آزمون‌های علمی از شانس بهتر عمل نمی‌کند.']];
+  var i=0,sc=0,ans=false;
+  function show(){ans=false;$('#mc').textContent='ادعا '+nf(i+1)+' از '+nf(M.length);$('#mq').textContent=M[i][0];$('#me').hidden=true;$('#mn').hidden=true;$('#mt').disabled=$('#mf').disabled=false}
+  function pick(v){if(ans)return;ans=true;var ok=v===M[i][1];if(ok)sc++;$('#me').hidden=false;$('#me').className='callout '+(ok?'ok':'no');$('#me').innerHTML='<b>'+(ok?'آفرین!':'نه کاملاً.')+'</b> '+M[i][2];$('#mt').disabled=$('#mf').disabled=true;$('#mn').hidden=false;$('#mn').textContent=i<M.length-1?'ادعای بعدی':'نتیجه';$('#ms').textContent='امتیاز: '+nf(sc)+' از '+nf(M.length);if(ok&&i===M.length-1)confetti()}
+  $('#mt').onclick=function(){pick(true)};$('#mf').onclick=function(){pick(false)};
+  $('#mn').onclick=function(){if(i<M.length-1){i++;show()}else{i=0;sc=0;show();$('#ms').textContent='امتیاز: ۰'}};
+  show();
+})();
+
+var b=$('#r9b');
+b.innerHTML=head('9','معماهای حل‌نشده و قدم بعدی تو','هنوز خیلی چیزها را نمی‌دانیم، شاید تو جوابش را پیدا کنی')+
+ '<div class="grid3 rise" style="--i:3;width:100%" id="my"></div><div class="grid2 rise" style="--i:4;width:100%;margin-top:10px"><div class="panel"><h3>اگر نجوم را دوست داری</h3><div class="fact">پیوستن به <b>انجمن‌های نجوم</b> و رصدهای عمومی شهرت؛ دوربین دوچشمی و نقشه‌ی آسمان کافی است.</div><div class="fact" style="margin-top:6px">کتاب‌ها: «کیهان» از کارل ساگان، «تاریخچه‌ی زمان» از استیون هاوکینگ.</div><div class="fact" style="margin-top:6px">مسیرهای تحصیلی: فیزیک، اخترفیزیک، مهندسی هوافضا، علوم کامپیوتر (برای داده‌های نجومی).</div></div><div class="panel"><h3>المپیاد و مسابقه</h3><div class="fact">المپیاد نجوم و اخترفیزیک ایران و المپیاد جهانی (IOAA) برای دانش‌آموزان دبیرستانی برگزار می‌شود. از همین حالا ریاضی و فیزیک را جدی بگیر.</div><div class="callout ok" style="margin-top:6px">پیام امروز: هر چه بیشتر بدانیم، سؤال‌های بزرگ‌تری داریم.</div></div></div>';
+(function(){
+  var Q=[['ماده‌ی تاریک چیست؟','حدود ۲۷٪ جهان را می‌سازد و فقط از اثر گرانشی‌اش می‌شناسیمش. هنوز نمی‌دانیم از چه ذره‌ای است.','#9b8cff'],
+   ['انرژی تاریک چیست؟','چیزی که انبساط جهان را تندتر می‌کند؛ حدود ۶۸٪ جهان. ماهیتش کاملاً مجهول است.','#ff6b9a'],
+   ['تنش هابل','دو روش اندازه‌گیری سرعت انبساط جهان اعداد کمی متفاوت می‌دهند. اشتباه در اندازه‌گیری است یا فیزیک جدید؟','#ffc857'],
+   ['آیا تنها هستیم؟','هزاران سیاره‌ی فراخورشیدی شناخته‌ایم، اما هنوز نشانه‌ی قطعی از حیات بیرون از زمین نداریم.','#5cf2b0'],
+   ['چرا ماده بیشتر از پادماده است؟','در مهبانگ باید ماده و پادماده برابر ساخته می‌شد؛ پس چرا ما هستیم؟','#4fd8ff'],
+   ['پیش از مهبانگ چه بود؟','شاید پرسش، معنایی ندارد؛ شاید فیزیک جدید لازم باشد. هنوز کسی نمی‌داند.','#ff7a50']];
+  Q.forEach(function(q){var d=document.createElement('button');d.type='button';d.className='flip';d.style.setProperty('--c',q[2]);d.innerHTML='<span class="fr"><b>'+q[0]+'</b><i>برای دیدن توضیح بزن</i></span><span class="bk">'+q[1]+'</span>';d.onclick=function(){d.classList.toggle('on')};$('#my').appendChild(d)});
+})();
+})();
+
+/* ===== section 10: quiz & cup ===== */
+(function(){
+var $=function(q,c){return (c||document.querySelector('#r10')).querySelector(q)},$$=function(q,c){return Array.prototype.slice.call((c||document.querySelector('#r10')).querySelectorAll(q))};
+var TF=['درست','نادرست'];
+var Q=[
+['نور خورشید تقریباً چقدر طول می‌کشد تا به زمین برسد؟',['۸ دقیقه و ۲۰ ثانیه','۸ ثانیه','۸ ساعت','۸ روز'],0],
+['«سال نوری» واحد چیست؟',['فاصله','زمان','سرعت','روشنایی'],0],
+['وقتی به ستاره‌ای دوردست نگاه می‌کنیم، گذشته‌ی آن را می‌بینیم.',TF,0],
+['چرا در شهرها ستاره‌ی کمتری می‌بینیم؟',['آلودگی نوری','کوچک‌بودن شهر','نبود ماه','ابرها همیشه هست'],0],
+['فصل‌ها به‌خاطر چیست؟',['شیب محور زمین','فاصله‌ی زمین تا خورشید','فاصله‌ی زمین تا ماه','بادهای خورشیدی'],0],
+['زمین در دی‌ماه به خورشید نزدیک‌تر است تا در تیر.',TF,0],
+['کدام یک مثل سپر، ذرات خورشیدی را از زمین منحرف می‌کند؟',['میدان مغناطیسی','لایه‌ی ابر','دریا','کوه‌ها'],0],
+['وقتی ماه بین زمین و خورشید قرار می‌گیرد، چه رخ می‌دهد؟',['خورشیدگرفتگی','ماه‌گرفتگی','هلال','جزر و مد'],0],
+['چرا همیشه یک روی ماه را می‌بینیم؟',['چرخش ماه با گردش دور زمین هم‌زمان است','ماه نمی‌چرخد','روی دیگر تاریک است','ماه مسطح است'],0],
+['ماه‌گرفتگی هنگام بدر رخ می‌دهد.',TF,0],
+['ماه سبب کدام پدیده در دریاها می‌شود؟',['جزر و مد','سونامی','طوفان','یخ‌زدگی'],0],
+['وزن تو روی ماه تقریباً چند برابر وزنت روی زمین است؟',['حدود یک‌ششم','حدود نصف','دو برابر','برابر'],0],
+['کدام لایه‌ی خورشید همان سطح «دیدنی» است؟',['فوتوسفر','هسته','تاج','لایه‌ی همرفتی'],0],
+['انرژی خورشید از کدام فرایند می‌آید؟',['همجوشی هسته‌ای','سوختن زغال','شکافت اورانیوم','واکنش شیمیایی'],0],
+['شفق قطبی از برخورد ذرات خورشیدی با جو زمین ساخته می‌شود.',TF,0],
+['نگاه مستقیم به خورشید بدون فیلتر مخصوص ایمن است.',TF,1],
+['کدام سیاره به خورشید نزدیک‌تر است؟',['تیر (عطارد)','ناهید','زمین','بهرام'],0],
+['داغ‌ترین سیاره‌ی منظومه‌ی شمسی کدام است؟',['ناهید (زهره)','تیر','بهرام','مشتری'],0],
+['بزرگ‌ترین سیاره کدام است؟',['مشتری (برجیس)','زحل','نپتون','زمین'],0],
+['کدام سیاره حلقه‌های معروف دارد؟',['زحل (کیوان)','مریخ','تیر','ناهید'],0],
+['مریخ را به‌خاطر چه چیزی «سیاره‌ی سرخ» می‌نامند؟',['اکسید آهن (زنگ)','آتشفشان','آب','گیاه'],0],
+['پلوتون طبق تعریف ۲۰۰۶ یک سیاره‌ی کوتوله است.',TF,0],
+['کمربند کویپر در کجاست؟',['فراتر از نپتون','بین مریخ و مشتری','نزدیک خورشید','دور زمین'],0],
+['کدام سیاره‌ی سنگی است؟',['زمین','مشتری','زحل','اورانوس'],0],
+['اورانوس تقریباً به پهلو می‌چرخد.',TF,0],
+['اکثر آهن موجود در بدن ما کجا ساخته شده؟',['در ستاره‌ها','در زمین','در ماه','در سیاه‌چاله'],0],
+['ستاره‌ی داغ‌تر چه رنگی دارد؟',['آبی','قرمز','نارنجی','زرد'],0],
+['ابط‌الجوزا (شانه‌ی جبار) رنگش سرخ است، پس داغ‌ترین ستاره‌ی جبار است.',TF,1],
+['خورشید ما در پایان عمر به چه تبدیل می‌شود؟',['کوتوله‌ی سفید','سیاه‌چاله','ستاره‌ی نوترونی','ابرنواختر'],0],
+['از ستاره‌ی بسیار پرجرم، پس از ابرنواختر چه می‌ماند؟',['ستاره‌ی نوترونی یا سیاه‌چاله','کوتوله‌ی سفید','سیاره','ابر گاز سرد'],0],
+['ستاره‌ی قطبی را با ادامه‌ی خط دو ستاره‌ی ملاقه‌ی کدام صورت فلکی می‌یابیم؟',['دب اکبر','جبار','ذات‌الکرسی','عقرب'],0],
+['شعرای یمانی (سیریوس) درخشان‌ترین ستاره‌ی آسمان شب است.',TF,0],
+['کهکشان ما نام دارد؟',['راه شیری','آندرومدا','مثلث','گرداب'],0],
+['نزدیک‌ترین کهکشان مارپیچی بزرگ به ما کدام است؟',['آندرومدا','M87','تریانگولوم','خرچنگ'],0],
+['ماده‌ی تاریک چه کار می‌کند؟',['گرانش دارد ولی نور نمی‌دهد','نور می‌دهد','گرم است','سیاه‌چاله است'],0],
+['حدود چند درصد جهان ماده‌ی معمولی است؟',['حدود ۵٪','حدود ۵۰٪','حدود ۹۰٪','حدود ۱۰۰٪'],0],
+['تلسکوپ جیمز وب با چه نوری رصد می‌کند؟',['فروسرخ','فرابنفش','ایکس','رادیویی'],0],
+['تلسکوپ هابل در مدار زمین است.',TF,0],
+['نخستین تصویر سیاه‌چاله از کدام کهکشان بود؟',['M87','راه شیری','آندرومدا','سیگار'],0],
+['امواج گرانشی را کدام ابزار برای نخستین بار آشکار کرد؟',['لایگو (LIGO)','هابل','چاندرا','کپلر'],0],
+['«منطقه‌ی قابل سکونت» یعنی…؟',['جایی که آب می‌تواند مایع بماند','جایی که اکسیژن هست','جایی که ستاره نیست','جایی که ماه دارد'],0],
+['روش گذر (ترانزیت) چگونه سیاره‌ی فراخورشیدی را پیدا می‌کند؟',['افت اندک نور ستاره','عکس مستقیم','صدا','لرزش زمین'],0],
+['تا امروز بیش از ۶٬۰۰۰ سیاره‌ی فراخورشیدی تأیید شده است.',TF,0],
+['بزرگ‌نمایی مفید حداکثر تقریباً چند برابر قطر دهانه (به میلی‌متر) است؟',['حدود دو برابر','حدود ده برابر','برابر نصف','صد برابر'],0],
+['کدام عامل در تلسکوپ از همه مهم‌تر است؟',['قطر دهانه','قیمت','رنگ','طول لوله'],0],
+['چشم برای تطبیق کامل با تاریکی حدود چقدر زمان نیاز دارد؟',['۲۰ تا ۳۰ دقیقه','۱ ثانیه','۱ ساعت','۱ دقیقه'],0],
+['برای حفظ تطبیق چشم با تاریکی از چه نوری استفاده می‌کنیم؟',['قرمز کم‌نور','سفید','آبی','فلش'],0],
+['بارش شهابی برساوشی (تیر شهاب) در کدام ماه ایرانی اوج دارد؟',['مرداد','دی','فروردین','اسفند'],0],
+['ایستگاه فضایی چون گرانش ندارد، فضانوردان شناورند.',TF,1],
+['دیوار چین را از ماه با چشم می‌شود دید.',TF,1],
+['علم نجوم و طالع‌بینی یکی هستند.',TF,1],
+['وقتی ماه بدر است، در کدام نقطه‌ی مدار نسبت به خورشید قرار دارد؟',['روبه‌روی خورشید (زمین بین آن‌ها)','بین زمین و خورشید','کنار خورشید','دور از زمین'],0],
+['در نقشه‌ی آسمان، وقتی به بالا نگاه می‌کنیم، شرق کدام سمت است؟',['چپ (وقتی شمال بالاست)','راست','پایین','بالا'],0],
+['قدرت تفکیک تلسکوپ با چه چیزی بهتر می‌شود؟',['قطر دهانه‌ی بزرگ‌تر','بزرگ‌نمایی بیشتر','لوله‌ی بلندتر','رنگ'],0],
+['ماه با سرعت تقریبی چند سانتی‌متر در سال از زمین دور می‌شود؟',['حدود ۳٫۸','۳۸۰','۰٫۰۱','۱ متر'],0],
+['خورشیدگرفتگی کامل فقط هنگام «ماه نو» رخ می‌دهد.',TF,0]
+];
+var r=document.getElementById('r10');
+r.innerHTML=head('10','مسابقه‌ی پایانی','حذفی یا تیمی؛ پرسش‌ها از همه‌ی بخش‌ها')+
+ '<div class="tabs rise" style="--i:2" id="qt"></div><div id="qb" style="width:100%"></div>';
+function sh(a){a=a.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1)),t=a[i];a[i]=a[j];a[j]=t}return a}
+var pool=[],pi=0;
+function nextQ(){if(pi>=pool.length){pool=sh(Q.map(function(_,i){return i}));pi=0}var q=Q[pool[pi++]],opts=q[1].map(function(t,i){return {t:t,ok:i===q[2]}});if(q[1]!==TF)opts=sh(opts);return {q:q[0],o:opts}}
+var LAB=['الف','ب','ج','د'],COL=['#ff6b6b','#4fd8ff','#ffc857','#5cf2b0'];
+function qHTML(q,cls){return '<div class="q" style="min-height:2.6em">'+q.q+'</div><div class="opts '+(q.o.length==2?'two':'')+'">'+q.o.map(function(o,i){return '<button class="opt" type="button" data-i="'+i+'" style="--c:'+COL[i]+'"><b>'+(q.o.length==2?(i?'✕':'✓'):LAB[i])+'</b> '+o.t+'</button>'}).join('')+'</div>'}
+var tm=null;
+function stopT(){if(tm){clearInterval(tm);tm=null}}
+function timer(el,sec,cb){stopT();var t=sec;el.textContent=nf(t);tm=setInterval(function(){t--;el.textContent=nf(Math.max(t,0));el.classList.toggle('low',t<=5);if(t<=0){stopT();cb()}},1000)}
+
+/* ----- elimination cup ----- */
+function cup(){
+  var el=$('#qb');el.innerHTML='<div class="panel" id="cs0" style="max-width:520px;margin:auto"><h3>تعداد دانش‌آموزان</h3><div class="ctl"><label for="cn"><span>تعداد</span><b id="cnv">۲۰</b></label><input id="cn" type="range" min="2" max="60" value="20"></div><label class="inl"><input type="checkbox" id="ctm" checked> زمان‌سنج ۲۰ ثانیه‌ای</label><div class="row"><button class="btn" id="cgo" type="button">شروع مسابقه</button></div></div>';
+  $('#cn').oninput=function(){$('#cnv').textContent=nf(+this.value)};
+  $('#cgo').onclick=function(){run(+$('#cn').value,$('#ctm').checked)};
+  function run(n,useT){
+    var alive=[],out={},round=1,queue=[],cur=null,hist=[],rnd=[],answered=false,qq=null;
+    for(var i=1;i<=n;i++)alive.push(i);
+    el.innerHTML='<div class="grid21"><div class="panel"><div class="lab" id="ci"></div><div class="draw" id="cd">؟</div><div id="cq"></div><div class="callout" id="cf" hidden></div><div class="row"><button class="btn" id="cb" type="button">قرعه‌کشی نفر بعدی</button><button class="btn sm ghost" id="cu" type="button">برگشت</button><span class="tmr" id="ct" hidden></span></div></div><div class="panel"><h3>وضعیت دانش‌آموزان</h3><div class="grid-n" id="cg"></div><div class="hint">سبز: زنده، قرمز: حذف‌شده</div></div></div>';
+    function board(){$('#cg').innerHTML=Array.apply(null,Array(n)).map(function(_,k){var s=k+1,c=out[s]?'dead':rnd.indexOf(s)>=0?'pass':'';return '<span class="nb '+c+(cur===s?' now':'')+'">'+nf(s)+'</span>'}).join('')}
+    function newRound(){queue=sh(alive);rnd=[];$('#ci').textContent='دور '+nf(round)+' • '+nf(alive.length)+' نفر باقی‌مانده';board()}
+    function pickNext(){
+      if(!queue.length){endRound();return}
+      var target=queue[0],ticks=0,box=$('#cd');$('#cb').disabled=true;$('#cf').hidden=true;$('#cq').innerHTML='';
+      var iv=setInterval(function(){box.textContent=nf(alive[Math.floor(Math.random()*alive.length)]);if(++ticks>16||reduce){clearInterval(iv);box.textContent=nf(target);cur=target;queue.shift();qq=nextQ();$('#cq').innerHTML=qHTML(qq);answered=false;board();$$('.opt',$('#cq')).forEach(function(b){b.onclick=function(){ans(+b.getAttribute('data-i'))}});if(useT){$('#ct').hidden=false;timer($('#ct'),20,function(){ans(-1)})}}},70);
+    }
+    function ans(i){
+      if(answered)return;answered=true;stopT();var ok=i>=0&&qq.o[i].ok;
+      $$('.opt',$('#cq')).forEach(function(b,k){b.disabled=true;if(qq.o[k].ok)b.classList.add('good');else if(k===i)b.classList.add('bad')});
+      hist.push({s:cur,ok:ok,qq:qq});
+      if(ok){rnd.push(cur);msg($('#cf'),'شماره‌ی '+nf(cur)+' درست جواب داد و می‌ماند.','ok')}else{msg($('#cf'),'شماره‌ی '+nf(cur)+(i<0?' پاسخی نداد':' اشتباه جواب داد')+' و حذف می‌شود.','no')}
+      $('#cf').hidden=false;$('#cb').disabled=false;$('#cb').textContent=queue.length?'قرعه‌کشی نفر بعدی':'پایان دور';board();
+    }
+    function endRound(){
+      var survivors=rnd.slice(),wasOut=alive.filter(function(s){return survivors.indexOf(s)<0});
+      if(!survivors.length){msg($('#cf'),'هیچ‌کس درست جواب نداد! این دور باطل شد و همه می‌مانند.','no');$('#cf').hidden=false;round++;newRound();$('#cb').textContent='دور تازه';$('#cd').textContent='؟';$('#cb').disabled=false;return}
+      wasOut.forEach(function(s){out[s]=round});alive=survivors;
+      if(alive.length===1){champion(alive[0]);return}
+      round++;newRound();$('#cd').textContent='؟';$('#cq').innerHTML='';$('#cf').hidden=false;msg($('#cf'),'دور بعدی با '+nf(alive.length)+' نفر شروع می‌شود.','ok');$('#cb').textContent='قرعه‌کشی نفر بعدی';$('#cb').disabled=false;
+    }
+    function champion(s){$('#ci').textContent='پایان مسابقه';$('#cd').textContent=nf(s);$('#cq').innerHTML='<div class="champ">🏆 قهرمان: شماره‌ی '+nf(s)+'</div>';$('#cb').textContent='مسابقه‌ی تازه';$('#cb').disabled=false;$('#cb').onclick=cup;$('#cu').hidden=true;$('#cf').hidden=true;confetti();board()}
+    $('#cb').onclick=function(){if(!queue.length&&rnd.length+Object.keys(out).length>=0&&answered){endRound()}else pickNext()};
+    $('#cu').onclick=function(){var h=hist.pop();if(!h||!answered&&0)return;if(h.ok){rnd=rnd.filter(function(x){return x!==h.s})}queue.unshift(h.s);answered=false;stopT();$('#cq').innerHTML=qHTML(h.qq);qq=h.qq;cur=h.s;$$('.opt',$('#cq')).forEach(function(b){b.onclick=function(){ans(+b.getAttribute('data-i'))}});$('#cf').hidden=true;queue.shift();board()};
+    newRound();
+  }
+}
+
+/* ----- team quiz ----- */
+function team(){
+  var el=$('#qb');el.innerHTML='<div class="panel" style="max-width:520px;margin:auto"><h3>مسابقه‌ی تیمی</h3><div class="ctl"><label for="tn"><span>تعداد تیم</span><b id="tnv">۴</b></label><input id="tn" type="range" min="2" max="8" value="4"></div><div class="ctl"><label for="tq"><span>تعداد پرسش</span><b id="tqv">۱۰</b></label><input id="tq" type="range" min="5" max="30" value="10"></div><div class="row"><button class="btn" id="tgo" type="button">شروع</button></div></div>';
+  $('#tn').oninput=function(){$('#tnv').textContent=nf(+this.value)};$('#tq').oninput=function(){$('#tqv').textContent=nf(+this.value)};
+  $('#tgo').onclick=function(){run(+$('#tn').value,+$('#tq').value)};
+  function run(T,N){
+    var sc=Array(T).fill(0),k=0,got={},qq;
+    el.innerHTML='<div class="grid21"><div class="panel"><div class="row"><span class="lab" id="tc"></span><span class="tmr" id="tt">۲۰</span></div><div id="tqd"></div><div class="callout" id="tr2" hidden></div><div class="row"><button class="btn" id="tre" type="button">نمایش پاسخ</button><button class="btn sm" id="tx" type="button" hidden>ثبت امتیاز و بعدی</button></div></div><div class="panel"><h3>تیم‌ها</h3><div id="ts"></div><div class="hint">بعد از نمایش پاسخ، تیم‌های درست‌پاسخ را علامت بزن.</div></div></div>';
+    function board(){$('#ts').innerHTML=sc.map(function(s,i){return '<button type="button" class="tmb'+(got[i]?' on':'')+'" data-i="'+i+'" style="--c:'+COL[i%4]+'"><b>تیم '+nf(i+1)+'</b><span>'+nf(s)+' امتیاز</span></button>'}).join('');$$('.tmb',$('#ts')).forEach(function(b){b.onclick=function(){if($('#tx').hidden)return;var i=b.getAttribute('data-i');got[i]=!got[i];board()}})}
+    function ask(){got={};qq=nextQ();$('#tc').textContent='پرسش '+nf(k+1)+' از '+nf(N);$('#tqd').innerHTML=qHTML(qq);$$('.opt',$('#tqd')).forEach(function(b){b.disabled=true});$('#tr2').hidden=true;$('#tx').hidden=true;$('#tre').hidden=false;board();timer($('#tt'),20,reveal)}
+    function reveal(){stopT();$$('.opt',$('#tqd')).forEach(function(b,i){if(qq.o[i].ok)b.classList.add('good')});$('#tre').hidden=true;$('#tx').hidden=false;$('#tx').textContent=k<N-1?'ثبت امتیاز و بعدی':'ثبت و نمایش نتیجه';board()}
+    $('#tre').onclick=reveal;
+    $('#tx').onclick=function(){Object.keys(got).forEach(function(i){if(got[i])sc[i]+=10});k++;if(k<N)ask();else podium()};
+    function podium(){stopT();var o=sc.map(function(s,i){return [i,s]}).sort(function(a,b){return b[1]-a[1]});
+      el.innerHTML='<div class="panel" style="max-width:520px;margin:auto"><h3>نتیجه‌ی نهایی</h3>'+o.map(function(x,j){return '<div class="pod" style="--c:'+COL[x[0]%4]+'"><b>'+['🥇','🥈','🥉'][j]||''+'</b> تیم '+nf(x[0]+1)+' — '+nf(x[1])+' امتیاز</div>'}).join('')+'<div class="row"><button class="btn" id="tn2" type="button">مسابقه‌ی تازه</button></div></div>';confetti();$('#tn2').onclick=team}
+    ask();
+  }
+}
+['مسابقه‌ی حذفی (جام)','مسابقه‌ی تیمی'].forEach(function(t,i){var b=document.createElement('button');b.type='button';b.className='tab'+(i?'':' act');b.textContent=t;b.onclick=function(){stopT();$$('.tab',$('#qt')).forEach(function(x,k){x.classList.toggle('act',k===i)});i?team():cup()};$('#qt').appendChild(b)});
+cup();
+onSlide('s10',{off:stopT});
+})();
+
+deckStart();
+</script>
+
+</body></html>
